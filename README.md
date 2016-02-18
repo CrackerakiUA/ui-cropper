@@ -3,6 +3,7 @@
 [Codepen: Circle + Chargement Crop](http://codepen.io/Crackeraki/pen/avYNKP)<br>
 [Codepen: Square + Init Url Crop + Maximum rendered image](http://codepen.io/Crackeraki/pen/QjmNVM)<br>
 [Codepen: Rectangle Crop](http://codepen.io/Crackeraki/pen/XmEdPx)<br>
+[Codepen: Rectangle Crop + Crop info](http://codepen.io/anon/pen/RrmKwV)<br>
 [Codepen: Rectangle With Aspect Crop](http://codepen.io/Crackeraki/pen/zvWqJM)<br>
 [Codepen: Rectangle + Aspect + Array Crop](http://codepen.io/Neftedollar/pen/YydwNB)<br>
 
@@ -154,6 +155,7 @@ The following code enables to select an image using a file input and crop it. Th
    [area-type="{circle|square|rectangle}"]
    [area-min-size="{ number|{w:number,h:number} }"]
    [area-min-relative-size="{ number|{w:number,h:number} }"]
+   [cropject="{cropWidth:number,cropHeight:number,cropTop:number,cropLeft:number}"]
    [area-init-size="{ number|{w:number,h:number} }"]
    [result-image-size="{ number|{w:number,h:number}|[{w:number,h:number},{w:number,h:number},...] }"]
    [result-image-format="{string}"]
@@ -204,6 +206,10 @@ Assignable angular expression to data-bind to. NgImgCrop puts an url blob of a c
 ### area-min-size
 
 *Optional*. Min. width/height of the crop area (in pixels). Default: 80.
+
+### crobject
+
+*Optional* Gives the opportunity to add an object to the cropper that gives information about the crop dimensions while croppping and selecting an image.
 
 ### area-min-relative-size
 
