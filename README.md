@@ -153,6 +153,7 @@ The following code enables to select an image using a file input and crop it. Th
    [live-view="{object}"]
    [area-type="{circle|square|rectangle}"]
    [area-min-size="{ number|{w:number,h:number} }"]
+   [area-min-relative-size="{ number|{w:number,h:number} }"]
    [area-init-size="{ number|{w:number,h:number} }"]
    [result-image-size="{ number|{w:number,h:number}|[{w:number,h:number},{w:number,h:number},...] }"]
    [result-image-format="{string}"]
@@ -204,13 +205,17 @@ Assignable angular expression to data-bind to. NgImgCrop puts an url blob of a c
 
 *Optional*. Min. width/height of the crop area (in pixels). Default: 80.
 
+### area-min-relative-size
+
+*Optional*. Min. width/height of the crop area (in pixels) relative to original image width/height. Usable if you use `result-image-size="'max'"` and want to get image larger that specified limit.
+
 ### area-init-size
 
 *Optional*. Min. width/height of the crop area (in pixels) to start with, overriding the standard 200*200 crop area ratio. Default: false
 
 ### result-image-size
 
-*Optional*. Width/height of the result image (in pixels). Default: 200. 
+*Optional*. Width/height of the result image (in pixels). Default: 200.
 'selection' renders an image of the size of the area selected.
 'max' maximizes the rendered image.
 
@@ -266,4 +271,3 @@ While you have added an array inside of option result-image-size you will have o
 ## License
 
 See the [LICENSE](https://github.com/alexk111/CrackerakiUA/blob/master/LICENSE) file.
-
