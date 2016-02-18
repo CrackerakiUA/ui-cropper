@@ -44,6 +44,7 @@ crop.factory('cropHost', ['$document', '$q', 'cropAreaCircle', 'cropAreaSquare',
                 w: 200,
                 h: 200
             },
+            areaMinRelativeSize = null,
 
             // Result Image type
             resImgFormat = 'image/png',
@@ -479,12 +480,12 @@ crop.factory('cropHost', ['$document', '$q', 'cropAreaCircle', 'cropAreaSquare',
         this.setAreaMinSize = function(size) {
             if (angular.isUndefined(size)) {
                 return;
-            }else if(typeof size == 'number' || typeof size == 'string'){
+            } else if (typeof size == 'number' || typeof size == 'string') {
                 size = {
                     w: parseInt(parseInt(size), 10),
                     h: parseInt(parseInt(size), 10)
                 };
-            }else{
+            } else {
                 size = {
                     w: parseInt(size.w, 10),
                     h: parseInt(size.h, 10)
@@ -493,6 +494,34 @@ crop.factory('cropHost', ['$document', '$q', 'cropAreaCircle', 'cropAreaSquare',
             if (!isNaN(size.w) && !isNaN(size.h)) {
                 theArea.setMinSize(size);
                 drawScene();
+            }
+        };
+
+        this.setAreaMinRelativeSize = function(size) {
+            if (image !== null) {
+              var canvasSize = theArea.getCanvasSize();
+              if (angular.isUndefined(size)) {
+                  return;
+              } else if(typeof size == 'number' || typeof size == 'string') {
+                  areaMinRelativeSize = {
+                      w: size,
+                      h: size
+                  };
+                  size = {
+                      w: canvasSize.w/(image.width/parseInt(parseInt(size), 10)),
+                      h: canvasSize.h/(image.height/parseInt(parseInt(size), 10))
+                  };
+              } else{
+                  areaMinRelativeSize = size;
+                  size = {
+                      w: canvasSize.w/(image.width/parseInt(parseInt(size.w), 10)),
+                      h: canvasSize.h/(image.height/parseInt(parseInt(size.h), 10))
+                  };
+              }
+              if (!isNaN(size.w) && !isNaN(size.h)) {
+                  theArea.setMinSize(size);
+                  drawScene();
+              }
             }
         };
 
@@ -529,6 +558,16 @@ crop.factory('cropHost', ['$document', '$q', 'cropAreaCircle', 'cropAreaSquare',
                     w: zoom * theArea.getSize().w,
                     h: zoom * theArea.getSize().h
                 };
+
+                if (areaMinRelativeSize) {
+                  if (size.w < areaMinRelativeSize.w) {
+                    size.w = areaMinRelativeSize.w;
+                  }
+                  if (size.h < areaMinRelativeSize.h) {
+                    size.h = areaMinRelativeSize.h;
+                  }
+                }
+
                 return size;
             }
 

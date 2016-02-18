@@ -18,6 +18,7 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
             areaType: '@',
             areaMinSize: '=?',
             areaInitSize: '=?',
+            areaMinRelativeSize: '=?',
             resultImageSize: '=?',
             resultImageFormat: '=?',
             resultImageQuality: '=?',
@@ -131,6 +132,7 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
                 }))
                 .on('load-done', fnSafeApply(function (scope) {
                     angular.element(element.children()[element.children().length - 1]).remove();
+                    cropHost.setAreaMinRelativeSize(scope.areaMinRelativeSize);
                     scope.onLoadDone({});
                 }))
                 .on('load-error', fnSafeApply(function (scope) {
@@ -162,6 +164,12 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
             scope.$watch('areaMinSize', function () {
                 cropHost.setAreaMinSize(scope.areaMinSize);
                 updateResultImage(scope);
+            });
+            scope.$watch('areaMinRelativeSize', function () {
+                if (scope.image !== '') {
+                    cropHost.setAreaMinRelativeSize(scope.areaMinRelativeSize);
+                    updateResultImage(scope);
+                }
             });
             scope.$watch('areaInitSize', function () {
                 cropHost.setAreaInitSize(scope.areaInitSize);
