@@ -10,6 +10,7 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
             resultBlob: '=?',
             urlBlob: '=?',
             chargement: '=?',
+            cropject: '=?',
 
             changeOnFly: '=?',
             liveView: '=?',
@@ -84,6 +85,7 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
                         }
 
                         updateAreaCoords(scope);
+                        updateCropject(scope);
                         scope.onChange({
                             $dataURI: scope.resultImage
                         });
@@ -94,6 +96,17 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
             var updateAreaCoords = function (scope) {
                 var areaCoords = cropHost.getAreaCoords();
                 scope.areaCoords = areaCoords;
+            };
+
+            var updateCropject = function (scope) {
+                var areaCoords = cropHost.getAreaCoords();
+
+                scope.cropject = {
+                    cropWidth: areaCoords.w,
+                    cropHeight: areaCoords.h,
+                    cropTop: areaCoords.y,
+                    cropLeft: areaCoords.x
+                };
             };
 
             // Wrapper to safely exec functions within $apply on a running $digest cycle

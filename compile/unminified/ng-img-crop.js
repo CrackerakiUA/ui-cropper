@@ -5,7 +5,7 @@
  * Copyright (c) 2016 undefined
  * License: MIT
  *
- * Generated at Monday, February 15th, 2016, 5:32:27 PM
+ * Generated at Friday, February 19th, 2016, 12:34:00 AM
  */
 (function() {
 var crop = angular.module('ngImgCrop', []);
@@ -979,8 +979,8 @@ crop.factory('cropArea', ['cropCanvas', function(CropCanvas) {
         var width = size.w;
         if(this._aspect) width = size.h * this._aspect;
         return {
-            x: size.x || this._minSize.x,
-            y: size.y || this._minSize.y,
+            x: size.x || this.getSize().x,
+            y: size.y || this.getSize().y,
             w: width || this._minSize.w,
             h: size.h || this._minSize.h
         };
@@ -2750,6 +2750,7 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
             resultBlob: '=?',
             urlBlob: '=?',
             chargement: '=?',
+            cropject: '=?',
 
             changeOnFly: '=?',
             liveView: '=?',
@@ -2824,6 +2825,7 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
                         }
 
                         updateAreaCoords(scope);
+                        updateCropject(scope);
                         scope.onChange({
                             $dataURI: scope.resultImage
                         });
@@ -2834,6 +2836,17 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
             var updateAreaCoords = function (scope) {
                 var areaCoords = cropHost.getAreaCoords();
                 scope.areaCoords = areaCoords;
+            };
+
+            var updateCropject = function (scope) {
+                var areaCoords = cropHost.getAreaCoords();
+
+                scope.cropject = {
+                    cropWidth: areaCoords.w,
+                    cropHeight: areaCoords.h,
+                    cropTop: areaCoords.y,
+                    cropLeft: areaCoords.x
+                };
             };
 
             // Wrapper to safely exec functions within $apply on a running $digest cycle
