@@ -101,11 +101,16 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
             var updateCropject = function (scope) {
                 var areaCoords = cropHost.getAreaCoords();
 
+                var dimRatio = {
+                  x: cropHost.getArea().getImage().width / cropHost.getArea().getCanvasSize().w,
+                  y: cropHost.getArea().getImage().height / cropHost.getArea().getCanvasSize().h
+                };
+
                 scope.cropject = {
-                    cropWidth: areaCoords.w,
-                    cropHeight: areaCoords.h,
-                    cropTop: areaCoords.y,
-                    cropLeft: areaCoords.x
+                    cropWidth: Math.round(areaCoords.w * dimRatio.x),
+                    cropHeight: Math.round(areaCoords.h * dimRatio.y),
+                    cropTop: Math.round(areaCoords.y * dimRatio.y),
+                    cropLeft: Math.round(areaCoords.x * dimRatio.x)
                 };
             };
 

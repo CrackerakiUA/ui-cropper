@@ -5,7 +5,7 @@
  * Copyright (c) 2016 undefined
  * License: MIT
  *
- * Generated at Friday, February 19th, 2016, 12:34:00 AM
+ * Generated at Monday, February 22nd, 2016, 12:37:04 AM
  */
 (function() {
 var crop = angular.module('ngImgCrop', []);
@@ -2065,6 +2065,8 @@ crop.factory('cropHost', ['$document', '$q', 'cropAreaCircle', 'cropAreaSquare',
                     imageRatio = image.width / image.height,
                     canvasDims = imageDims;
 
+                    console.log(imageDims);
+
                 if (canvasDims[0] > maxCanvasDims[0]) {
                     canvasDims[0] = maxCanvasDims[0];
                     canvasDims[1] = canvasDims[0] / imageRatio;
@@ -2307,6 +2309,10 @@ crop.factory('cropHost', ['$document', '$q', 'cropAreaCircle', 'cropAreaSquare',
         this.getAreaCoords = function() {
             return theArea.getSize()
         };
+
+        this.getArea = function() {
+          return theArea;
+        }
 
         this.setNewImageSource = function(imageSource) {
             image = null;
@@ -2841,11 +2847,16 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
             var updateCropject = function (scope) {
                 var areaCoords = cropHost.getAreaCoords();
 
+                var dimRatio = {
+                  x: cropHost.getArea().getImage().width / cropHost.getArea().getCanvasSize().w,
+                  y: cropHost.getArea().getImage().height / cropHost.getArea().getCanvasSize().h
+                };
+
                 scope.cropject = {
-                    cropWidth: areaCoords.w,
-                    cropHeight: areaCoords.h,
-                    cropTop: areaCoords.y,
-                    cropLeft: areaCoords.x
+                    cropWidth: Math.round(areaCoords.w * dimRatio.x),
+                    cropHeight: Math.round(areaCoords.h * dimRatio.y),
+                    cropTop: Math.round(areaCoords.y * dimRatio.y),
+                    cropLeft: Math.round(areaCoords.x * dimRatio.x)
                 };
             };
 

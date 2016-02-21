@@ -329,6 +329,10 @@ crop.factory('cropHost', ['$document', '$q', 'cropAreaCircle', 'cropAreaSquare',
             return theArea.getSize()
         };
 
+        this.getArea = function() {
+          return theArea;
+        }
+
         this.setNewImageSource = function(imageSource) {
             image = null;
             resetCropHost();
