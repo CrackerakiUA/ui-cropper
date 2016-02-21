@@ -5,7 +5,7 @@
  * Copyright (c) 2016 undefined
  * License: MIT
  *
- * Generated at Monday, February 22nd, 2016, 12:37:04 AM
+ * Generated at Monday, February 22nd, 2016, 2:02:09 AM
  */
 (function() {
 var crop = angular.module('ngImgCrop', []);
@@ -2064,8 +2064,6 @@ crop.factory('cropHost', ['$document', '$q', 'cropAreaCircle', 'cropAreaSquare',
                 var imageDims = [image.width, image.height],
                     imageRatio = image.width / image.height,
                     canvasDims = imageDims;
-
-                    console.log(imageDims);
 
                 if (canvasDims[0] > maxCanvasDims[0]) {
                     canvasDims[0] = maxCanvasDims[0];
