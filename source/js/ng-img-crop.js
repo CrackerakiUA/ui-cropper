@@ -85,7 +85,6 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
                         }
 
                         updateAreaCoords(scope);
-                        updateCropject(scope);
                         scope.onChange({
                             $dataURI: scope.resultImage
                         });
@@ -101,11 +100,20 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
             var updateCropject = function (scope) {
                 var areaCoords = cropHost.getAreaCoords();
 
+                var dimRatio = {
+                  x: cropHost.getArea().getImage().width / cropHost.getArea().getCanvasSize().w,
+                  y: cropHost.getArea().getImage().height / cropHost.getArea().getCanvasSize().h
+                };
+
                 scope.cropject = {
                     cropWidth: areaCoords.w,
                     cropHeight: areaCoords.h,
                     cropTop: areaCoords.y,
-                    cropLeft: areaCoords.x
+                    cropLeft: areaCoords.x,
+                    cropImageWidth: Math.round(areaCoords.w * dimRatio.x),
+                    cropImageHeight: Math.round(areaCoords.h * dimRatio.y),
+                    cropImageTop: Math.round(areaCoords.y * dimRatio.y),
+                    cropImageLeft: Math.round(areaCoords.x * dimRatio.x)
                 };
             };
 
@@ -142,9 +150,11 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
                     if (!!scope.changeOnFly) {
                         updateResultImage(scope);
                     }
+                    updateCropject(scope);
                 }))
                 .on('area-move-end area-resize-end image-updated', fnSafeApply(function (scope) {
                     updateResultImage(scope);
+                    updateCropject(scope);
                 }));
 
 
