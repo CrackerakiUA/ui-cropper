@@ -106,10 +106,14 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
                 };
 
                 scope.cropject = {
-                    cropWidth: Math.round(areaCoords.w * dimRatio.x),
-                    cropHeight: Math.round(areaCoords.h * dimRatio.y),
-                    cropTop: Math.round(areaCoords.y * dimRatio.y),
-                    cropLeft: Math.round(areaCoords.x * dimRatio.x)
+                    cropWidth: areaCoords.w,
+                    cropHeight: areaCoords.h,
+                    cropTop: areaCoords.y,
+                    cropLeft: areaCoords.x,
+                    cropImageWidth: Math.round(areaCoords.w * dimRatio.x),
+                    cropImageHeight: Math.round(areaCoords.h * dimRatio.y),
+                    cropImageTop: Math.round(areaCoords.y * dimRatio.y),
+                    cropImageLeft: Math.round(areaCoords.x * dimRatio.x)
                 };
             };
 
