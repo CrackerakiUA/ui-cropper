@@ -14,6 +14,7 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
 
             changeOnFly: '=?',
             liveView: '=?',
+            initMaxArea: '=?',
             areaCoords: '=?',
             areaType: '@',
             areaMinSize: '=?',
@@ -106,6 +107,7 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
                 };
 
                 scope.cropject = {
+                    areaCoords: areaCoords,
                     cropWidth: areaCoords.w,
                     cropHeight: areaCoords.h,
                     cropTop: areaCoords.y,
@@ -164,6 +166,7 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
                     displayLoading();
                 }
                 $timeout(function () {
+                    cropHost.setInitMax(scope.initMaxArea);
                     cropHost.setNewImageSource(scope.image);
                 }, 100);
             });

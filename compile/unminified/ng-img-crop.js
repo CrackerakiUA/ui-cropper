@@ -5,7 +5,7 @@
  * Copyright (c) 2016 undefined
  * License: MIT
  *
- * Generated at Monday, February 22nd, 2016, 8:52:00 PM
+ * Generated at Tuesday, February 23rd, 2016, 6:36:08 PM
  */
 (function() {
 var crop = angular.module('ngImgCrop', []);
@@ -2011,6 +2011,8 @@ crop.factory('cropHost', ['$document', '$q', 'cropAreaCircle', 'cropAreaSquare',
         var ctx = null,
             image = null,
             theArea = null,
+            initMax = null,
+            isAspectRatio = null,
             self = this,
 
             // Dimensions
@@ -2034,7 +2036,9 @@ crop.factory('cropHost', ['$document', '$q', 'cropAreaCircle', 'cropAreaSquare',
             forceAspectRatio = false;
 
         /* PRIVATE FUNCTIONS */
-
+        this.setInitMax = function(bool){
+            initMax=bool;
+        }
         // Draw Scene
         function drawScene() {
             // clear canvas
@@ -2090,10 +2094,22 @@ crop.factory('cropHost', ['$document', '$q', 'cropAreaCircle', 'cropAreaSquare',
                 var areaType = self.getAreaType();
                 // enforce 1:1 aspect ratio for square-like selections
                 if ((areaType === 'circle') || (areaType === 'square')) {
-                    ch = cw;
+                    if(ch<cw) cw=ch;
+                    else ch=cw;
+                }else if(areaType === 'rectangle'&&isAspectRatio){
+                    if(cw/ch>resImgSize.w/resImgSize.h){
+                        cw=resImgSize.w/resImgSize.h*ch;
+                    }else{
+                        ch=resImgSize.w/resImgSize.h*cw;
+                    }
                 }
 
-                if(undefined !== theArea.getInitSize() ) {
+                if(initMax){
+                    theArea.setSize({
+                        w: cw,
+                        h: ch
+                    });
+                }else if(undefined !== theArea.getInitSize() ) {
                     theArea.setSize({
                         w: Math.min(theArea.getInitSize().w, cw / 2),
                         h: Math.min(theArea.getInitSize().h, ch / 2)
@@ -2475,6 +2491,7 @@ crop.factory('cropHost', ['$document', '$q', 'cropAreaCircle', 'cropAreaSquare',
                 };
             }
             if (!isNaN(size.w) && !isNaN(size.h)) {
+                isAspectRatio=true;
                 theArea.setMinSize(size);
                 drawScene();
             }
@@ -2758,6 +2775,7 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
 
             changeOnFly: '=?',
             liveView: '=?',
+            initMaxArea: '=?',
             areaCoords: '=?',
             areaType: '@',
             areaMinSize: '=?',
@@ -2850,6 +2868,7 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
                 };
 
                 scope.cropject = {
+                    areaCoords: areaCoords,
                     cropWidth: areaCoords.w,
                     cropHeight: areaCoords.h,
                     cropTop: areaCoords.y,
@@ -2907,6 +2926,7 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
                     displayLoading();
                 }
                 $timeout(function () {
+                    cropHost.setInitMax(scope.initMaxArea);
                     cropHost.setNewImageSource(scope.image);
                 }, 100);
             });

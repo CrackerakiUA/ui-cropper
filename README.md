@@ -9,9 +9,7 @@
 
 ## News
 
-On update 0.5.1 i have added feature which block the render of canvas on each move end, which will save the lag when you are exporting huge images. To make this work you have to asign `$scope.blockManagement={block: true}` to `<img-crop live-view="blockManagement">`. When you have to render the canvas into dataURL you just have to `$scope.blockManagement.render(function(dataURL){console.log(dataURL);})`. I have build live demo on the `Codepen: Rectangle Crop`;<br>
-If you have any issue after update from 0.4.9 to 0.5.1, please reply here [Post about the new feature](https://github.com/CrackerakiUA/ngImgCropFullExtended/issues/57)
-
+On update 0.5.2 i have added object which can handle the crop area and show result of it. Also i have added init-max-area which initialize the cropped area to max.
 
 
 # ngImgCropFullExtended
@@ -151,6 +149,7 @@ The following code enables to select an image using a file input and crop it. Th
     url-blob="{string}"
     area-coords="myAreaCoords"
    [change-on-fly="{boolean}"]
+   [init-max-area="true"]
    [live-view="{object}"]
    [area-type="{circle|square|rectangle}"]
    [area-min-size="{ number|{w:number,h:number} }"]
@@ -198,6 +197,10 @@ Assignable angular expression to data-bind to. NgImgCrop puts an url blob of a c
 ### live-view
 
 *Optional*. By default, to reduce CPU usage and lag mostly for huge result images, when a user drags/resizes the crop area, the result image is only updated after the user stops dragging/resizing. This is a bit complex part then change on fly, to make it work you have to create object in your controller and assign a variable block to it with try value. After that cropper will bind function "render" which will accept callback and that callback will return dataURL. Example of object {block: true}.
+
+### init-max-area
+
+*Optional*. This initialize the crop area with max size, depends on the type and aspect ration.
 
 ### area-type
 
