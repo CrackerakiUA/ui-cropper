@@ -355,7 +355,7 @@ crop.factory('cropHost', ['$document', '$q', 'cropAreaCircle', 'cropAreaSquare',
             events.trigger('image-updated');
             if (!!imageSource) {
                 var newImage = new Image();
-                if (imageSource.substring(0,4).toLowerCase()==='http') {
+                if (typeof imageSource == 'string' &&  imageSource.substring(0,4).toLowerCase()==='http') { // `imageSource` can be of type `Blob`
                     newImage.crossOrigin = 'anonymous';
                 }
                 newImage.onload = function() {
