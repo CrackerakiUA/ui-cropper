@@ -13,6 +13,7 @@ crop.factory('cropArea', ['cropCanvas', function(CropCanvas) {
         };
 
         this._initSize = undefined;
+        this._allowCropResizeOnCorners = false;
 
         this._forceAspectRatio = false;
         this._aspect = null;
@@ -30,6 +31,9 @@ crop.factory('cropArea', ['cropCanvas', function(CropCanvas) {
 
     /* GETTERS/SETTERS */
 
+    CropArea.prototype.setAllowCropResizeOnCorners = function(bool) {
+        this._allowCropResizeOnCorners=bool;
+    };
     CropArea.prototype.getImage = function() {
         return this._image;
     };
@@ -59,6 +63,12 @@ crop.factory('cropArea', ['cropCanvas', function(CropCanvas) {
     CropArea.prototype.setSize = function(size) {
         size = this._processSize(size);
         this._size = this._preventBoundaryCollision(size);
+    };
+
+    CropArea.prototype.setSizeOnMove = function(size) {
+        size = this._processSize(size);
+        if(this._allowCropResizeOnCorners) this._size = this._preventBoundaryCollision(size);
+        else this._size = this._allowMouseOutsideCanvas(size);
     };
 
     CropArea.prototype.setSizeByCorners = function(northWestCorner, southEastCorner) {
@@ -102,6 +112,16 @@ crop.factory('cropArea', ['cropCanvas', function(CropCanvas) {
             h: s.h
         });
     };
+    
+    CropArea.prototype.setCenterPointOnMove = function(point) {
+        var s = this.getSize();
+        this.setSizeOnMove({
+            x: point.x - s.w / 2,
+            y: point.y - s.h / 2,
+            w: s.w,
+            h: s.h
+        });
+    };
 
     CropArea.prototype.setInitSize = function(size) {
         this._initSize = this._processSize(size);
@@ -119,6 +139,21 @@ crop.factory('cropArea', ['cropCanvas', function(CropCanvas) {
     };
 
     /* FUNCTIONS */
+    CropArea.prototype._allowMouseOutsideCanvas = function(size) {
+        var canvasH = this._ctx.canvas.height,
+            canvasW = this._ctx.canvas.width;
+        var newSize = {
+            w: size.w,
+            h: size.h,
+        };
+        if(size.x<0) newSize.x=0;
+        else if(size.x+size.w>canvasW) newSize.x=canvasW-size.w;
+        else newSize.x=size.x;
+        if(size.y<0) newSize.y=0;
+        else if(size.y+size.h>canvasH) newSize.y=canvasH-size.h;
+        else newSize.y=size.y;
+        return newSize;
+    };
     CropArea.prototype._preventBoundaryCollision = function(size) {
         var canvasH = this._ctx.canvas.height,
             canvasW = this._ctx.canvas.width;

@@ -25,6 +25,7 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
             resultImageQuality: '=?',
 
             aspectRatio: '=?',
+            allowCropResizeOnCorners: '=?',
 
             dominantColor: '=?',
             paletteColor: '=?',
@@ -208,6 +209,9 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
                     scope.aspectRatio = parseInt(scope.aspectRatio);
                 }
                 if (scope.aspectRatio) cropHost.setAspect(scope.aspectRatio);
+            });
+            scope.$watch('allowCropResizeOnCorners', function () {
+                if (scope.allowCropResizeOnCorners) cropHost.setAllowCropResizeOnCorners(scope.allowCropResizeOnCorners);
             });
 
             // Update CropHost dimensions when the directive element is resized

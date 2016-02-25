@@ -76,7 +76,7 @@ crop.factory('cropAreaCircle', ['cropArea', function(CropArea) {
         this._areaIsHover = false;
 
         if (this._areaIsDragging) {
-            this.setCenterPoint({
+            this.setCenterPointOnMove({
                 x: mouseCurX - this._posDragStartX,
                 y: mouseCurY - this._posDragStartY
             });
