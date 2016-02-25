@@ -355,9 +355,6 @@ crop.factory('cropHost', ['$document', '$q', 'cropAreaCircle', 'cropAreaSquare',
             events.trigger('image-updated');
             if (!!imageSource) {
                 var newImage = new Image();
-                if (typeof imageSource == 'string' &&  imageSource.substring(0,4).toLowerCase()==='http') { // `imageSource` can be of type `Blob`
-                    newImage.crossOrigin = 'anonymous';
-                }
                 newImage.onload = function() {
                     events.trigger('load-done');
 
@@ -437,6 +434,9 @@ crop.factory('cropHost', ['$document', '$q', 'cropAreaCircle', 'cropAreaSquare',
                 if (imageSource instanceof window.Blob) {
                     newImage.src = URL.createObjectURL(imageSource);
                 } else {
+                    if (imageSource.substring(0, 4).toLowerCase() === 'http') {
+                      newImage.crossOrigin = 'anonymous';
+                    }
                     newImage.src = imageSource;
                 }
             }
