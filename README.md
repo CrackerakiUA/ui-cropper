@@ -11,7 +11,7 @@
 
 ## News
 
-On update 0.5.3 i have added as default not resize croparea on corners, but i have added option for that if anyone need this feature.
+On update 0.5.4 i have fixed resize of the circle, it's looks not perfect, but it's better then bugged we had. If you believe you can fix algorithm of the circle resize, check the line 74 of the crop-area.js
 
 
 ## Contribution
