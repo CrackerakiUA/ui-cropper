@@ -1,11 +1,11 @@
 /*!
- * ngImgCropExtended v0.5.2
+ * ngImgCropExtended v0.5.4
  * https://github.com/CrackerakiUA/ngImgCropExtended/
  *
  * Copyright (c) 2016 undefined
  * License: MIT
  *
- * Generated at Thursday, February 25th, 2016, 7:20:07 AM
+ * Generated at Monday, February 29th, 2016, 5:21:19 AM
  */
 (function() {
 var crop = angular.module('ngImgCrop', []);
@@ -115,7 +115,7 @@ crop.factory('cropAreaCircle', ['cropArea', function(CropArea) {
             newNO.y = this.getCenterPoint().y - iFR * 0.5;
             newSE.y = this.getCenterPoint().y + iFR * 0.5;
 
-            this.setSizeByCorners(newNO, newSE);
+            this.CircleOnMove(newNO, newSE);
             this._boxResizeIsHover = true;
             res = true;
             this._events.trigger('area-resize');
@@ -783,6 +783,43 @@ crop.factory('cropArea', ['cropCanvas', function(CropCanvas) {
         size = this._processSize(size);
         if(this._allowCropResizeOnCorners) this._size = this._preventBoundaryCollision(size);
         else this._size = this._allowMouseOutsideCanvas(size);
+    };
+
+    CropArea.prototype.CircleOnMove = function(northWestCorner, southEastCorner) {
+        var size = {
+            x: northWestCorner.x,
+            y: northWestCorner.y,
+            w: southEastCorner.x - northWestCorner.x,
+            h: southEastCorner.y - northWestCorner.y
+        };
+        var canvasH = this._ctx.canvas.height,
+            canvasW = this._ctx.canvas.width;
+        if(size.w>canvasW||size.h>canvasH){
+            if(canvasW<canvasH){
+                size.w=canvasW;
+                size.h=canvasW;
+            }else{
+                size.w=canvasH;
+                size.h=canvasH;
+            }
+        }
+        if(size.x+size.w>canvasW){
+            size.x=canvasW-size.w;
+        }
+        if(size.y+size.h>canvasH){
+            size.y=canvasH-size.h;
+        }
+        if(size.x<0) size.x=0;
+        if(size.y<0) size.y=0;
+        if(this._minSize.w>size.w){
+            size.w=this._minSize.w;
+            size.x=this._size.x;
+        }
+        if(this._minSize.h>size.h){
+            size.h=this._minSize.h;
+            size.y=this._size.y;
+        }
+        this._size=size;
     };
 
     CropArea.prototype.setSizeByCorners = function(northWestCorner, southEastCorner) {
@@ -2372,9 +2409,6 @@ crop.factory('cropHost', ['$document', '$q', 'cropAreaCircle', 'cropAreaSquare',
             events.trigger('image-updated');
             if (!!imageSource) {
                 var newImage = new Image();
-                if (typeof imageSource == 'string' &&  imageSource.substring(0,4).toLowerCase()==='http') { // `imageSource` can be of type `Blob`
-                    newImage.crossOrigin = 'anonymous';
-                }
                 newImage.onload = function() {
                     events.trigger('load-done');
 
@@ -2454,6 +2488,9 @@ crop.factory('cropHost', ['$document', '$q', 'cropAreaCircle', 'cropAreaSquare',
                 if (imageSource instanceof window.Blob) {
                     newImage.src = URL.createObjectURL(imageSource);
                 } else {
+                    if (imageSource.substring(0, 4).toLowerCase() === 'http') {
+                      newImage.crossOrigin = 'anonymous';
+                    }
                     newImage.src = imageSource;
                 }
             }

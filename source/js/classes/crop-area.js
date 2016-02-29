@@ -71,6 +71,43 @@ crop.factory('cropArea', ['cropCanvas', function(CropCanvas) {
         else this._size = this._allowMouseOutsideCanvas(size);
     };
 
+    CropArea.prototype.CircleOnMove = function(northWestCorner, southEastCorner) {
+        var size = {
+            x: northWestCorner.x,
+            y: northWestCorner.y,
+            w: southEastCorner.x - northWestCorner.x,
+            h: southEastCorner.y - northWestCorner.y
+        };
+        var canvasH = this._ctx.canvas.height,
+            canvasW = this._ctx.canvas.width;
+        if(size.w>canvasW||size.h>canvasH){
+            if(canvasW<canvasH){
+                size.w=canvasW;
+                size.h=canvasW;
+            }else{
+                size.w=canvasH;
+                size.h=canvasH;
+            }
+        }
+        if(size.x+size.w>canvasW){
+            size.x=canvasW-size.w;
+        }
+        if(size.y+size.h>canvasH){
+            size.y=canvasH-size.h;
+        }
+        if(size.x<0) size.x=0;
+        if(size.y<0) size.y=0;
+        if(this._minSize.w>size.w){
+            size.w=this._minSize.w;
+            size.x=this._size.x;
+        }
+        if(this._minSize.h>size.h){
+            size.h=this._minSize.h;
+            size.y=this._size.y;
+        }
+        this._size=size;
+    };
+
     CropArea.prototype.setSizeByCorners = function(northWestCorner, southEastCorner) {
 
         var size = {
