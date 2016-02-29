@@ -16,7 +16,7 @@ On update 0.5.4 i have fixed resize of the circle, it's looks not perfect, but i
 
 ## Contribution
 
-If you want to contribute, please join our [gitter chat](https://gitter.im/CrackerakiUA/ngImgCropFullExtended) and [trello board](https://trello.com/b/ojPTSMax/ngimgcropfullextended) for better organisation. 
+If you want to contribute, please join our [gitter chat](https://gitter.im/CrackerakiUA/ngImgCropFullExtended) and [trello board](https://trello.com/b/ojPTSMax/ngimgcropfullextended) for better organisation. To join trello write reply [HERE.](https://github.com/CrackerakiUA/ngImgCropFullExtended/issues/78)
 
 # ngImgCropFullExtended
 
