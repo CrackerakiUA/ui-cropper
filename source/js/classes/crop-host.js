@@ -118,13 +118,14 @@ crop.factory('cropHost', ['$document', '$q', 'cropAreaCircle', 'cropAreaSquare',
                 var areaType = self.getAreaType();
                 // enforce 1:1 aspect ratio for square-like selections
                 if ((areaType === 'circle') || (areaType === 'square')) {
-                    if(ch<cw) cw=ch;
-                    else ch=cw;
-                }else if(areaType === 'rectangle'&&isAspectRatio){
-                    if(cw/ch>resImgSize.w/resImgSize.h){
-                        cw=resImgSize.w/resImgSize.h*ch;
+                    if(ch < cw) cw = ch;
+                    else ch = cw;
+                }else if(areaType === 'rectangle' && isAspectRatio){
+                  var aspectRatio = theArea.getAspect(); // use `aspectRatio` instead of `resImgSize` dimensions bc `resImgSize` can be 'selection' string
+                    if(cw/ch > aspectRatio){
+                        cw = aspectRatio * ch;
                     }else{
-                        ch=resImgSize.w/resImgSize.h*cw;
+                        ch = aspectRatio * cw;
                     }
                 }
 
@@ -515,7 +516,6 @@ crop.factory('cropHost', ['$document', '$q', 'cropAreaCircle', 'cropAreaSquare',
                 };
             }
             if (!isNaN(size.w) && !isNaN(size.h)) {
-                isAspectRatio=true;
                 theArea.setMinSize(size);
                 drawScene();
             }
@@ -720,6 +720,7 @@ crop.factory('cropHost', ['$document', '$q', 'cropAreaCircle', 'cropAreaSquare',
         };
 
         this.setAspect = function(aspect) {
+            isAspectRatio=true;
             theArea.setAspect(aspect);
             var minSize = theArea.getMinSize();
             minSize.w=minSize.h*aspect;
