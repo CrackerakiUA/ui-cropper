@@ -5,14 +5,18 @@
 [Codepen: Circle + Chargement Crop](http://codepen.io/Crackeraki/pen/avYNKP)<br>
 [Codepen: Square + Init Url Crop + Maximum rendered image](http://codepen.io/Crackeraki/pen/QjmNVM)<br>
 [Codepen: Rectangle Crop](http://codepen.io/Crackeraki/pen/XmEdPx)<br>
-[Codepen: Rectangle Crop + Crop info](http://codepen.io/anon/pen/RrmKwV)<br>
+[Codepen: Rectangle Crop + Crop info](http://codepen.io/Crackeraki/pen/YqKwzZ)<br>
 [Codepen: Rectangle With Aspect Crop and Max Init](http://codepen.io/Crackeraki/pen/zvWqJM)<br>
 [Codepen: Rectangle + Aspect + Array Crop](http://codepen.io/Crackeraki/pen/jWgmYB)<br>
 
 ## News
 
-On update 0.5.2 i have added object which can handle the crop area and show result of it. Also i have added init-max-area which initialize the cropped area to max.
+On update 0.5.4 i have fixed resize of the circle, it's looks not perfect, but it's better then bugged we had. If you believe you can fix algorithm of the circle resize, check the line 74 of the crop-area.js
 
+
+## Contribution
+
+If you want to contribute, please join our [gitter chat](https://gitter.im/CrackerakiUA/ngImgCropFullExtended) and [trello board](https://trello.com/b/ojPTSMax/ngimgcropfullextended) for better organisation. To join trello write reply [HERE.](https://github.com/CrackerakiUA/ngImgCropFullExtended/issues/78)
 
 # ngImgCropFullExtended
 
@@ -152,6 +156,7 @@ The following code enables to select an image using a file input and crop it. Th
     area-coords="myAreaCoords"
    [change-on-fly="{boolean}"]
    [init-max-area="true"]
+   [allow-crop-resize-on-corners="true"]
    [live-view="{object}"]
    [area-type="{circle|square|rectangle}"]
    [area-min-size="{ number|{w:number,h:number} }"]
@@ -203,6 +208,10 @@ Assignable angular expression to data-bind to. NgImgCrop puts an url blob of a c
 ### init-max-area
 
 *Optional*. This initialize the crop area with max size, depends on the type and aspect ration.
+
+### allow-crop-resize-on-corners
+
+*Optional*. This allow to enable resize of the crop area when it come near corners.
 
 ### area-type
 

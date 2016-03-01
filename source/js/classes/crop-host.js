@@ -60,6 +60,9 @@ crop.factory('cropHost', ['$document', '$q', 'cropAreaCircle', 'cropAreaSquare',
         this.setInitMax = function(bool){
             initMax=bool;
         }
+        this.setAllowCropResizeOnCorners = function(bool){
+            theArea.setAllowCropResizeOnCorners(bool);
+        }
         // Draw Scene
         function drawScene() {
             // clear canvas

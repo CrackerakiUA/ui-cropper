@@ -76,7 +76,7 @@ crop.factory('cropAreaCircle', ['cropArea', function(CropArea) {
         this._areaIsHover = false;
 
         if (this._areaIsDragging) {
-            this.setCenterPoint({
+            this.setCenterPointOnMove({
                 x: mouseCurX - this._posDragStartX,
                 y: mouseCurY - this._posDragStartY
             });
@@ -105,7 +105,7 @@ crop.factory('cropAreaCircle', ['cropArea', function(CropArea) {
             newNO.y = this.getCenterPoint().y - iFR * 0.5;
             newSE.y = this.getCenterPoint().y + iFR * 0.5;
 
-            this.setSizeByCorners(newNO, newSE);
+            this.CircleOnMove(newNO, newSE);
             this._boxResizeIsHover = true;
             res = true;
             this._events.trigger('area-resize');
