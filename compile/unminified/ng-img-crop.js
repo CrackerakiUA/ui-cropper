@@ -5,7 +5,7 @@
  * Copyright (c) 2016 undefined
  * License: MIT
  *
- * Generated at Thursday, March 17th, 2016, 2:20:48 AM
+ * Generated at Thursday, March 17th, 2016, 5:33:03 PM
  */
 (function() {
 var crop = angular.module('ngImgCrop', []);
@@ -2993,7 +2993,6 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
                 }))
                 .on('load-done', fnSafeApply(function (scope) {
                     angular.element(element.children()[element.children().length - 1]).remove();
-                    cropHost.setAreaMinRelativeSize(scope.areaMinRelativeSize);
                     scope.onLoadDone({});
                 }))
                 .on('load-error', fnSafeApply(function (scope) {
@@ -3008,6 +3007,9 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
                 .on('area-move-end area-resize-end image-updated', fnSafeApply(function (scope) {
                     updateResultImage(scope);
                     updateCropject(scope);
+                }))
+                .on('image-updated', fnSafeApply(function(scope) {
+                    cropHost.setAreaMinRelativeSize(scope.areaMinRelativeSize);
                 }));
 
             // Sync CropHost with Directive's options
