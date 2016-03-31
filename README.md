@@ -221,7 +221,7 @@ Assignable angular expression to data-bind to. NgImgCrop puts an url blob of a c
 
 *Optional*. Min. width/height of the crop area (in pixels). Default: 80.
 
-### crobject
+### cropject
 
 *Optional* Gives the opportunity to add an object to the cropper that gives information about the crop dimensions while croppping and selecting an image.
 
