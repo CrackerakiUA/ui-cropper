@@ -13,6 +13,7 @@ crop.factory('cropArea', ['cropCanvas', function(CropCanvas) {
         };
 
         this._initSize = undefined;
+        this._initCoords = undefined;
         this._allowCropResizeOnCorners = false;
 
         this._forceAspectRatio = false;
@@ -171,6 +172,18 @@ crop.factory('cropArea', ['cropCanvas', function(CropCanvas) {
 
     CropArea.prototype.getInitSize = function() {
         return this._initSize;
+    };
+
+    CropArea.prototype.setInitCoords = function(coords) {
+        //add h/w-data to coords-object
+        coords.h = this.getSize().h;
+        coords.w = this.getSize().w;
+        this._initCoords = this._processSize(coords);
+        this.setSize(this._initCoords);
+    };
+
+    CropArea.prototype.getInitCoords = function() {
+        return this._initCoords;
     };
 
     // return a type string

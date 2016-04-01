@@ -163,6 +163,7 @@ The following code enables to select an image using a file input and crop it. Th
    [area-min-relative-size="{ number|{w:number,h:number} }"]
    [cropject="{cropWidth:number,cropHeight:number,cropTop:number,cropLeft:number}"]
    [area-init-size="{ number|{w:number,h:number} }"]
+   [area-init-coords="{x:number,y:number}"]
    [result-image-size="{ number|{w:number,h:number}|[{w:number,h:number},{w:number,h:number},...] }"]
    [result-image-format="{string}"]
    [result-image-quality="{number}"]
@@ -221,7 +222,7 @@ Assignable angular expression to data-bind to. NgImgCrop puts an url blob of a c
 
 *Optional*. Min. width/height of the crop area (in pixels). Default: 80.
 
-### crobject
+### cropject
 
 *Optional* Gives the opportunity to add an object to the cropper that gives information about the crop dimensions while croppping and selecting an image.
 
@@ -232,6 +233,10 @@ Assignable angular expression to data-bind to. NgImgCrop puts an url blob of a c
 ### area-init-size
 
 *Optional*. Min. width/height of the crop area (in pixels) to start with, overriding the standard 200*200 crop area ratio. Default: false
+
+### area-init-coords
+
+*Optional*. X/Y coordinates of the crop area (in pixels) to start with, overriding the standard center placement area. Default: false
 
 ### result-image-size
 

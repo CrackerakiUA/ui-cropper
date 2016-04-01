@@ -146,11 +146,19 @@ crop.factory('cropHost', ['$document', '$q', 'cropAreaCircle', 'cropAreaSquare',
                     });
                 }
 
-                //@todo: set top left corner point
-                theArea.setCenterPoint({
-                    x: ctx.canvas.width / 2,
-                    y: ctx.canvas.height / 2
-                });
+                if(theArea.getInitCoords()) {
+                    theArea.setSize({
+                        w: theArea.getSize().w,
+                        h: theArea.getSize().h,
+                        x: theArea.getInitCoords().x,
+                        y: theArea.getInitCoords().y
+                    });
+                } else {
+                    theArea.setCenterPoint({
+                        x: ctx.canvas.width / 2,
+                        y: ctx.canvas.height / 2
+                    });
+                }
 
             } else {
                 elCanvas.prop('width', 0).prop('height', 0).css({
@@ -574,6 +582,21 @@ crop.factory('cropHost', ['$document', '$q', 'cropAreaCircle', 'cropAreaSquare',
             }
             if (!isNaN(size.w) && !isNaN(size.h)) {
                 theArea.setInitSize(size);
+                drawScene();
+            }
+        };
+
+        this.setAreaInitCoords = function(coords) {
+            if (angular.isUndefined(coords)) {
+                return;
+            }else{
+                coords = {
+                    x: parseInt(coords.x, 10),
+                    y: parseInt(coords.y, 10)
+                };
+            }
+            if (!isNaN(coords.x) && !isNaN(coords.y)) {
+                theArea.setInitCoords(coords);
                 drawScene();
             }
         };
