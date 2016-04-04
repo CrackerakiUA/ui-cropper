@@ -164,6 +164,7 @@ The following code enables to select an image using a file input and crop it. Th
    [cropject="{cropWidth:number,cropHeight:number,cropTop:number,cropLeft:number}"]
    [area-init-size="{ number|{w:number,h:number} }"]
    [area-init-coords="{x:number,y:number}"]
+   [max-canvas-dimensions="{ number|{w:number,h:number} }"]
    [result-image-size="{ number|{w:number,h:number}|[{w:number,h:number},{w:number,h:number},...] }"]
    [result-image-format="{string}"]
    [result-image-quality="{number}"]
@@ -237,6 +238,10 @@ Assignable angular expression to data-bind to. NgImgCrop puts an url blob of a c
 ### area-init-coords
 
 *Optional*. X/Y coordinates of the crop area (in pixels) to start with, overriding the standard center placement area. Default: false
+
+### max-canvas-dimensions
+
+*Optional*. Max. width/height of the canvas area (in pixels) to start with, overriding the default maximum. Default: 300x300
 
 ### result-image-size
 
