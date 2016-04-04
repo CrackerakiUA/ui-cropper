@@ -601,6 +601,48 @@ crop.factory('cropHost', ['$document', '$q', 'cropAreaCircle', 'cropAreaSquare',
             }
         };
 
+        this.setMaxCanvasDimensions = function(maxCanvasDimensions) {
+            if (!angular.isUndefined(maxCanvasDimensions)) {
+                var newMaxCanvasDims = [];
+                if (typeof maxCanvasDimensions == 'number' || typeof maxCanvasDimensions == 'string') {
+                    newMaxCanvasDims = [
+                        parseInt(parseInt(maxCanvasDimensions), 10),
+                        parseInt(parseInt(maxCanvasDimensions), 10)
+                    ];
+                } else {
+                    newMaxCanvasDims = [
+                        parseInt(maxCanvasDimensions.h, 10),
+                        parseInt(maxCanvasDimensions.w, 10)
+                    ];
+                }
+                if ((!isNaN(newMaxCanvasDims[0]) && newMaxCanvasDims[0] > 0 && newMaxCanvasDims[0] > minCanvasDims[0])
+                    && (!isNaN(newMaxCanvasDims[1]) && newMaxCanvasDims[1] > 0 && newMaxCanvasDims[1] > minCanvasDims[1])) {
+                    maxCanvasDims = newMaxCanvasDims;
+                }
+            }
+        };
+
+        this.setMinCanvasDimensions = function(minCanvasDimensions) {
+            if (!angular.isUndefined(minCanvasDimensions)) {
+                var newMinCanvasDims = [];
+                if (typeof minCanvasDimensions == 'number' || typeof minCanvasDimensions == 'string') {
+                    newMinCanvasDims = [
+                        parseInt(parseInt(minCanvasDimensions), 10),
+                        parseInt(parseInt(minCanvasDimensions), 10)
+                    ];
+                } else {
+                    newMinCanvasDims = [
+                        parseInt(minCanvasDimensions.h, 10),
+                        parseInt(minCanvasDimensions.w, 10)
+                    ];
+                }
+                if ((!isNaN(newMinCanvasDims[0]) && newMinCanvasDims[0] >= 0)
+                    && (!isNaN(newMinCanvasDims[1]) && newMinCanvasDims[1] >= 0)) {
+                    minCanvasDims = newMinCanvasDims;
+                }
+            }
+        };
+
         this.getResultImageSize = function() {
             if (resImgSize == "selection") {
                 return theArea.getSize();

@@ -5,7 +5,7 @@
  * Copyright (c) 2016 undefined
  * License: MIT
  *
- * Generated at Friday, April 1st, 2016, 8:22:09 AM
+ * Generated at Monday, April 4th, 2016, 9:22:20 AM
  */
 (function() {
 var crop = angular.module('ngImgCrop', []);
@@ -2669,6 +2669,48 @@ crop.factory('cropHost', ['$document', '$q', 'cropAreaCircle', 'cropAreaSquare',
             }
         };
 
+        this.setMaxCanvasDimensions = function(maxCanvasDimensions) {
+            if (!angular.isUndefined(maxCanvasDimensions)) {
+                var newMaxCanvasDims = [];
+                if (typeof maxCanvasDimensions == 'number' || typeof maxCanvasDimensions == 'string') {
+                    newMaxCanvasDims = [
+                        parseInt(parseInt(maxCanvasDimensions), 10),
+                        parseInt(parseInt(maxCanvasDimensions), 10)
+                    ];
+                } else {
+                    newMaxCanvasDims = [
+                        parseInt(maxCanvasDimensions.h, 10),
+                        parseInt(maxCanvasDimensions.w, 10)
+                    ];
+                }
+                if ((!isNaN(newMaxCanvasDims[0]) && newMaxCanvasDims[0] > 0 && newMaxCanvasDims[0] > minCanvasDims[0])
+                    && (!isNaN(newMaxCanvasDims[1]) && newMaxCanvasDims[1] > 0 && newMaxCanvasDims[1] > minCanvasDims[1])) {
+                    maxCanvasDims = newMaxCanvasDims;
+                }
+            }
+        };
+
+        this.setMinCanvasDimensions = function(minCanvasDimensions) {
+            if (!angular.isUndefined(minCanvasDimensions)) {
+                var newMinCanvasDims = [];
+                if (typeof minCanvasDimensions == 'number' || typeof minCanvasDimensions == 'string') {
+                    newMinCanvasDims = [
+                        parseInt(parseInt(minCanvasDimensions), 10),
+                        parseInt(parseInt(minCanvasDimensions), 10)
+                    ];
+                } else {
+                    newMinCanvasDims = [
+                        parseInt(minCanvasDimensions.h, 10),
+                        parseInt(minCanvasDimensions.w, 10)
+                    ];
+                }
+                if ((!isNaN(newMinCanvasDims[0]) && newMinCanvasDims[0] >= 0)
+                    && (!isNaN(newMinCanvasDims[1]) && newMinCanvasDims[1] >= 0)) {
+                    minCanvasDims = newMinCanvasDims;
+                }
+            }
+        };
+
         this.getResultImageSize = function() {
             if (resImgSize == "selection") {
                 return theArea.getSize();
@@ -2897,6 +2939,8 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
             urlBlob: '=?',
             chargement: '=?',
             cropject: '=?',
+            maxCanvasDimensions: '=?',
+            minCanvasDimensions: '=?',
 
             changeOnFly: '=?',
             liveView: '=?',
@@ -3081,6 +3125,12 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
                 cropHost.setAreaInitCoords(scope.areaInitCoords);
                 updateResultImage(scope);
             });
+            scope.$watch('maxCanvasDimensions', function () {
+                cropHost.setMaxCanvasDimensions(scope.maxCanvasDimensions);
+            });
+            scope.$watch('minCanvasDimensions', function () {
+                cropHost.setMinCanvasDimensions(scope.minCanvasDimensions);
+            });
             scope.$watch('resultImageFormat', function () {
                 cropHost.setResultImageFormat(scope.resultImageFormat);
                 updateResultImage(scope);
@@ -3112,8 +3162,10 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
                     return [element[0].clientWidth, element[0].clientHeight];
                 },
                 function (value) {
-                    cropHost.setMaxDimensions(value[0], value[1]);
-                    updateResultImage(scope);
+                    if(value[0] > 0 && value[1] > 0) {
+                        cropHost.setMaxDimensions(value[0], value[1]);
+                        updateResultImage(scope);
+                    }
                 },
                 true
             );

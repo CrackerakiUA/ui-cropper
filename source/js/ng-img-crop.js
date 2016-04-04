@@ -11,6 +11,8 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
             urlBlob: '=?',
             chargement: '=?',
             cropject: '=?',
+            maxCanvasDimensions: '=?',
+            minCanvasDimensions: '=?',
 
             changeOnFly: '=?',
             liveView: '=?',
@@ -196,6 +198,12 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
                 cropHost.setAreaInitCoords(scope.areaInitCoords);
                 updateResultImage(scope);
             });
+            scope.$watch('maxCanvasDimensions', function () {
+                cropHost.setMaxCanvasDimensions(scope.maxCanvasDimensions);
+            });
+            scope.$watch('minCanvasDimensions', function () {
+                cropHost.setMinCanvasDimensions(scope.minCanvasDimensions);
+            });
             scope.$watch('resultImageFormat', function () {
                 cropHost.setResultImageFormat(scope.resultImageFormat);
                 updateResultImage(scope);
@@ -227,8 +235,10 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
                     return [element[0].clientWidth, element[0].clientHeight];
                 },
                 function (value) {
-                    cropHost.setMaxDimensions(value[0], value[1]);
-                    updateResultImage(scope);
+                    if(value[0] > 0 && value[1] > 0) {
+                        cropHost.setMaxDimensions(value[0], value[1]);
+                        updateResultImage(scope);
+                    }
                 },
                 true
             );
