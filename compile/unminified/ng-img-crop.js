@@ -5,7 +5,7 @@
  * Copyright (c) 2016 undefined
  * License: MIT
  *
- * Generated at Monday, April 4th, 2016, 9:13:49 AM
+ * Generated at Monday, April 4th, 2016, 9:22:20 AM
  */
 (function() {
 var crop = angular.module('ngImgCrop', []);
@@ -2690,6 +2690,27 @@ crop.factory('cropHost', ['$document', '$q', 'cropAreaCircle', 'cropAreaSquare',
             }
         };
 
+        this.setMinCanvasDimensions = function(minCanvasDimensions) {
+            if (!angular.isUndefined(minCanvasDimensions)) {
+                var newMinCanvasDims = [];
+                if (typeof minCanvasDimensions == 'number' || typeof minCanvasDimensions == 'string') {
+                    newMinCanvasDims = [
+                        parseInt(parseInt(minCanvasDimensions), 10),
+                        parseInt(parseInt(minCanvasDimensions), 10)
+                    ];
+                } else {
+                    newMinCanvasDims = [
+                        parseInt(minCanvasDimensions.h, 10),
+                        parseInt(minCanvasDimensions.w, 10)
+                    ];
+                }
+                if ((!isNaN(newMinCanvasDims[0]) && newMinCanvasDims[0] >= 0)
+                    && (!isNaN(newMinCanvasDims[1]) && newMinCanvasDims[1] >= 0)) {
+                    minCanvasDims = newMinCanvasDims;
+                }
+            }
+        };
+
         this.getResultImageSize = function() {
             if (resImgSize == "selection") {
                 return theArea.getSize();
@@ -2919,6 +2940,7 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
             chargement: '=?',
             cropject: '=?',
             maxCanvasDimensions: '=?',
+            minCanvasDimensions: '=?',
 
             changeOnFly: '=?',
             liveView: '=?',
@@ -3105,6 +3127,9 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
             });
             scope.$watch('maxCanvasDimensions', function () {
                 cropHost.setMaxCanvasDimensions(scope.maxCanvasDimensions);
+            });
+            scope.$watch('minCanvasDimensions', function () {
+                cropHost.setMinCanvasDimensions(scope.minCanvasDimensions);
             });
             scope.$watch('resultImageFormat', function () {
                 cropHost.setResultImageFormat(scope.resultImageFormat);

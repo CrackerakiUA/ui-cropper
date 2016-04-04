@@ -622,6 +622,27 @@ crop.factory('cropHost', ['$document', '$q', 'cropAreaCircle', 'cropAreaSquare',
             }
         };
 
+        this.setMinCanvasDimensions = function(minCanvasDimensions) {
+            if (!angular.isUndefined(minCanvasDimensions)) {
+                var newMinCanvasDims = [];
+                if (typeof minCanvasDimensions == 'number' || typeof minCanvasDimensions == 'string') {
+                    newMinCanvasDims = [
+                        parseInt(parseInt(minCanvasDimensions), 10),
+                        parseInt(parseInt(minCanvasDimensions), 10)
+                    ];
+                } else {
+                    newMinCanvasDims = [
+                        parseInt(minCanvasDimensions.h, 10),
+                        parseInt(minCanvasDimensions.w, 10)
+                    ];
+                }
+                if ((!isNaN(newMinCanvasDims[0]) && newMinCanvasDims[0] >= 0)
+                    && (!isNaN(newMinCanvasDims[1]) && newMinCanvasDims[1] >= 0)) {
+                    minCanvasDims = newMinCanvasDims;
+                }
+            }
+        };
+
         this.getResultImageSize = function() {
             if (resImgSize == "selection") {
                 return theArea.getSize();
