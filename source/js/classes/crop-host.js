@@ -611,8 +611,8 @@ crop.factory('cropHost', ['$document', '$q', 'cropAreaCircle', 'cropAreaSquare',
                     ];
                 } else {
                     newMaxCanvasDims = [
-                        parseInt(maxCanvasDimensions.h, 10),
-                        parseInt(maxCanvasDimensions.w, 10)
+                        parseInt(maxCanvasDimensions.w, 10),
+                        parseInt(maxCanvasDimensions.h, 10)
                     ];
                 }
                 if ((!isNaN(newMaxCanvasDims[0]) && newMaxCanvasDims[0] > 0 && newMaxCanvasDims[0] > minCanvasDims[0])
@@ -632,8 +632,8 @@ crop.factory('cropHost', ['$document', '$q', 'cropAreaCircle', 'cropAreaSquare',
                     ];
                 } else {
                     newMinCanvasDims = [
-                        parseInt(minCanvasDimensions.h, 10),
-                        parseInt(minCanvasDimensions.w, 10)
+                        parseInt(minCanvasDimensions.w, 10),
+                        parseInt(minCanvasDimensions.h, 10)
                     ];
                 }
                 if ((!isNaN(newMinCanvasDims[0]) && newMinCanvasDims[0] >= 0)
