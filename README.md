@@ -32,7 +32,7 @@ You have four options to get the files:
 
 ## Documentation
 
-You can checkout all options under [our wiki page](https://github.com/CrackerakiUA/wiki/Options)
+You can checkout all options under [our wiki page](https://github.com/CrackerakiUA/ngImgCropFullExtended/wiki/Options)
 
 ## License
 

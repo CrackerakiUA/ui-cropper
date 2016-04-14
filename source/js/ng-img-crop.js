@@ -11,6 +11,8 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
             urlBlob: '=?',
             chargement: '=?',
             cropject: '=?',
+            maxCanvasDimensions: '=?',
+            minCanvasDimensions: '=?',
 
             changeOnFly: '=?',
             liveView: '=?',
@@ -19,6 +21,7 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
             areaType: '@',
             areaMinSize: '=?',
             areaInitSize: '=?',
+            areaInitCoords: '=?',
             areaMinRelativeSize: '=?',
             resultImageSize: '=?',
             resultImageFormat: '=?',
@@ -143,7 +146,6 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
                 }))
                 .on('load-done', fnSafeApply(function (scope) {
                     angular.element(element.children()[element.children().length - 1]).remove();
-                    cropHost.setAreaMinRelativeSize(scope.areaMinRelativeSize);
                     scope.onLoadDone({});
                 }))
                 .on('load-error', fnSafeApply(function (scope) {
@@ -158,6 +160,9 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
                 .on('area-move-end area-resize-end image-updated', fnSafeApply(function (scope) {
                     updateResultImage(scope);
                     updateCropject(scope);
+                }))
+                .on('image-updated', fnSafeApply(function(scope) {
+                    cropHost.setAreaMinRelativeSize(scope.areaMinRelativeSize);
                 }));
 
 
@@ -188,6 +193,16 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
             scope.$watch('areaInitSize', function () {
                 cropHost.setAreaInitSize(scope.areaInitSize);
                 updateResultImage(scope);
+            });
+            scope.$watch('areaInitCoords', function () {
+                cropHost.setAreaInitCoords(scope.areaInitCoords);
+                updateResultImage(scope);
+            });
+            scope.$watch('maxCanvasDimensions', function () {
+                cropHost.setMaxCanvasDimensions(scope.maxCanvasDimensions);
+            });
+            scope.$watch('minCanvasDimensions', function () {
+                cropHost.setMinCanvasDimensions(scope.minCanvasDimensions);
             });
             scope.$watch('resultImageFormat', function () {
                 cropHost.setResultImageFormat(scope.resultImageFormat);
@@ -220,8 +235,10 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
                     return [element[0].clientWidth, element[0].clientHeight];
                 },
                 function (value) {
-                    cropHost.setMaxDimensions(value[0], value[1]);
-                    updateResultImage(scope);
+                    if(value[0] > 0 && value[1] > 0) {
+                        cropHost.setMaxDimensions(value[0], value[1]);
+                        updateResultImage(scope);
+                    }
                 },
                 true
             );

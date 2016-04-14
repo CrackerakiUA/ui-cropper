@@ -146,11 +146,19 @@ crop.factory('cropHost', ['$document', '$q', 'cropAreaCircle', 'cropAreaSquare',
                     });
                 }
 
-                //@todo: set top left corner point
-                theArea.setCenterPoint({
-                    x: ctx.canvas.width / 2,
-                    y: ctx.canvas.height / 2
-                });
+                if(theArea.getInitCoords()) {
+                    theArea.setSize({
+                        w: theArea.getSize().w,
+                        h: theArea.getSize().h,
+                        x: theArea.getInitCoords().x,
+                        y: theArea.getInitCoords().y
+                    });
+                } else {
+                    theArea.setCenterPoint({
+                        x: ctx.canvas.width / 2,
+                        y: ctx.canvas.height / 2
+                    });
+                }
 
             } else {
                 elCanvas.prop('width', 0).prop('height', 0).css({
@@ -575,6 +583,63 @@ crop.factory('cropHost', ['$document', '$q', 'cropAreaCircle', 'cropAreaSquare',
             if (!isNaN(size.w) && !isNaN(size.h)) {
                 theArea.setInitSize(size);
                 drawScene();
+            }
+        };
+
+        this.setAreaInitCoords = function(coords) {
+            if (angular.isUndefined(coords)) {
+                return;
+            }else{
+                coords = {
+                    x: parseInt(coords.x, 10),
+                    y: parseInt(coords.y, 10)
+                };
+            }
+            if (!isNaN(coords.x) && !isNaN(coords.y)) {
+                theArea.setInitCoords(coords);
+                drawScene();
+            }
+        };
+
+        this.setMaxCanvasDimensions = function(maxCanvasDimensions) {
+            if (!angular.isUndefined(maxCanvasDimensions)) {
+                var newMaxCanvasDims = [];
+                if (typeof maxCanvasDimensions == 'number' || typeof maxCanvasDimensions == 'string') {
+                    newMaxCanvasDims = [
+                        parseInt(parseInt(maxCanvasDimensions), 10),
+                        parseInt(parseInt(maxCanvasDimensions), 10)
+                    ];
+                } else {
+                    newMaxCanvasDims = [
+                        parseInt(maxCanvasDimensions.w, 10),
+                        parseInt(maxCanvasDimensions.h, 10)
+                    ];
+                }
+                if ((!isNaN(newMaxCanvasDims[0]) && newMaxCanvasDims[0] > 0 && newMaxCanvasDims[0] > minCanvasDims[0])
+                    && (!isNaN(newMaxCanvasDims[1]) && newMaxCanvasDims[1] > 0 && newMaxCanvasDims[1] > minCanvasDims[1])) {
+                    maxCanvasDims = newMaxCanvasDims;
+                }
+            }
+        };
+
+        this.setMinCanvasDimensions = function(minCanvasDimensions) {
+            if (!angular.isUndefined(minCanvasDimensions)) {
+                var newMinCanvasDims = [];
+                if (typeof minCanvasDimensions == 'number' || typeof minCanvasDimensions == 'string') {
+                    newMinCanvasDims = [
+                        parseInt(parseInt(minCanvasDimensions), 10),
+                        parseInt(parseInt(minCanvasDimensions), 10)
+                    ];
+                } else {
+                    newMinCanvasDims = [
+                        parseInt(minCanvasDimensions.w, 10),
+                        parseInt(minCanvasDimensions.h, 10)
+                    ];
+                }
+                if ((!isNaN(newMinCanvasDims[0]) && newMinCanvasDims[0] >= 0)
+                    && (!isNaN(newMinCanvasDims[1]) && newMinCanvasDims[1] >= 0)) {
+                    minCanvasDims = newMinCanvasDims;
+                }
             }
         };
 
