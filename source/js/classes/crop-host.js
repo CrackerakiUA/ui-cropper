@@ -455,7 +455,7 @@ crop.factory('cropHost', ['$document', '$q', 'cropAreaCircle', 'cropAreaSquare',
                 if (imageSource instanceof window.Blob) {
                     newImage.src = URL.createObjectURL(imageSource);
                 } else {
-                    if (imageSource.substring(0, 4).toLowerCase() === 'http') {
+                    if (imageSource.substring(0, 4).toLowerCase() === 'http' || imageSource.substring(0, 2) === '//') {
                       newImage.crossOrigin = 'anonymous';
                     }
                     newImage.src = imageSource;
