@@ -5,7 +5,7 @@
  * Copyright (c) 2016 undefined
  * License: MIT
  *
- * Generated at Friday, April 8th, 2016, 3:35:13 PM
+ * Generated at Thursday, April 21st, 2016, 9:54:45 AM
  */
 (function() {
 var crop = angular.module('ngImgCrop', []);
@@ -2523,7 +2523,7 @@ crop.factory('cropHost', ['$document', '$q', 'cropAreaCircle', 'cropAreaSquare',
                 if (imageSource instanceof window.Blob) {
                     newImage.src = URL.createObjectURL(imageSource);
                 } else {
-                    if (imageSource.substring(0, 4).toLowerCase() === 'http') {
+                    if (imageSource.substring(0, 4).toLowerCase() === 'http' || imageSource.substring(0, 2) === '//') {
                       newImage.crossOrigin = 'anonymous';
                     }
                     newImage.src = imageSource;
