@@ -208,6 +208,7 @@ crop.factory('cropArea', ['cropCanvas', function(CropCanvas) {
         else newSize.y=size.y;
         return newSize;
     };
+
     CropArea.prototype._preventBoundaryCollision = function(size) {
         var canvasH = this._ctx.canvas.height,
             canvasW = this._ctx.canvas.width;
@@ -354,8 +355,8 @@ crop.factory('cropArea', ['cropCanvas', function(CropCanvas) {
         var width = size.w;
         if(this._aspect) width = size.h * this._aspect;
         return {
-            x: size.x || this.getSize().x,
-            y: size.y || this.getSize().y,
+            x: (typeof size.x === "undefined") ? this.getSize().x : size.x,
+            y: (typeof size.y === "undefined") ? this.getSize().y : size.y,
             w: width || this._minSize.w,
             h: size.h || this._minSize.h
         };
