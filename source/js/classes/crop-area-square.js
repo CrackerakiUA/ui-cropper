@@ -92,6 +92,35 @@ crop.factory('cropAreaSquare', ['cropArea', function(CropArea) {
         }
     };
 
+    CropAreaSquare.prototype._clampPoint = function(x, y) {
+        var size = this._ctx.canvas.width;
+
+        if(x < 0) {
+            y -= Math.abs(x);
+            x = 0;
+        }
+
+        if(y < 0) {
+            x -= Math.abs(y);
+            y = 0;
+        }
+
+        if(x > size) {
+            y -= (size - x);
+            x = size;
+        }
+
+        if(y > size) {
+            x -= (size - y);
+            y = size;
+        }
+
+        return {
+            x: x,
+            y: y
+        };
+    };
+
     CropAreaSquare.prototype.processMouseMove = function(mouseCurX, mouseCurY) {
         var cursor = 'default';
         var res = false;
@@ -147,58 +176,52 @@ crop.factory('cropAreaSquare', ['cropArea', function(CropArea) {
                 newNE = {},
                 s = this.getSize(),
                 se = this.getSouthEastBound();
+
             switch (this._resizeCtrlIsDragging) {
                 case 0: // Top Left
                     newNO.x = se.x - newSize;
                     newNO.y = se.y - newSize;
-                    if(newNO.y > 0) {
-                        this.setSizeByCorners(newNO, {
-                            x: se.x,
-                            y: se.y
-                        });
-                    }
+
+                    newNO = this._clampPoint(newNO.x, newNO.y);
+
+                    this.setSizeByCorners(newNO, {
+                        x: se.x,
+                        y: se.y
+                    });
+
                     cursor = 'nwse-resize';
                     break;
                 case 1: // Top Right
-                    if(iFX >= 0 && iFY >= 0) {
-                        //Move to top/right, increase
-                        newNE.x = s.x + newSize;
-                        newNE.y = se.y - newSize;
-                    } else if(iFX < 0 || iFY < 0) {
-                        //else decrease
-                        newNE.x = s.x + newSize;
-                        newNE.y = se.y - newSize;
-                    }
-                    if(newNE.y > 0) {
-                        this.setSizeByCorners({
-                            x: s.x,
-                            y: newNE.y
-                        }, {
-                            x: newNE.x,
-                            y: se.y
-                        });
-                    }
+
+                    newNE.x = s.x + newSize;
+                    newNE.y = se.y - newSize;
+
+                    newNE = this._clampPoint(newNE.x, newNE.y);
+
+                    this.setSizeByCorners({
+                        x: s.x,
+                        y: newNE.y
+                    }, {
+                        x: newNE.x,
+                        y: se.y
+                    });
+
                     cursor = 'nesw-resize';
                     break;
                 case 2: // Bottom Left
-                    if(iFX >= 0 && iFY >= 0) {
-                        //Move to bottom/left, increase
-                        newSO.x = se.x - newSize;
-                        newSO.y = s.y + newSize;
-                    } else if(iFX <= 0 || iFY <= 0) {
-                        //else decrease
-                        newSO.x = se.x - newSize;
-                        newSO.y = s.y + newSize;
-                    }
-                    if(newSO.y < this._ctx.canvas.height) {
-                        this.setSizeByCorners({
-                            x: newSO.x,
-                            y: s.y
-                        }, {
-                            x: se.x,
-                            y: newSO.y
-                        });
-                    }
+                    newSO.x = se.x - newSize;
+                    newSO.y = s.y + newSize;
+
+                    newSO = this._clampPoint(newSO.x, newSO.y);
+
+                    this.setSizeByCorners({
+                        x: newSO.x,
+                        y: s.y
+                    }, {
+                        x: se.x,
+                        y: newSO.y
+                    });
+
                     cursor = 'nesw-resize';
                     break;
                 case 3: // Bottom Right
@@ -206,12 +229,13 @@ crop.factory('cropAreaSquare', ['cropArea', function(CropArea) {
                     newSE.x = s.x + newSize;
                     newSE.y = s.y + newSize;
 
-                    if(newSE.y < this._ctx.canvas.height) {
-                        this.setSizeByCorners({
-                            x: s.x,
-                            y: s.y
-                        }, newSE);
-                    }
+                    newSE = this._clampPoint(newSE.x, newSE.y);
+
+                    this.setSizeByCorners({
+                        x: s.x,
+                        y: s.y
+                    }, newSE);
+
                     cursor = 'nwse-resize';
                     break;
             }
