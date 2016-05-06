@@ -150,8 +150,8 @@ crop.factory('cropHost', ['$document', '$q', 'cropAreaCircle', 'cropAreaSquare',
                     if (self.areaInitIsRelativeToImage) {
                         var ratio = image.width / canvasDims[0];
                         theArea.setSize({
-                            w: theArea.getSize().w / ratio,
-                            h: theArea.getSize().h / ratio,
+                            w: theArea.getInitSize().w / ratio,
+                            h: theArea.getInitSize().h / ratio,
                             x: theArea.getInitCoords().x / ratio,
                             y: theArea.getInitCoords().y / ratio
                         });

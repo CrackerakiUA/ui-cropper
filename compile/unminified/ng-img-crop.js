@@ -5,7 +5,7 @@
  * Copyright (c) 2016 undefined
  * License: MIT
  *
- * Generated at Friday, May 6th, 2016, 11:17:52 AM
+ * Generated at Friday, May 6th, 2016, 12:18:49 PM
  */
 (function() {
 var crop = angular.module('ngImgCrop', []);
@@ -2243,8 +2243,8 @@ crop.factory('cropHost', ['$document', '$q', 'cropAreaCircle', 'cropAreaSquare',
                     if (self.areaInitIsRelativeToImage) {
                         var ratio = image.width / canvasDims[0];
                         theArea.setSize({
-                            w: theArea.getSize().w / ratio,
-                            h: theArea.getSize().h / ratio,
+                            w: theArea.getInitSize().w / ratio,
+                            h: theArea.getInitSize().h / ratio,
                             x: theArea.getInitCoords().x / ratio,
                             y: theArea.getInitCoords().y / ratio
                         });
