@@ -5,7 +5,7 @@
  * Copyright (c) 2016 undefined
  * License: MIT
  *
- * Generated at Friday, April 29th, 2016, 10:47:19 AM
+ * Generated at Friday, May 6th, 2016, 9:45:26 AM
  */
 (function() {
 var crop = angular.module('ngImgCrop', []);
@@ -2591,11 +2591,11 @@ crop.factory('cropHost', ['$document', '$q', 'cropAreaCircle', 'cropAreaSquare',
                     ratioMin = Math.min(ratioNewCurWidth, ratioNewCurHeight);
 
                 //TODO: use top left corner point
+                var center = theArea.getCenterPoint();
                 theArea.setSize({
                     w: theArea.getSize().w * ratioMin,
                     h: theArea.getSize().h * ratioMin
                 });
-                var center = theArea.getCenterPoint();
                 theArea.setCenterPoint({
                     x: center.x * ratioNewCurWidth,
                     y: center.y * ratioNewCurHeight
