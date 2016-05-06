@@ -498,11 +498,11 @@ crop.factory('cropHost', ['$document', '$q', 'cropAreaCircle', 'cropAreaSquare',
                     ratioMin = Math.min(ratioNewCurWidth, ratioNewCurHeight);
 
                 //TODO: use top left corner point
+                var center = theArea.getCenterPoint();
                 theArea.setSize({
                     w: theArea.getSize().w * ratioMin,
                     h: theArea.getSize().h * ratioMin
                 });
-                var center = theArea.getCenterPoint();
                 theArea.setCenterPoint({
                     x: center.x * ratioNewCurWidth,
                     y: center.y * ratioNewCurHeight
