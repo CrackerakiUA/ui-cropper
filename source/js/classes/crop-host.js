@@ -147,12 +147,22 @@ crop.factory('cropHost', ['$document', '$q', 'cropAreaCircle', 'cropAreaSquare',
                 }
 
                 if(theArea.getInitCoords()) {
-                    theArea.setSize({
-                        w: theArea.getSize().w,
-                        h: theArea.getSize().h,
-                        x: theArea.getInitCoords().x,
-                        y: theArea.getInitCoords().y
-                    });
+                    if (self.areaInitIsRelativeToImage) {
+                        var ratio = image.width / canvasDims[0];
+                        theArea.setSize({
+                            w: theArea.getSize().w / ratio,
+                            h: theArea.getSize().h / ratio,
+                            x: theArea.getInitCoords().x / ratio,
+                            y: theArea.getInitCoords().y / ratio
+                        });
+                    } else {
+                        theArea.setSize({
+                            w: theArea.getSize().w,
+                            h: theArea.getSize().h,
+                            x: theArea.getInitCoords().x,
+                            y: theArea.getInitCoords().y
+                        });
+                    }
                 } else {
                     theArea.setCenterPoint({
                         x: ctx.canvas.width / 2,
