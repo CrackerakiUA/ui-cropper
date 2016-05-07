@@ -5,7 +5,7 @@
  * Copyright (c) 2016 undefined
  * License: MIT
  *
- * Generated at Friday, May 6th, 2016, 9:45:26 AM
+ * Generated at Friday, May 6th, 2016, 12:18:49 PM
  */
 (function() {
 var crop = angular.module('ngImgCrop', []);
@@ -2240,12 +2240,22 @@ crop.factory('cropHost', ['$document', '$q', 'cropAreaCircle', 'cropAreaSquare',
                 }
 
                 if(theArea.getInitCoords()) {
-                    theArea.setSize({
-                        w: theArea.getSize().w,
-                        h: theArea.getSize().h,
-                        x: theArea.getInitCoords().x,
-                        y: theArea.getInitCoords().y
-                    });
+                    if (self.areaInitIsRelativeToImage) {
+                        var ratio = image.width / canvasDims[0];
+                        theArea.setSize({
+                            w: theArea.getInitSize().w / ratio,
+                            h: theArea.getInitSize().h / ratio,
+                            x: theArea.getInitCoords().x / ratio,
+                            y: theArea.getInitCoords().y / ratio
+                        });
+                    } else {
+                        theArea.setSize({
+                            w: theArea.getSize().w,
+                            h: theArea.getSize().h,
+                            x: theArea.getInitCoords().x,
+                            y: theArea.getInitCoords().y
+                        });
+                    }
                 } else {
                     theArea.setCenterPoint({
                         x: ctx.canvas.width / 2,
@@ -2975,6 +2985,12 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
             areaMinSize: '=?',
             areaInitSize: '=?',
             areaInitCoords: '=?',
+            areaInitIsRelativeToImage: '=?', /* Boolean: If true the areaInitCoords and areaInitSize is scaled according to canvas size. */
+                                             /* No matter how big/small the canvas is, the resultImage remains the same */
+                                             /* Example: areaInitCoords are {x: 100, y: 100}, areaInitSize {w: 100, h: 100}   */
+                                             /* Image is 1000x1000
+                                             /* if canvas is 500x500 Crop coordinates will be x: 50, y: 50, w: 50, h: 50 */
+                                             /* if canvas is 100x100 crop coordinates will be x: 10, y: 10, w: 10, h: 10 */
             areaMinRelativeSize: '=?',
             resultImageSize: '=?',
             resultImageFormat: '=?',
@@ -3148,6 +3164,7 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
             });
             scope.$watch('areaInitCoords', function () {
                 cropHost.setAreaInitCoords(scope.areaInitCoords);
+                cropHost.areaInitIsRelativeToImage = scope.areaInitIsRelativeToImage;
                 updateResultImage(scope);
             });
             scope.$watch('maxCanvasDimensions', function () {
