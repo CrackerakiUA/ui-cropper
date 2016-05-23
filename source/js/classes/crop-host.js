@@ -357,9 +357,17 @@ crop.factory('cropHost', ['$document', '$q', 'cropAreaCircle', 'cropAreaSquare',
                         Math.round(resultHeight));
                 }
             }
-            temp_canvas.toBlob(function(blob) {
-                _p.resolve(blob);
-            }, resImgFormat);
+
+            if (resImgQuality !== null) {
+                temp_canvas.toBlob(function(blob) {
+                    _p.resolve(blob);
+                }, resImgFormat, resImgQuality);
+            } else {
+                temp_canvas.toBlob(function(blob) {
+                    _p.resolve(blob);
+                }, resImgFormat);
+            }
+
             return _p.promise;
         };
 
