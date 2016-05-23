@@ -151,7 +151,7 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
                     scope.onLoadBegin({});
                 }))
                 .on('load-done', fnSafeApply(function (scope) {
-                    angular.element(element.children()[element.children().length - 1]).remove();
+                    element.children(".loading").remove();
                     scope.onLoadDone({});
                 }))
                 .on('load-error', fnSafeApply(function (scope) {
