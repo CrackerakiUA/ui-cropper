@@ -5,7 +5,7 @@
  * Copyright (c) 2016 undefined
  * License: MIT
  *
- * Generated at Friday, May 6th, 2016, 12:18:49 PM
+ * Generated at Monday, May 23rd, 2016, 3:07:01 PM
  */
 (function() {
 var crop = angular.module('ngImgCrop', []);
@@ -2450,9 +2450,17 @@ crop.factory('cropHost', ['$document', '$q', 'cropAreaCircle', 'cropAreaSquare',
                         Math.round(resultHeight));
                 }
             }
-            temp_canvas.toBlob(function(blob) {
-                _p.resolve(blob);
-            }, resImgFormat);
+
+            if (resImgQuality !== null) {
+                temp_canvas.toBlob(function(blob) {
+                    _p.resolve(blob);
+                }, resImgFormat, resImgQuality);
+            } else {
+                temp_canvas.toBlob(function(blob) {
+                    _p.resolve(blob);
+                }, resImgFormat);
+            }
+
             return _p.promise;
         };
 
@@ -3114,7 +3122,7 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
                     scope.onLoadBegin({});
                 }))
                 .on('load-done', fnSafeApply(function (scope) {
-                    angular.element(element.children()[element.children().length - 1]).remove();
+                    element.children(".loading").remove();
                     scope.onLoadDone({});
                 }))
                 .on('load-error', fnSafeApply(function (scope) {
