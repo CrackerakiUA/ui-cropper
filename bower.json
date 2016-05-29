@@ -43,7 +43,7 @@
         "bower_components",
         "test"
     ],
-    "devDependencies": {
+    "dependencies": {
         "angular": "1.4.0"
     }
 }
