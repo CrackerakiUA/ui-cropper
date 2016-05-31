@@ -5,7 +5,7 @@
  * Copyright (c) 2016 undefined
  * License: MIT
  *
- * Generated at Wednesday, May 25th, 2016, 9:43:27 PM
+ * Generated at Tuesday, May 31st, 2016, 2:50:43 PM
  */
 (function() {
 var crop = angular.module('ngImgCrop', []);
@@ -2133,6 +2133,8 @@ crop.factory('cropHost', ['$document', '$q', 'cropAreaCircle', 'cropAreaSquare',
             minCanvasDims = [100, 100],
             maxCanvasDims = [300, 300],
 
+            scalemode = null,
+
             // Result Image size
             resImgSizeArray = [],
             resImgSize = {
@@ -2193,17 +2195,20 @@ crop.factory('cropHost', ['$document', '$q', 'cropAreaCircle', 'cropAreaSquare',
                     canvasDims[0] = minCanvasDims[0];
                     canvasDims[1] = canvasDims[0] / imageRatio;
                 }
-                if (canvasDims[1] > maxCanvasDims[1]) {
+                if (scalemode === 'fixed-height' && canvasDims[1] > maxCanvasDims[1]) {
                     canvasDims[1] = maxCanvasDims[1];
                     canvasDims[0] = canvasDims[1] * imageRatio;
                 } else if (canvasDims[1] < minCanvasDims[1]) {
                     canvasDims[1] = minCanvasDims[1];
                     canvasDims[0] = canvasDims[1] * imageRatio;
                 }
-                elCanvas.prop('width', canvasDims[0]).prop('height', canvasDims[1]).css({
-                    'margin-left': -canvasDims[0] / 2 + 'px',
-                    'margin-top': -canvasDims[1] / 2 + 'px'
-                });
+                elCanvas.prop('width', canvasDims[0]).prop('height', canvasDims[1]);
+                if (scalemode === 'fixed-height') {
+                    elCanvas.css({
+                        'margin-left': -canvasDims[0] / 2 + 'px',
+                        'margin-top': -canvasDims[1] / 2 + 'px'
+                    });
+                };
 
                 var cw = ctx.canvas.width;
                 var ch = ctx.canvas.height;
@@ -2592,17 +2597,21 @@ crop.factory('cropHost', ['$document', '$q', 'cropAreaCircle', 'cropAreaSquare',
                     canvasDims[0] = minCanvasDims[0];
                     canvasDims[1] = canvasDims[0] / imageRatio;
                 }
-                if (canvasDims[1] > maxCanvasDims[1]) {
+                if (scalemode === 'fixed-height' && canvasDims[1] > maxCanvasDims[1]) {
                     canvasDims[1] = maxCanvasDims[1];
                     canvasDims[0] = canvasDims[1] * imageRatio;
                 } else if (canvasDims[1] < minCanvasDims[1]) {
                     canvasDims[1] = minCanvasDims[1];
                     canvasDims[0] = canvasDims[1] * imageRatio;
                 }
-                elCanvas.prop('width', canvasDims[0]).prop('height', canvasDims[1]).css({
-                    'margin-left': -canvasDims[0] / 2 + 'px',
-                    'margin-top': -canvasDims[1] / 2 + 'px'
-                });
+                elCanvas.prop('width', canvasDims[0]).prop('height', canvasDims[1]);
+
+                if (scalemode === 'fixed-height') {
+                    elCanvas.css({
+                        'margin-left': -canvasDims[0] / 2 + 'px',
+                        'margin-top': -canvasDims[1] / 2 + 'px'
+                    });
+                };
 
                 var ratioNewCurWidth = ctx.canvas.width / curWidth,
                     ratioNewCurHeight = ctx.canvas.height / curHeight,
@@ -2752,6 +2761,14 @@ crop.factory('cropHost', ['$document', '$q', 'cropAreaCircle', 'cropAreaSquare',
                     minCanvasDims = newMinCanvasDims;
                 }
             }
+        };
+
+        this.setScalemode = function (value) {
+            scalemode = value;
+        };
+
+        this.getScalemode = function () {
+            return scalemode;
         };
 
         this.getResultImageSize = function() {
@@ -2984,6 +3001,7 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
             cropject: '=?',
             maxCanvasDimensions: '=?',
             minCanvasDimensions: '=?',
+            scalemode: '@?',
 
             changeOnFly: '=?',
             liveView: '=?',
@@ -3033,6 +3051,14 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
 
             // Init Crop Host
             var cropHost = new CropHost(element.find('canvas'), {}, events);
+
+            if (scope.scalemode) {
+                cropHost.setScalemode(scope.scalemode);
+            } else {
+                cropHost.setScalemode('fixed-height');
+            }
+            
+            element.addClass(cropHost.getScalemode());
 
             // Store Result Image to check if it's changed
             var storedResultImage;
@@ -3213,12 +3239,25 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
             // Update CropHost dimensions when the directive element is resized
             scope.$watch(
                 function () {
-                    return [element[0].clientWidth, element[0].clientHeight];
+                    if (cropHost.getScalemode() === 'fixed-height') { 
+                        return [element[0].clientWidth, element[0].clientHeight];
+                    }
+                    if (cropHost.getScalemode() === 'full-width') {
+                        return element[0].clientWidth;
+                    }
                 },
                 function (value) {
-                    if(value[0] > 0 && value[1] > 0) {
-                        cropHost.setMaxDimensions(value[0], value[1]);
-                        updateResultImage(scope);
+
+                    if (cropHost.getScalemode() === 'fixed-height') { 
+                        if(value[0] > 0 && value[1] > 0) {
+                            cropHost.setMaxDimensions(value[0], value[1]);
+                            updateResultImage(scope);
+                        }
+                    }
+                    if (cropHost.getScalemode() === 'full-width') {
+                        if (value > 0) {
+                            cropHost.setMaxDimensions(value);
+                        }
                     }
                 },
                 true

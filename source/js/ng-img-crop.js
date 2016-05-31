@@ -13,6 +13,9 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
             cropject: '=?',
             maxCanvasDimensions: '=?',
             minCanvasDimensions: '=?',
+            scalemode: '@?', /* String. If set to 'full-width' the directive uses all width available */
+                             /* and the canvas expands in height as much as it need to maintain the aspect ratio */
+                             /* if set to 'fixed-height', the directive is restricted by a parent element in height */
 
             changeOnFly: '=?',
             liveView: '=?',
@@ -63,8 +66,17 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
             // Init Crop Host
             var cropHost = new CropHost(element.find('canvas'), {}, events);
 
+            if (scope.scalemode) {
+                cropHost.setScalemode(scope.scalemode);
+            } else {
+                cropHost.setScalemode('fixed-height');
+            }
+
+            element.addClass(cropHost.getScalemode());
+
             // Store Result Image to check if it's changed
             var storedResultImage;
+
 
             var updateResultImage = function (scope, force, callback) {
                 if (scope.image !== '' && (!scope.liveView.block || force)) {
@@ -243,12 +255,25 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
             // Update CropHost dimensions when the directive element is resized
             scope.$watch(
                 function () {
-                    return [element[0].clientWidth, element[0].clientHeight];
+                    if (cropHost.getScalemode() === 'fixed-height') {
+                        return [element[0].clientWidth, element[0].clientHeight];
+                    }
+                    if (cropHost.getScalemode() === 'full-width') {
+                        return element[0].clientWidth;
+                    }
                 },
                 function (value) {
-                    if(value[0] > 0 && value[1] > 0) {
-                        cropHost.setMaxDimensions(value[0], value[1]);
-                        updateResultImage(scope);
+
+                    if (cropHost.getScalemode() === 'fixed-height') {
+                        if(value[0] > 0 && value[1] > 0) {
+                            cropHost.setMaxDimensions(value[0], value[1]);
+                            updateResultImage(scope);
+                        }
+                    }
+                    if (cropHost.getScalemode() === 'full-width') {
+                        if (value > 0) {
+                            cropHost.setMaxDimensions(value);
+                        }
                     }
                 },
                 true
