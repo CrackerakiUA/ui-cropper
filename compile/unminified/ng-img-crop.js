@@ -5,7 +5,7 @@
  * Copyright (c) 2016 undefined
  * License: MIT
  *
- * Generated at Wednesday, May 25th, 2016, 9:43:27 PM
+ * Generated at Monday, June 13th, 2016, 4:01:20 PM
  */
 (function() {
 var crop = angular.module('ngImgCrop', []);
@@ -2475,7 +2475,6 @@ crop.factory('cropHost', ['$document', '$q', 'cropAreaCircle', 'cropAreaSquare',
         this.setNewImageSource = function(imageSource) {
             image = null;
             resetCropHost();
-            events.trigger('image-updated');
             if (!!imageSource) {
                 var newImage = new Image();
                 newImage.onload = function() {
@@ -2554,9 +2553,9 @@ crop.factory('cropHost', ['$document', '$q', 'cropAreaCircle', 'cropAreaSquare',
                             image.src = canvas.toDataURL(resImgFormat);
                         } else {
                             image = newImage;
+                            events.trigger('image-updated');
                         }
                         resetCropHost();
-                        events.trigger('image-updated');
                     });
                 };
                 newImage.onerror = function() {
@@ -2650,30 +2649,32 @@ crop.factory('cropHost', ['$document', '$q', 'cropAreaCircle', 'cropAreaSquare',
         };
 
         this.setAreaMinRelativeSize = function(size) {
-            if (image !== null) {
-              var canvasSize = theArea.getCanvasSize();
-              if (angular.isUndefined(size)) {
-                  return;
-              } else if(typeof size == 'number' || typeof size == 'string') {
-                  areaMinRelativeSize = {
-                      w: size,
-                      h: size
-                  };
-                  size = {
-                      w: canvasSize.w/(image.width/parseInt(parseInt(size), 10)),
-                      h: canvasSize.h/(image.height/parseInt(parseInt(size), 10))
-                  };
-              } else{
-                  areaMinRelativeSize = size;
-                  size = {
-                      w: canvasSize.w/(image.width/parseInt(parseInt(size.w), 10)),
-                      h: canvasSize.h/(image.height/parseInt(parseInt(size.h), 10))
-                  };
-              }
-              if (!isNaN(size.w) && !isNaN(size.h)) {
-                  theArea.setMinSize(size);
-                  drawScene();
-              }
+            if (image === null || angular.isUndefined(size)) {
+                return;
+            }
+
+            var canvasSize = theArea.getCanvasSize();
+
+            if (typeof size == 'number' || typeof size == 'string') {
+                areaMinRelativeSize = {
+                    w: size,
+                    h: size
+                };
+                size = {
+                    w: canvasSize.w/(image.width/parseInt(parseInt(size), 10)),
+                    h: canvasSize.h/(image.height/parseInt(parseInt(size), 10))
+                };
+            } else {
+                areaMinRelativeSize = size;
+                size = {
+                    w: canvasSize.w/(image.width/parseInt(parseInt(size.w), 10)),
+                    h: canvasSize.h/(image.height/parseInt(parseInt(size.h), 10))
+                };
+            }
+
+            if (!isNaN(size.w) && !isNaN(size.h)) {
+                theArea.setMinSize(size);
+                drawScene();
             }
         };
 
@@ -3043,7 +3044,6 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
                     if (angular.isArray(resultImageObj)) {
                         resultImage = resultImageObj[0].dataURI;
                         scope.resultArrayImage = resultImageObj;
-                        console.log(scope.resultArrayImage);
                     } else var resultImage = resultImageObj.dataURI;
 
                     var urlCreator = window.URL || window.webkitURL;
@@ -3138,12 +3138,12 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
                     }
                     updateCropject(scope);
                 }))
+                .on('image-updated', fnSafeApply(function(scope) {
+                    cropHost.setAreaMinRelativeSize(scope.areaMinRelativeSize);
+                }))
                 .on('area-move-end area-resize-end image-updated', fnSafeApply(function (scope) {
                     updateResultImage(scope);
                     updateCropject(scope);
-                }))
-                .on('image-updated', fnSafeApply(function(scope) {
-                    cropHost.setAreaMinRelativeSize(scope.areaMinRelativeSize);
                 }));
 
             // Sync CropHost with Directive's options
