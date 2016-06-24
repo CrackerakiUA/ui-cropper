@@ -84,7 +84,6 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
                     if (angular.isArray(resultImageObj)) {
                         resultImage = resultImageObj[0].dataURI;
                         scope.resultArrayImage = resultImageObj;
-                        console.log(scope.resultArrayImage);
                     } else var resultImage = resultImageObj.dataURI;
 
                     var urlCreator = window.URL || window.webkitURL;
@@ -179,12 +178,12 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
                     }
                     updateCropject(scope);
                 }))
+                .on('image-updated', fnSafeApply(function(scope) {
+                    cropHost.setAreaMinRelativeSize(scope.areaMinRelativeSize);
+                }))
                 .on('area-move-end area-resize-end image-updated', fnSafeApply(function (scope) {
                     updateResultImage(scope);
                     updateCropject(scope);
-                }))
-                .on('image-updated', fnSafeApply(function(scope) {
-                    cropHost.setAreaMinRelativeSize(scope.areaMinRelativeSize);
                 }));
 
 

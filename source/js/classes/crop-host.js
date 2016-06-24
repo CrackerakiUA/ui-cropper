@@ -387,7 +387,6 @@ crop.factory('cropHost', ['$document', '$q', 'cropAreaCircle', 'cropAreaSquare',
         this.setNewImageSource = function(imageSource) {
             image = null;
             resetCropHost();
-            events.trigger('image-updated');
             if (!!imageSource) {
                 var newImage = new Image();
                 newImage.onload = function() {
@@ -466,9 +465,9 @@ crop.factory('cropHost', ['$document', '$q', 'cropAreaCircle', 'cropAreaSquare',
                             image.src = canvas.toDataURL(resImgFormat);
                         } else {
                             image = newImage;
+                            events.trigger('image-updated');
                         }
                         resetCropHost();
-                        events.trigger('image-updated');
                     });
                 };
                 newImage.onerror = function() {
@@ -566,30 +565,32 @@ crop.factory('cropHost', ['$document', '$q', 'cropAreaCircle', 'cropAreaSquare',
         };
 
         this.setAreaMinRelativeSize = function(size) {
-            if (image !== null) {
-              var canvasSize = theArea.getCanvasSize();
-              if (angular.isUndefined(size)) {
-                  return;
-              } else if(typeof size == 'number' || typeof size == 'string') {
-                  areaMinRelativeSize = {
-                      w: size,
-                      h: size
-                  };
-                  size = {
-                      w: canvasSize.w/(image.width/parseInt(parseInt(size), 10)),
-                      h: canvasSize.h/(image.height/parseInt(parseInt(size), 10))
-                  };
-              } else{
-                  areaMinRelativeSize = size;
-                  size = {
-                      w: canvasSize.w/(image.width/parseInt(parseInt(size.w), 10)),
-                      h: canvasSize.h/(image.height/parseInt(parseInt(size.h), 10))
-                  };
-              }
-              if (!isNaN(size.w) && !isNaN(size.h)) {
-                  theArea.setMinSize(size);
-                  drawScene();
-              }
+            if (image === null || angular.isUndefined(size)) {
+                return;
+            }
+
+            var canvasSize = theArea.getCanvasSize();
+
+            if (typeof size == 'number' || typeof size == 'string') {
+                areaMinRelativeSize = {
+                    w: size,
+                    h: size
+                };
+                size = {
+                    w: canvasSize.w/(image.width/parseInt(parseInt(size), 10)),
+                    h: canvasSize.h/(image.height/parseInt(parseInt(size), 10))
+                };
+            } else {
+                areaMinRelativeSize = size;
+                size = {
+                    w: canvasSize.w/(image.width/parseInt(parseInt(size.w), 10)),
+                    h: canvasSize.h/(image.height/parseInt(parseInt(size.h), 10))
+                };
+            }
+
+            if (!isNaN(size.w) && !isNaN(size.h)) {
+                theArea.setMinSize(size);
+                drawScene();
             }
         };
 
