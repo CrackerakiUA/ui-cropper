@@ -5,7 +5,7 @@
  * Copyright (c) 2016 undefined
  * License: MIT
  *
- * Generated at Tuesday, May 31st, 2016, 2:50:43 PM
+ * Generated at Friday, June 24th, 2016, 2:16:13 PM
  */
 (function() {
 var crop = angular.module('ngImgCrop', []);
@@ -3001,7 +3001,9 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
             cropject: '=?',
             maxCanvasDimensions: '=?',
             minCanvasDimensions: '=?',
-            scalemode: '@?',
+            canvasScalemode: '@?', /* String. If set to 'full-width' the directive uses all width available */
+                             /* and the canvas expands in height as much as it need to maintain the aspect ratio */
+                             /* if set to 'fixed-height', the directive is restricted by a parent element in height */
 
             changeOnFly: '=?',
             liveView: '=?',
@@ -3052,12 +3054,12 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
             // Init Crop Host
             var cropHost = new CropHost(element.find('canvas'), {}, events);
 
-            if (scope.scalemode) {
-                cropHost.setScalemode(scope.scalemode);
+            if (scope.canvasScalemode) {
+                cropHost.setScalemode(scope.canvasScalemode);
             } else {
                 cropHost.setScalemode('fixed-height');
             }
-            
+
             element.addClass(cropHost.getScalemode());
 
             // Store Result Image to check if it's changed
@@ -3239,7 +3241,7 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
             // Update CropHost dimensions when the directive element is resized
             scope.$watch(
                 function () {
-                    if (cropHost.getScalemode() === 'fixed-height') { 
+                    if (cropHost.getScalemode() === 'fixed-height') {
                         return [element[0].clientWidth, element[0].clientHeight];
                     }
                     if (cropHost.getScalemode() === 'full-width') {
@@ -3248,7 +3250,7 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
                 },
                 function (value) {
 
-                    if (cropHost.getScalemode() === 'fixed-height') { 
+                    if (cropHost.getScalemode() === 'fixed-height') {
                         if(value[0] > 0 && value[1] > 0) {
                             cropHost.setMaxDimensions(value[0], value[1]);
                             updateResultImage(scope);

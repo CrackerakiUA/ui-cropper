@@ -13,7 +13,7 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
             cropject: '=?',
             maxCanvasDimensions: '=?',
             minCanvasDimensions: '=?',
-            scalemode: '@?', /* String. If set to 'full-width' the directive uses all width available */
+            canvasScalemode: '@?', /* String. If set to 'full-width' the directive uses all width available */
                              /* and the canvas expands in height as much as it need to maintain the aspect ratio */
                              /* if set to 'fixed-height', the directive is restricted by a parent element in height */
 
@@ -66,8 +66,8 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
             // Init Crop Host
             var cropHost = new CropHost(element.find('canvas'), {}, events);
 
-            if (scope.scalemode) {
-                cropHost.setScalemode(scope.scalemode);
+            if (scope.canvasScalemode) {
+                cropHost.setScalemode(scope.canvasScalemode);
             } else {
                 cropHost.setScalemode('fixed-height');
             }
