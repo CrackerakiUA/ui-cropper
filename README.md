@@ -12,6 +12,7 @@ Simple Image Crop directive for AngularJS. Enables to crop a circle, a square or
 [Codepen: Rectangle Crop + Crop info](http://codepen.io/Crackeraki/pen/YqKwzZ)<br>
 [Codepen: Rectangle With Aspect Crop and Max Init](http://codepen.io/Crackeraki/pen/zvWqJM)<br>
 [Codepen: Rectangle + Aspect + Array Crop](http://codepen.io/Crackeraki/pen/jWgmYB)<br>
+[Codepen: Rectangle + CSS Crop * NEW *](https://codepen.io/rickderd/pen/ZOyjRr)<br>
 
 ## News
 
