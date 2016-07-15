@@ -49,9 +49,9 @@ img-crop .loading {
   -webkit-justify-content: center;
   color: white;
   background-color: rgba(0, 0, 0, 0.75);
-  position: absolute;
 }
 /* line 29, ../../source/scss/ng-img-crop.scss */
 img-crop .loading .fixed-height {
   height: 100%;
+  position: absolute;
 }
