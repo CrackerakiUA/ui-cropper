@@ -1,25 +1,38 @@
 /* line 1, ../../source/scss/ng-img-crop.scss */
 img-crop {
   width: 100%;
-  height: 100%;
   display: block;
+}
+/* line 3, ../../source/scss/ng-img-crop.scss */
+img-crop.fixed-height {
+  height: 100%;
   position: relative;
   overflow: hidden;
 }
 /* line 7, ../../source/scss/ng-img-crop.scss */
-img-crop canvas {
+img-crop.fixed-height canvas {
   display: block;
   position: absolute;
   top: 50%;
   left: 50%;
+}
+/* line 14, ../../source/scss/ng-img-crop.scss */
+img-crop.full-width {
+  text-align: center;
+}
+/* line 16, ../../source/scss/ng-img-crop.scss */
+img-crop.full-width canvas {
+  display: inline;
+}
+/* line 22, ../../source/scss/ng-img-crop.scss */
+img-crop canvas {
   outline: none;
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
   /* mobile webkit */
 }
-/* line 17, ../../source/scss/ng-img-crop.scss */
+/* line 28, ../../source/scss/ng-img-crop.scss */
 img-crop .loading {
   width: 100%;
-  height: 100%;
   font-size: 16px;
   font-weight: bold;
   display: -webkit-box;
@@ -36,5 +49,9 @@ img-crop .loading {
   -webkit-justify-content: center;
   color: white;
   background-color: rgba(0, 0, 0, 0.75);
+}
+/* line 29, ../../source/scss/ng-img-crop.scss */
+img-crop .loading .fixed-height {
+  height: 100%;
   position: absolute;
 }
