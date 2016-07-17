@@ -1,0 +1,216 @@
+
+body {
+    padding-top: 70px; /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+}
+
+footer {
+    margin: 50px 0;
+}
+
+.switch {
+    margin: 10px 0;
+}
+
+.seperator-text {
+    font: 1.4em sans-serif;
+    margin-top: 30px;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.seperator-text {
+    display: table;
+    white-space: nowrap;
+}
+.seperator-text:before,
+.seperator-text:after {
+    border-top: 1px solid #d0d0d0;
+    content: '';
+    display: table-cell;
+    position: relative;
+    top: 0.5em;
+    width: 45%;
+}
+.seperator-text:before {
+    right: 1.5%;
+}
+.seperator-text:after {
+    left: 1.5%;
+}
+
+.cropArea {
+    background: #E4E4E4;
+    margin: auto;
+    overflow: hidden;
+}
+
+.cropArea.big {
+    width: 800px;
+    height: 600px;
+}
+
+.cropArea.medium {
+    width: 500px;
+    height: 350px;
+}
+
+.cropArea.small {
+    width: 300px;
+    height: 200px;
+}
+
+.material-switch > input[type="checkbox"] {
+    display: none;
+}
+
+.material-switch > label {
+    cursor: pointer;
+    height: 0px;
+    position: relative;
+    width: 40px;
+}
+
+.material-switch > label::before {
+    background: rgb(0, 0, 0);
+    box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
+    content: '';
+    height: 16px;
+    margin-top: -8px;
+    position: absolute;
+    opacity: 0.3;
+    transition: all 0.4s ease-in-out;
+    width: 40px;
+}
+
+.material-switch > label::after {
+    background: rgb(255, 255, 255);
+    border-radius: 16px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+    content: '';
+    height: 24px;
+    left: -4px;
+    margin-top: -8px;
+    position: absolute;
+    top: -4px;
+    transition: all 0.3s ease-in-out;
+    width: 24px;
+}
+
+.material-switch > input[type="checkbox"]:checked + label::before {
+    background: inherit;
+    opacity: 0.5;
+}
+
+.material-switch > input[type="checkbox"]:checked + label::after {
+    background: inherit;
+    left: 20px;
+}
+
+.funkyradio div {
+    clear: both;
+    overflow: hidden;
+}
+
+.funkyradio label {
+    width: 100%;
+    border-radius: 3px;
+    border: 1px solid #D1D3D4;
+    font-weight: normal;
+}
+
+.funkyradio input[type="radio"]:empty,
+.funkyradio input[type="checkbox"]:empty {
+    display: none;
+}
+
+.funkyradio input[type="radio"]:empty ~ label,
+.funkyradio input[type="checkbox"]:empty ~ label {
+    position: relative;
+    line-height: 2.5em;
+    text-indent: 3.25em;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.funkyradio input[type="radio"]:empty ~ label:before,
+.funkyradio input[type="checkbox"]:empty ~ label:before {
+    position: absolute;
+    display: block;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    content: '';
+    width: 2.5em;
+    background: #D1D3D4;
+    border-radius: 3px 0 0 3px;
+}
+
+.funkyradio input[type="radio"]:hover:not(:checked) ~ label,
+.funkyradio input[type="checkbox"]:hover:not(:checked) ~ label {
+    color: #888;
+}
+
+.funkyradio input[type="radio"]:hover:not(:checked) ~ label:before,
+.funkyradio input[type="checkbox"]:hover:not(:checked) ~ label:before {
+    content: '\2714';
+    text-indent: .9em;
+    color: #C2C2C2;
+}
+
+.funkyradio input[type="radio"]:checked ~ label,
+.funkyradio input[type="checkbox"]:checked ~ label {
+    color: #777;
+}
+
+.funkyradio input[type="radio"]:checked ~ label:before,
+.funkyradio input[type="checkbox"]:checked ~ label:before {
+    content: '\2714';
+    text-indent: .9em;
+    color: #333;
+    background-color: #ccc;
+}
+
+.funkyradio input[type="radio"]:focus ~ label:before,
+.funkyradio input[type="checkbox"]:focus ~ label:before {
+    box-shadow: 0 0 0 3px #999;
+}
+
+.funkyradio-default input[type="radio"]:checked ~ label:before,
+.funkyradio-default input[type="checkbox"]:checked ~ label:before {
+    color: #333;
+    background-color: #ccc;
+}
+
+.funkyradio-primary input[type="radio"]:checked ~ label:before,
+.funkyradio-primary input[type="checkbox"]:checked ~ label:before {
+    color: #fff;
+    background-color: #337ab7;
+}
+
+.funkyradio-success input[type="radio"]:checked ~ label:before,
+.funkyradio-success input[type="checkbox"]:checked ~ label:before {
+    color: #fff;
+    background-color: #5cb85c;
+}
+
+.funkyradio-danger input[type="radio"]:checked ~ label:before,
+.funkyradio-danger input[type="checkbox"]:checked ~ label:before {
+    color: #fff;
+    background-color: #d9534f;
+}
+
+.funkyradio-warning input[type="radio"]:checked ~ label:before,
+.funkyradio-warning input[type="checkbox"]:checked ~ label:before {
+    color: #fff;
+    background-color: #f0ad4e;
+}
+
+.funkyradio-info input[type="radio"]:checked ~ label:before,
+.funkyradio-info input[type="checkbox"]:checked ~ label:before {
+    color: #fff;
+    background-color: #5bc0de;
+}
