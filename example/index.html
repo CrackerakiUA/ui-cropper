@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en" data-ng-app="app">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>ngImgCrop example page - Full test suite for cropping images</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/custom-style.css" rel="stylesheet">
+
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body data-ng-controller="Ctrl">
+
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">ngImgCrop</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+
+    <div class="row">
+
+        <div class="col-lg-8">
+
+            <h1>Full test suite with ngImgCrop</h1>
+
+            <hr>
+
+            <div data-ng-if="enableCrop" class="cropArea"
+                 data-ng-class="{'big':size=='big', 'medium':size=='medium', 'small':size=='small'}">
+                <img-crop
+                        image="imageDataURI"
+                        result-image="$parent.resImageDataURI"
+                        result-blob="$parent.resBlob"
+                        url-blob="$parent.urlBlob"
+                        change-on-fly="changeOnFly"
+                        area-type="{{type}}"
+                        area-min-size="selMinSize"
+                        area-init-size="selInitSize"
+                        result-image-format="resImgFormat"
+                        result-image-quality="resImgQuality"
+                        result-image-size="resImgSize"
+                        aspect-ratio="aspectRatio"
+                        allow-crop-resize-on-corners="false"
+                        init-max-area="true"
+                        chargement="'Testing Message'"
+                        on-change="onChange($dataURI)"
+                        on-load-begin="onLoadBegin()"
+                        on-load-done="onLoadDone()"
+                        on-load-error="onLoadError()"
+                        live-view="blockingObject"
+                        area-coords="myAreaCoords">
+                </img-crop>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-6">
+                    <h3 class="text-center">Result with uri</h3>
+                    <img data-ng-src="{{resImageDataURI}}"/>
+                </div>
+                <div class="col-lg-6">
+                    <h3 class="text-center">Result with blob in url</h3>
+                    <img data-ng-src="{{urlBlob}}"/>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="well">
+                <div class="switch">
+                    Enable / disable ngImgCrop
+                    <div class="material-switch pull-right">
+                        <input id="someSwitchOptionDefault" data-ng-model="enableCrop" data-ng-init="enableCrop=true"
+                               type="checkbox"
+                               checked/>
+                        <label for="someSwitchOptionDefault" class="label-success"></label>
+                    </div>
+                </div>
+
+                <div class="switch">
+                    Block Rendering
+                    <div class="material-switch pull-right">
+                        <input id="blockRendering" data-ng-model="blockingObject.block"
+                               type="checkbox"
+                               checked/>
+                        <label for="blockRendering" class="label-info"></label>
+                    </div>
+                </div>
+
+                <div class="switch">
+                    Change on the Fly
+                    <div class="material-switch pull-right">
+                        <input id="changeOnFly" data-ng-model="changeOnFly"
+                               type="checkbox"/>
+                        <label for="changeOnFly" class="label-info"></label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="well">
+                <h4>Image properties</h4>
+                <div class="form-group" data-ng-show="type=='rectangle'">
+                    <label for="aspectRatio">Aspect ratio</label>
+                    <input type="text" class="form-control" id="aspectRatio" data-ng-model="aspectRatio"/>
+                </div>
+
+                <div class="form-group">
+                    <label for="selMinSize">Area Min Size (Size = Width = Height)</label>
+                    <input type="text" class="form-control" id="selMinSize" data-ng-model="selMinSize"/>
+                </div>
+
+                <div class="form-group">
+                    <label for="resImgQuality">Result Image Quality (1 - 100)</label>
+                    <input type="text" class="form-control" id="resImgQuality" data-ng-model="resImgQuality"/>
+                </div>
+            </div>
+
+            <div class="well">
+                <h4>Image source</h4>
+                <div class="btn-group btn-group-justified">
+                    <a data-ng-click="imageDataURI='test.jpg'" class="btn btn-default">Set Test Image</a>
+                    <a data-ng-click="imageDataURI=''" class="btn btn-danger">Reset Image</a>
+                </div>
+
+                <p class="seperator-text">or</p>
+
+                <form data-ng-show="enableCrop">
+                    <input type="file" id="fileInput" accept="image/*"/>
+                </form>
+
+                <p class="seperator-text">or</p>
+
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon3">Image url</span>
+                    <input type="text" class="form-control" placeholder="http://testimage.com/image.jpg" id="basic-url"
+                           data-ng-model="edtImageURI">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button" data-ng-click="imageDataURI=edtImageURI">Set image</button>
+                        </span>
+                </div>
+
+                <hr>
+
+                <div class="btn-group btn-group-justified">
+                    <a data-ng-click="callTestFuntion()" class="btn btn-success">Render the Image</a>
+                    <a data-ng-click="getBlob();" class="btn btn-info">console log Blob</a>
+                </div>
+            </div>
+
+            <div class="well">
+                <h4>Image output</h4>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="funkyradio">
+                            <div class="funkyradio-warning">
+                                <input type="radio" id="jpg" data-ng-model="resImgFormat"
+                                       value="image/jpeg"/>
+                                <label for="jpg">JPG</label>
+                            </div>
+
+                            <div class="funkyradio-warning">
+                                <input type="radio" id="png" data-ng-model="resImgFormat"
+                                       value="image/png"/>
+                                <label for="png">PNG</label>
+                            </div>
+
+                            <div class="funkyradio-warning">
+                                <input type="radio" id="webp" data-ng-model="resImgFormat"
+                                       value="image/webp"/>
+                                <label for="webp">Large</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="well">
+                <h4>Area imagesize</h4>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="funkyradio">
+                            <div class="funkyradio-success">
+                                <input type="radio" name="size" id="small" data-ng-model="size" value="small"/>
+                                <label for="small">Small</label>
+                            </div>
+
+                            <div class="funkyradio-success">
+                                <input type="radio" name="size" id="medium" data-ng-model="size" value="medium"
+                                       checked/>
+                                <label for="medium">Medium</label>
+                            </div>
+
+                            <div class="funkyradio-success">
+                                <input type="radio" name="size" id="large" data-ng-model="size" value="big"/>
+                                <label for="large">Large</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="well">
+                <h4>Area crop type</h4>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="funkyradio">
+                            <div class="funkyradio-info">
+                                <input type="radio" name="type" id="circle" data-ng-model="type" value="circle"/>
+                                <label for="circle">Circle</label>
+                            </div>
+
+                            <div class="funkyradio-info">
+                                <input type="radio" name="type" id="square" data-ng-model="type" value="square"
+                                       checked/>
+                                <label for="square">Square</label>
+                            </div>
+
+                            <div class="funkyradio-info">
+                                <input type="radio" name="type" id="rectangle" data-ng-model="type" value="rectangle"/>
+                                <label for="rectangle">Rectangle</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <hr>
+
+    <footer>
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <p>Copyright &copy; ngImgCrop made with &hearts;</p>
+            </div>
+        </div>
+    </footer>
+
+</div>
+
+<script src="js/jquery.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../bower_components/angular/angular.min.js"></script>
+<script type="text/javascript" src="../compile/unminified/ng-img-crop.js?1"></script>
+<script type="text/javascript" src="js/custom-javascript.js"></script>
+
+</body>
+
+</html>
