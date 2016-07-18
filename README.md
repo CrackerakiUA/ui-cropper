@@ -1,11 +1,13 @@
 ## ngImgCropFullExtended
 
-Simple Image Crop directive for AngularJS. Enables to crop a circle, a square or a rectangle out of an image.
+Simple Image Crop directive for AngularJS. Enables to crop a circle, square or rectangle from of an image.
 
 ## Live demo
 
 [![Join the chat at https://gitter.im/CrackerakiUA/ngImgCropFullExtended](https://badges.gitter.im/CrackerakiUA/ngImgCropFullExtended.svg)](https://gitter.im/CrackerakiUA/ngImgCropFullExtended?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
+**Test it yourself, upload or choose an image from url in our amazing** [Online test suite](http://crackerakiua.github.io/ngImgCropFullExtended)<br><br>
+or pick a Codepen to play around with it<br>
 [Codepen: Circle + Chargement Crop](http://codepen.io/Crackeraki/pen/avYNKP)<br>
 [Codepen: Square + Init Url Crop + Maximum rendered image](http://codepen.io/Crackeraki/pen/QjmNVM)<br>
 [Codepen: Rectangle Crop](http://codepen.io/Crackeraki/pen/XmEdPx)<br>
@@ -27,7 +29,7 @@ If you want to contribute, please join our [gitter chat](https://gitter.im/Crack
 ## Installing
 
 #### Download directly
-- [Download ngImgCropExtended](https://github.com/CrackerakiUA/ngImgCropExtended/archive/master.zip) files from GitHub.
+[Download ngImgCropExtended](https://github.com/CrackerakiUA/ngImgCropExtended/archive/master.zip) files from GitHub
 
 #### Bower
 	bower install ngImgCropFullExtended
@@ -47,4 +49,4 @@ You can checkout all options under [our wiki page](https://github.com/Crackeraki
 
 ## License
 
-See the [LICENSE](https://github.com/alexk111/blob/master/LICENSE) file.
+See the [LICENSE](https://github.com/CrackerakiUA/blob/master/LICENSE) file
