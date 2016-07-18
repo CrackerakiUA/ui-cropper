@@ -76,4 +76,14 @@ angular.module('app', ['ngImgCrop'])
         $scope.$watch('resImageDataURI', function () {
             //console.log('Res image', $scope.resImageDataURI);
         });
-    });
+    }).filter('isEmpty', function () {
+    var bar;
+    return function (obj) {
+        for (bar in obj) {
+            if (obj.hasOwnProperty(bar)) {
+                return false;
+            }
+        }
+        return true;
+    }
+});

@@ -82,11 +82,15 @@
             <div class="row">
                 <div class="col-lg-6">
                     <h3 class="text-center">Result with uri</h3>
-                    <img data-ng-src="{{resImageDataURI}}"/>
+                    <span data-ng-hide="resImageDataURI | isEmpty">
+                        <img data-ng-src="{{resImageDataURI}}"/>
+                    </span>
                 </div>
                 <div class="col-lg-6">
                     <h3 class="text-center">Result with blob in url</h3>
-                    <img data-ng-src="{{urlBlob}}"/>
+                    <span data-ng-hide="urlBlob | isEmpty">
+                        <img data-ng-src="{{urlBlob}}"/>
+                    </span>
                 </div>
             </div>
 
@@ -162,7 +166,7 @@
                     <span class="input-group-addon" id="basic-addon3">Image url</span>
                     <input type="text" class="form-control" placeholder="http://testimage.com/image.jpg" id="basic-url"
                            data-ng-model="edtImageURI">
-                        <span class="input-group-btn">
+                    <span class="input-group-btn">
                             <button class="btn btn-default" type="button" data-ng-click="imageDataURI=edtImageURI">Set image</button>
                         </span>
                 </div>
