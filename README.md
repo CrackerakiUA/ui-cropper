@@ -12,7 +12,7 @@ Simple Image Crop directive for AngularJS. Enables to crop a circle, a square or
 [Codepen: Rectangle Crop + Crop info](http://codepen.io/Crackeraki/pen/YqKwzZ)<br>
 [Codepen: Rectangle With Aspect Crop and Max Init](http://codepen.io/Crackeraki/pen/zvWqJM)<br>
 [Codepen: Rectangle + Aspect + Array Crop](http://codepen.io/Crackeraki/pen/jWgmYB)<br>
-[Codepen: Rectangle + CSS Crop * NEW *](https://codepen.io/rickderd/pen/ZOyjRr)<br>
+[Codepen: Rectangle + CSS Crop](https://codepen.io/rickderd/pen/ZOyjRr)<br>
 [Codepen: Different sizes](http://codepen.io/ignacio-chiazzo/pen/QNQyRW)<br>
 
 ## News
@@ -24,13 +24,22 @@ On update 0.5.4 i have fixed resize of the circle, it's looks not perfect, but i
 
 If you want to contribute, please join our [gitter chat](https://gitter.im/CrackerakiUA/ngImgCropFullExtended) and [trello board](https://trello.com/b/ojPTSMax/ngimgcropfullextended) for better organisation. To join trello write reply [HERE.](https://github.com/CrackerakiUA/ngImgCropFullExtended/issues/78)
 
-## Download
+## Installing
 
-You have four options to get the files:
+#### Download directly
 - [Download ngImgCropExtended](https://github.com/CrackerakiUA/ngImgCropExtended/archive/master.zip) files from GitHub.
-- Use Bower to download the files. Just run `bower install ngImgCropFullExtended`.
-- Use Npm to download the files. Just run `npm i ng-img-crop-full-extended`.
-- Use Meteor to download the files. Just run `meteor add correpw:ng-img-crop-full-extended`.
+
+#### Bower
+	bower install ngImgCropFullExtended
+
+#### NPM
+	npm install ng-img-crop-full-extended
+
+#### Meteor
+	meteor add correpw:ng-img-crop-full-extended
+
+#### JSPM
+	import "ng-img-crop-full-extended/compile/unminified/ng-img-crop.js";
 
 ## Documentation
 
