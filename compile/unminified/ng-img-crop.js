@@ -5,7 +5,7 @@
  * Copyright (c) 2016 undefined
  * License: MIT
  *
- * Generated at Friday, June 24th, 2016, 2:50:18 PM
+ * Generated at Friday, July 29th, 2016, 12:28:27 AM
  */
 (function() {
 var crop = angular.module('ngImgCrop', []);
@@ -2955,11 +2955,11 @@ crop.factory('cropHost', ['$document', '$q', 'cropAreaCircle', 'cropAreaSquare',
         this.destroy = function() {
             $document.off('mousemove', onMouseMove);
             elCanvas.off('mousedown', onMouseDown);
-            $document.off('mouseup', onMouseMove);
+            $document.off('mouseup',onMouseUp);
 
             $document.off('touchmove', onMouseMove);
             elCanvas.off('touchstart', onMouseDown);
-            $document.off('touchend', onMouseMove);
+            $document.off('touchend',onMouseUp);
 
             elCanvas.remove();
         };
@@ -3116,6 +3116,7 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
                 };
 
                 scope.cropject = {
+                    canvasSize: cropHost.getArea().getCanvasSize(),
                     areaCoords: areaCoords,
                     cropWidth: areaCoords.w,
                     cropHeight: areaCoords.h,
