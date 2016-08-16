@@ -5,7 +5,7 @@
  * Copyright (c) 2016 undefined
  * License: MIT
  *
- * Generated at Friday, July 29th, 2016, 12:28:27 AM
+ * Generated at Tuesday, August 16th, 2016, 1:42:42 PM
  */
 (function() {
 var crop = angular.module('ngImgCrop', []);
@@ -976,6 +976,10 @@ crop.factory('cropArea', ['cropCanvas', function(CropCanvas) {
         var newSizeWidth = (this._forceAspectRatio) ? size.w : se.x - nw.x,
             newSizeHeight = (this._forceAspectRatio) ? size.h : se.y - nw.y;
 
+        if (newSizeHeight > canvasH) {
+            newSizeHeight = canvasH;
+        }
+        
         // save rectangle scale
         if(this._aspect){
             newSizeWidth = newSizeHeight * this._aspect;
