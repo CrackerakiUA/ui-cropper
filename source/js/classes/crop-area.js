@@ -238,6 +238,10 @@ crop.factory('cropArea', ['cropCanvas', function(CropCanvas) {
         var newSizeWidth = (this._forceAspectRatio) ? size.w : se.x - nw.x,
             newSizeHeight = (this._forceAspectRatio) ? size.h : se.y - nw.y;
 
+        if (newSizeHeight > canvasH) {
+            newSizeHeight = canvasH;
+        }
+        
         // save rectangle scale
         if(this._aspect){
             newSizeWidth = newSizeHeight * this._aspect;
