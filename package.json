@@ -16,6 +16,9 @@
     }, {
         "name": "Honchar Denys",
         "email": "crackeraki@gmail.com"
+    }, {
+        "name": "Rick de Graaff",
+        "email": "info@rickdegraaff.nl"
     }],
     "name": "ng-img-crop-full-extended",
     "prettyName": "ngImgCropExtended",
