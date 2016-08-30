@@ -78,12 +78,16 @@ crop.factory('cropCanvas', [function() {
     // Colors
     var colors = {
         areaOutline: '#fff',
-        resizeBoxStroke: '#fff',
+        resizeBoxStroke: '#bababa',
         resizeBoxFill: '#444',
         resizeBoxArrowFill: '#fff',
-        resizeCircleStroke: '#fff',
+        resizeCircleStroke: '#bababa',
         resizeCircleFill: '#444',
         moveIconFill: '#fff'
+    };
+
+    var cropper = {
+        strokeWidth: 1
     };
 
     return function(ctx) {
@@ -130,7 +134,7 @@ crop.factory('cropCanvas', [function() {
             var scaledCircleRadius = circleRadius * scale;
             ctx.save();
             ctx.strokeStyle = colors.resizeCircleStroke;
-            ctx.lineWidth = 2;
+            ctx.lineWidth = cropper.strokeWidth;
             ctx.fillStyle = colors.resizeCircleFill;
             ctx.beginPath();
             ctx.arc(centerCoords[0], centerCoords[1], scaledCircleRadius, 0, 2 * Math.PI);
@@ -144,7 +148,7 @@ crop.factory('cropCanvas', [function() {
             var scaledBoxSize = boxSize * scale;
             ctx.save();
             ctx.strokeStyle = colors.resizeBoxStroke;
-            ctx.lineWidth = 2;
+            ctx.lineWidth = cropper.strokeWidth;
             ctx.fillStyle = colors.resizeBoxFill;
             ctx.fillRect(centerCoords[0] - scaledBoxSize / 2, centerCoords[1] - scaledBoxSize / 2, scaledBoxSize, scaledBoxSize);
             ctx.strokeRect(centerCoords[0] - scaledBoxSize / 2, centerCoords[1] - scaledBoxSize / 2, scaledBoxSize, scaledBoxSize);
@@ -171,7 +175,8 @@ crop.factory('cropCanvas', [function() {
 
             ctx.save();
             ctx.strokeStyle = colors.areaOutline;
-            ctx.lineWidth = 2;
+            ctx.lineWidth = cropper.strokeWidth;
+            ctx.setLineDash([10, 5]);
             ctx.beginPath();
             fnDrawClipPath(ctx, centerCoords, size);
             ctx.stroke();

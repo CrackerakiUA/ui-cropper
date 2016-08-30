@@ -1,11 +1,11 @@
 /*!
- * ngImgCropExtended v0.5.5
+ * ngImgCropExtended v0.5.6
  * https://github.com/CrackerakiUA/ngImgCropExtended/
  *
  * Copyright (c) 2016 undefined
  * License: MIT
  *
- * Generated at Wednesday, August 17th, 2016, 5:07:10 PM
+ * Generated at Tuesday, August 30th, 2016, 11:26:13 AM
  */
 (function() {
 var crop = angular.module('ngImgCrop', []);
@@ -14,8 +14,8 @@ crop.factory('cropAreaCircle', ['cropArea', function(CropArea) {
     var CropAreaCircle = function() {
         CropArea.apply(this, arguments);
 
-        this._boxResizeBaseSize = 30;
-        this._boxResizeNormalRatio = 0.9;
+        this._boxResizeBaseSize = 25;
+        this._boxResizeNormalRatio = 1;
         this._boxResizeHoverRatio = 1.2;
         this._iconMoveNormalRatio = 0.9;
         this._iconMoveHoverRatio = 1.2;
@@ -184,8 +184,8 @@ crop.factory('cropAreaRectangle', ['cropArea', function (CropArea) {
         CropArea.apply(this, arguments);
 
         this._resizeCtrlBaseRadius = 15;
-        this._resizeCtrlNormalRatio = 0.75;
-        this._resizeCtrlHoverRatio = 1;
+        this._resizeCtrlNormalRatio = 0.6;
+        this._resizeCtrlHoverRatio = 0.70;
         this._iconMoveNormalRatio = 0.9;
         this._iconMoveHoverRatio = 1.2;
 
@@ -270,7 +270,7 @@ crop.factory('cropAreaRectangle', ['cropArea', function (CropArea) {
         var resizeIconsCenterCoords = this._calcRectangleCorners();
         for (var i = 0, len = resizeIconsCenterCoords.length; i < len; i++) {
             var resizeIconCenterCoords = resizeIconsCenterCoords[i];
-            this._cropCanvas.drawIconResizeCircle(resizeIconCenterCoords, this._resizeCtrlBaseRadius, this._resizeCtrlIsHover === i ? this._resizeCtrlHoverRatio : this._resizeCtrlNormalRatio);
+            this._cropCanvas.drawIconResizeBoxBase(resizeIconCenterCoords, this._resizeCtrlBaseRadius, this._resizeCtrlIsHover === i ? this._resizeCtrlHoverRatio : this._resizeCtrlNormalRatio);
         }
     };
 
@@ -425,8 +425,8 @@ crop.factory('cropAreaSquare', ['cropArea', function(CropArea) {
         CropArea.apply(this, arguments);
 
         this._resizeCtrlBaseRadius = 15;
-        this._resizeCtrlNormalRatio = 0.75;
-        this._resizeCtrlHoverRatio = 1;
+        this._resizeCtrlNormalRatio = 0.6;
+        this._resizeCtrlHoverRatio = 0.70;
         this._iconMoveNormalRatio = 0.9;
         this._iconMoveHoverRatio = 1.2;
 
@@ -508,7 +508,7 @@ crop.factory('cropAreaSquare', ['cropArea', function(CropArea) {
         var resizeIconsCenterCoords = this._calcSquareCorners();
         for (var i = 0, len = resizeIconsCenterCoords.length; i < len; i++) {
             var resizeIconCenterCoords = resizeIconsCenterCoords[i];
-            this._cropCanvas.drawIconResizeCircle(resizeIconCenterCoords, this._resizeCtrlBaseRadius, this._resizeCtrlIsHover === i ? this._resizeCtrlHoverRatio : this._resizeCtrlNormalRatio);
+            this._cropCanvas.drawIconResizeBoxBase(resizeIconCenterCoords, this._resizeCtrlBaseRadius, this._resizeCtrlIsHover === i ? this._resizeCtrlHoverRatio : this._resizeCtrlNormalRatio);
         }
     };
 
@@ -1203,12 +1203,16 @@ crop.factory('cropCanvas', [function() {
     // Colors
     var colors = {
         areaOutline: '#fff',
-        resizeBoxStroke: '#fff',
+        resizeBoxStroke: '#bababa',
         resizeBoxFill: '#444',
         resizeBoxArrowFill: '#fff',
-        resizeCircleStroke: '#fff',
+        resizeCircleStroke: '#bababa',
         resizeCircleFill: '#444',
         moveIconFill: '#fff'
+    };
+
+    var cropper = {
+        strokeWidth: 1
     };
 
     return function(ctx) {
@@ -1254,7 +1258,7 @@ crop.factory('cropCanvas', [function() {
             var scaledCircleRadius = circleRadius * scale;
             ctx.save();
             ctx.strokeStyle = colors.resizeCircleStroke;
-            ctx.lineWidth = 2;
+            ctx.lineWidth = cropper.strokeWidth;
             ctx.fillStyle = colors.resizeCircleFill;
             ctx.beginPath();
             ctx.arc(centerCoords[0], centerCoords[1], scaledCircleRadius, 0, 2 * Math.PI);
@@ -1268,7 +1272,7 @@ crop.factory('cropCanvas', [function() {
             var scaledBoxSize = boxSize * scale;
             ctx.save();
             ctx.strokeStyle = colors.resizeBoxStroke;
-            ctx.lineWidth = 2;
+            ctx.lineWidth = cropper.strokeWidth;
             ctx.fillStyle = colors.resizeBoxFill;
             ctx.fillRect(centerCoords[0] - scaledBoxSize / 2, centerCoords[1] - scaledBoxSize / 2, scaledBoxSize, scaledBoxSize);
             ctx.strokeRect(centerCoords[0] - scaledBoxSize / 2, centerCoords[1] - scaledBoxSize / 2, scaledBoxSize, scaledBoxSize);
@@ -1295,7 +1299,8 @@ crop.factory('cropCanvas', [function() {
 
             ctx.save();
             ctx.strokeStyle = colors.areaOutline;
-            ctx.lineWidth = 2;
+            ctx.lineWidth = cropper.strokeWidth;
+            ctx.setLineDash([10, 5]);
             ctx.beginPath();
             fnDrawClipPath(ctx, centerCoords, size);
             ctx.stroke();
