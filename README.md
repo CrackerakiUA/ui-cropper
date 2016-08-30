@@ -48,9 +48,8 @@ If you want to contribute, please join our [gitter chat](https://gitter.im/Crack
 ``` javascript
 angular.module('app', ['ngImgCrop'])
 .controller(function($scope){
-	// pseudocode
-	$scope.myImage = 'src';
-	$scope.myCroppedImage = 'resultImageDataUrl';
+	$scope.myImage = 'https://raw.githubusercontent.com/CrackerakiUA/ngImgCropFullExtended/master/screenshots/live.jpg';
+	$scope.myCroppedImage = ''; // in this variable you will have dataUrl of cropped area.
 });
 ```
 ``` html
