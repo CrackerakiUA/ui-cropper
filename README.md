@@ -47,6 +47,20 @@ If you want to contribute, please join our [gitter chat](https://gitter.im/Crack
 
 You can checkout all options under [our wiki page](https://github.com/CrackerakiUA/ngImgCropFullExtended/wiki/Options)
 
+## How to Use
+
+``` javascript
+angular.module('app', ['ngImgCrop'])
+.controller(function($scope){
+	// pseudocode
+	$scope.myImage = 'src';
+	$scope.myCroppedImage = 'resultImageDataUrl';
+});
+```
+``` html
+<img-crop image="myImage" result-image="myCroppedImage"></img-crop>
+```
+
 ## License
 
 See the [LICENSE](https://github.com/CrackerakiUA/blob/master/LICENSE) file
