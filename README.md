@@ -43,10 +43,6 @@ If you want to contribute, please join our [gitter chat](https://gitter.im/Crack
 #### JSPM
 	import "ng-img-crop-full-extended/compile/unminified/ng-img-crop.js";
 
-## Documentation
-
-You can checkout all options under [our wiki page](https://github.com/CrackerakiUA/ngImgCropFullExtended/wiki/Options)
-
 ## How to Use
 
 ``` javascript
@@ -60,6 +56,10 @@ angular.module('app', ['ngImgCrop'])
 ``` html
 <img-crop image="myImage" result-image="myCroppedImage"></img-crop>
 ```
+
+## Documentation
+
+You can checkout all options under [our wiki page](https://github.com/CrackerakiUA/ngImgCropFullExtended/wiki/Options)
 
 ## License
 
