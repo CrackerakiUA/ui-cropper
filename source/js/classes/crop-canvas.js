@@ -176,7 +176,7 @@ crop.factory('cropCanvas', [function() {
             ctx.save();
             ctx.strokeStyle = colors.areaOutline;
             ctx.lineWidth = cropper.strokeWidth;
-            ctx.setLineDash([10, 5]);
+            ctx.setLineDash([5, 5]);
             ctx.beginPath();
             fnDrawClipPath(ctx, centerCoords, size);
             ctx.stroke();
