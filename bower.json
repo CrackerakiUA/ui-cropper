@@ -1,7 +1,7 @@
 {
     "name": "ng-img-crop-full-extended",
     "prettyName": "ngImgCropFullExtended",
-    "version": "0.5.6",
+    "version": "0.6.0",
     "authors": [{
         "name": "Alex Kaul",
         "email": "alexkaul@googlemail.com"
@@ -19,6 +19,9 @@
     }, {
         "name": "Honchar Denys",
         "email": "crackeraki@gmail.com"
+    }{
+        "name": "Rick de Graaff",
+        "email": "info@rickdegraaff.nl"
     }],
     "repository": {
         "type": "git",
