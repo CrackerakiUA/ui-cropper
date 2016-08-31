@@ -29,7 +29,7 @@ crop.factory('cropAreaCircle', ['cropArea', function(CropArea) {
 
     CropAreaCircle.prototype.getType = function() {
         return 'circle';
-    }
+    };
 
     CropAreaCircle.prototype._calcCirclePerimeterCoords = function(angleDegrees) {
         var hSize = this._size.w / 2;
