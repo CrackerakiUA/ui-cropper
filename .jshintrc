@@ -33,6 +33,9 @@
     "FileReader": true,
     "DataView": true,
     "HTMLImageElement": true,
-    "colorPaletteLength": true
+    "colorPaletteLength": true,
+    "Blob": true,
+    "define": true,
+    "module": true
   }
 }
