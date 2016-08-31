@@ -1,11 +1,11 @@
 /*!
- * ngImgCropExtended v0.5.6
- * https://github.com/CrackerakiUA/ngImgCropExtended/
+ * ngImgCropExtended v0.6.0
+ * http://crackerakiua.github.io/ngImgCropFullExtended/
  *
- * Copyright (c) 2016 undefined
+ * Copyright (c) 2016 Alex Kaul
  * License: MIT
  *
- * Generated at Tuesday, August 30th, 2016, 11:26:13 AM
+ * Generated at Wednesday, August 31st, 2016, 12:04:01 PM
  */
 (function() {
 var crop = angular.module('ngImgCrop', []);
@@ -1300,7 +1300,7 @@ crop.factory('cropCanvas', [function() {
             ctx.save();
             ctx.strokeStyle = colors.areaOutline;
             ctx.lineWidth = cropper.strokeWidth;
-            ctx.setLineDash([10, 5]);
+            ctx.setLineDash([5, 5]);
             ctx.beginPath();
             fnDrawClipPath(ctx, centerCoords, size);
             ctx.stroke();

@@ -32,6 +32,7 @@
     "XMLHttpRequest": true,
     "FileReader": true,
     "DataView": true,
-    "HTMLImageElement": true
+    "HTMLImageElement": true,
+    "colorPaletteLength": true
   }
 }
