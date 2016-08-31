@@ -20,6 +20,12 @@
     "process": true,
     "crop": true,
     "CropHost": true,
-    "PubSub": true
+    "PubSub": true,
+    "document": true,
+    "window": true,
+    "Image": true,
+    "URL": true,
+    "ColorThief": true,
+    "colorPaletteLength": true
   }
 }
