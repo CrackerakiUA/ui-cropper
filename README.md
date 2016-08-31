@@ -2,9 +2,9 @@
 
 Simple Image Crop directive for AngularJS. Enables to crop a circle, square or rectangle from of an image.
 
-## Live demo
+[![GitHub release](https://img.shields.io/github/release/CrackerakiUA/ngImgCropFullExtended.svg?maxAge=2592000)](https://github.com/CrackerakiUA/ngImgCropFullExtended) [![Github Releases](https://img.shields.io/github/downloads/CrackerakiUA/ngImgCropFullExtended/latest/total.svg?maxAge=2592000)](https://github.com/CrackerakiUA/ngImgCropFullExtended) [![Join the chat at https://gitter.im/CrackerakiUA/ngImgCropFullExtended](https://badges.gitter.im/CrackerakiUA/ngImgCropFullExtended.svg)](https://gitter.im/CrackerakiUA/ngImgCropFullExtended?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-[![Join the chat at https://gitter.im/CrackerakiUA/ngImgCropFullExtended](https://badges.gitter.im/CrackerakiUA/ngImgCropFullExtended.svg)](https://gitter.im/CrackerakiUA/ngImgCropFullExtended?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+## Live demo
 
 **Test it yourself, upload or choose an image from url in our amazing** [Online test suite](http://crackerakiua.github.io/ngImgCropFullExtended)<br><br>
 or pick a Codepen to play around with it<br>
