@@ -14,8 +14,8 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
             maxCanvasDimensions: '=?',
             minCanvasDimensions: '=?',
             canvasScalemode: '@?', /* String. If set to 'full-width' the directive uses all width available */
-                             /* and the canvas expands in height as much as it need to maintain the aspect ratio */
-                             /* if set to 'fixed-height', the directive is restricted by a parent element in height */
+            /* and the canvas expands in height as much as it need to maintain the aspect ratio */
+            /* if set to 'fixed-height', the directive is restricted by a parent element in height */
 
             changeOnFly: '=?',
             liveView: '=?',
@@ -26,11 +26,11 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
             areaInitSize: '=?',
             areaInitCoords: '=?',
             areaInitIsRelativeToImage: '=?', /* Boolean: If true the areaInitCoords and areaInitSize is scaled according to canvas size. */
-                                             /* No matter how big/small the canvas is, the resultImage remains the same */
-                                             /* Example: areaInitCoords are {x: 100, y: 100}, areaInitSize {w: 100, h: 100}   */
-                                             /* Image is 1000x1000
-                                             /* if canvas is 500x500 Crop coordinates will be x: 50, y: 50, w: 50, h: 50 */
-                                             /* if canvas is 100x100 crop coordinates will be x: 10, y: 10, w: 10, h: 10 */
+            /* No matter how big/small the canvas is, the resultImage remains the same */
+            /* Example: areaInitCoords are {x: 100, y: 100}, areaInitSize {w: 100, h: 100}   */
+            /* Image is 1000x1000
+             /* if canvas is 500x500 Crop coordinates will be x: 50, y: 50, w: 50, h: 50 */
+            /* if canvas is 100x100 crop coordinates will be x: 10, y: 10, w: 10, h: 10 */
             areaMinRelativeSize: '=?',
             resultImageSize: '=?',
             resultImageFormat: '=?',
@@ -54,11 +54,13 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
         }],
         link: function (scope, element) {
 
-            if (scope.liveView && typeof scope.liveView.block == 'boolean') {
+            if (scope.liveView && typeof scope.liveView.block === 'boolean') {
                 scope.liveView.render = function (callback) {
                     updateResultImage(scope, true, callback);
-                }
-            } else scope.liveView = {block: false};
+                };
+            } else {
+                scope.liveView = {block: false};
+            }
 
             // Init Events Manager
             var events = scope.events;
@@ -81,17 +83,24 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
             var updateResultImage = function (scope, force, callback) {
                 if (scope.image !== '' && (!scope.liveView.block || force)) {
                     var resultImageObj = cropHost.getResultImage();
+                    var resultImage;
                     if (angular.isArray(resultImageObj)) {
                         resultImage = resultImageObj[0].dataURI;
                         scope.resultArrayImage = resultImageObj;
-                    } else var resultImage = resultImageObj.dataURI;
+                    } else {
+                        resultImage = resultImageObj.dataURI;
+                    }
 
                     var urlCreator = window.URL || window.webkitURL;
                     if (storedResultImage !== resultImage) {
                         storedResultImage = resultImage;
                         scope.resultImage = resultImage;
-                        if (scope.liveView.callback) scope.liveView.callback(resultImage);
-                        if (callback) callback(resultImage);
+                        if (scope.liveView.callback) {
+                            scope.liveView.callback(resultImage);
+                        }
+                        if (callback) {
+                            callback(resultImage);
+                        }
                         cropHost.getResultImageDataBlob().then(function (blob) {
                             scope.resultBlob = blob;
                             scope.urlBlob = urlCreator.createObjectURL(blob);
@@ -115,16 +124,15 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
             };
 
             var updateAreaCoords = function (scope) {
-                var areaCoords = cropHost.getAreaCoords();
-                scope.areaCoords = areaCoords;
+                scope.areaCoords = cropHost.getAreaCoords();
             };
 
             var updateCropject = function (scope) {
                 var areaCoords = cropHost.getAreaCoords();
 
                 var dimRatio = {
-                  x: cropHost.getArea().getImage().width / cropHost.getArea().getCanvasSize().w,
-                  y: cropHost.getArea().getImage().height / cropHost.getArea().getCanvasSize().h
+                    x: cropHost.getArea().getImage().width / cropHost.getArea().getCanvasSize().w,
+                    y: cropHost.getArea().getImage().height / cropHost.getArea().getCanvasSize().h
                 };
 
                 scope.cropject = {
@@ -152,9 +160,11 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
                 };
             };
 
-            if (scope.chargement == null) scope.chargement = 'Chargement';
+            if (scope.chargement == null) {
+                scope.chargement = 'Chargement';
+            }
             var displayLoading = function () {
-                element.append('<div class="loading"><span>' + scope.chargement + '...</span></div>')
+                element.append('<div class="loading"><span>' + scope.chargement + '...</span></div>');
             };
 
             // Setup CropHost Event Handlers
@@ -165,8 +175,9 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
                 .on('load-done', fnSafeApply(function (scope) {
                     var children = element.children();
                     angular.forEach(children, function (child, index) {
-                        if (angular.element(child).hasClass("loading"))
+                        if (angular.element(child).hasClass('loading')) {
                             angular.element(child).remove();
+                        }
                     });
                     scope.onLoadDone({});
                 }))
@@ -179,7 +190,7 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
                     }
                     updateCropject(scope);
                 }))
-                .on('image-updated', fnSafeApply(function(scope) {
+                .on('image-updated', fnSafeApply(function (scope) {
                     cropHost.setAreaMinRelativeSize(scope.areaMinRelativeSize);
                 }))
                 .on('area-move-end area-resize-end image-updated', fnSafeApply(function (scope) {
@@ -243,13 +254,17 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
                 cropHost.setPaletteColorLength(scope.paletteColorLength);
             });
             scope.$watch('aspectRatio', function () {
-                if (typeof scope.aspectRatio == 'string' && scope.aspectRatio != '') {
+                if (typeof scope.aspectRatio === 'string' && scope.aspectRatio !== '') {
                     scope.aspectRatio = parseInt(scope.aspectRatio);
                 }
-                if (scope.aspectRatio) cropHost.setAspect(scope.aspectRatio);
+                if (scope.aspectRatio) {
+                    cropHost.setAspect(scope.aspectRatio);
+                }
             });
             scope.$watch('allowCropResizeOnCorners', function () {
-                if (scope.allowCropResizeOnCorners) cropHost.setAllowCropResizeOnCorners(scope.allowCropResizeOnCorners);
+                if (scope.allowCropResizeOnCorners) {
+                    cropHost.setAllowCropResizeOnCorners(scope.allowCropResizeOnCorners);
+                }
             });
 
             // Update CropHost dimensions when the directive element is resized
@@ -265,7 +280,7 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
                 function (value) {
 
                     if (cropHost.getScalemode() === 'fixed-height') {
-                        if(value[0] > 0 && value[1] > 0) {
+                        if (value[0] > 0 && value[1] > 0) {
                             cropHost.setMaxDimensions(value[0], value[1]);
                             updateResultImage(scope);
                         }
