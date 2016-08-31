@@ -20,6 +20,22 @@
     "process": true,
     "crop": true,
     "CropHost": true,
-    "PubSub": true
+    "PubSub": true,
+    "document": true,
+    "window": true,
+    "Image": true,
+    "URL": true,
+    "ColorThief": true,
+    "atob": true,
+    "ArrayBuffer": true,
+    "Uint8Array": true,
+    "XMLHttpRequest": true,
+    "FileReader": true,
+    "DataView": true,
+    "HTMLImageElement": true,
+    "colorPaletteLength": true,
+    "Blob": true,
+    "define": true,
+    "module": true
   }
 }
