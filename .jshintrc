@@ -26,6 +26,12 @@
     "Image": true,
     "URL": true,
     "ColorThief": true,
-    "colorPaletteLength": true
+    "atob": true,
+    "ArrayBuffer": true,
+    "Uint8Array": true,
+    "XMLHttpRequest": true,
+    "FileReader": true,
+    "DataView": true,
+    "HTMLImageElement": true
   }
 }
