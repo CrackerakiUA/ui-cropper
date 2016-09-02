@@ -32,6 +32,7 @@
   "name": "ng-img-crop-full-extended",
   "prettyName": "ngImgCropExtended",
   "description": "Image crop directive for AngularJS, square, circle and rectangle areas. Working aspect. Features like export array and more comming.",
+  "main": "compile/unminified/ng-img-crop.js",
   "license": "MIT",
   "homepage": "http://crackerakiua.github.io/ngImgCropFullExtended/",
   "repository": {
