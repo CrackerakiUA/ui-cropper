@@ -184,8 +184,8 @@ gulp.task('watch', function () {
 
 // Code linter
 gulp.task('lint', function () {
-    return gulp.src(Config.paths.source.js + '/**/*.js')
-        .pipe(jshint())
+    return gulp.src([Config.paths.source.js + '/**/*.js', '!' + Config.paths.source.js + '/3rdparty/*.js'])
+        .pipe(jshint('.jshintrc', '.jshintignore'))
         .pipe(jshint.reporter(jshintStylish))
         .pipe(jshint.reporter('fail'));
 });
