@@ -186,7 +186,8 @@ gulp.task('watch', function () {
 gulp.task('lint', function () {
     return gulp.src(Config.paths.source.js + '/**/*.js')
         .pipe(jshint())
-        .pipe(jshint.reporter(jshintStylish));
+        .pipe(jshint.reporter(jshintStylish))
+        .pipe(jshint.reporter('fail'));
 });
 
 // Build
