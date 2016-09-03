@@ -7,7 +7,7 @@ var argv         = require('minimist')(process.argv.slice(2)),
     compass      = require('gulp-compass'),
     refresh      = require('gulp-livereload'),
     prefix       = require('gulp-autoprefixer'),
-    minifyCss    = require('gulp-minify-css'),
+    cleanCSS    = require('gulp-clean-css'),
     uglify       = require('gulp-uglify'),
     clean        = require('gulp-rimraf'),
     concat       = require('gulp-concat-util'),
@@ -141,7 +141,7 @@ gulp.task('dist:js', ['dist:js:clean', 'scripts'], function () {
 });
 gulp.task('dist:css', ['dist:css:clean', 'styles'], function () {
     return gulp.src(Config.paths.compileUnminified.css + '/**/*.css')
-        .pipe(minifyCss())
+        .pipe(cleanCSS())
         .pipe(gulp.dest(Config.paths.compileMinified.css));
 });
 
