@@ -365,9 +365,8 @@ crop.service('cropEXIF', [function () {
                 }
                 http = null;
             };
-            http.open('GET', img.src, true);
             http.responseType = 'arraybuffer';
-            http.send(null);
+            http.open('GET', img.src, true);
         } else if (window.FileReader && (img instanceof window.Blob || img instanceof window.File)) {
             fileReader.onload = function (e) {
                 if (debug) {
