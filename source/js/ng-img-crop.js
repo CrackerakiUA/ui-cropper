@@ -179,6 +179,7 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
                             angular.element(child).remove();
                         }
                     });
+                    updateCropject(scope);
                     scope.onLoadDone({});
                 }))
                 .on('load-error', fnSafeApply(function (scope) {
