@@ -160,8 +160,38 @@ crop.directive('imgCrop', ['$timeout', 'cropHost', 'cropPubSub', function ($time
                 };
             };
 
-            if (scope.chargement == null) {
-                scope.chargement = 'Chargement';
+            // Will get the users language settings, and return the appropriate loading text
+            var printLoadMsg = function() {
+                var language = window.navigator.userLanguage || window.navigator.language;
+                
+                switch(language) {
+                    case 'nl':
+                        return 'Aan het laden';
+                    break;
+                        
+                    case 'fr':
+                        return 'Chargement';
+                    break;
+                    
+                    case 'es':
+                        return 'Cargando';
+                    break;
+                    
+                    case 'ct':
+                        return 'Càrrega';
+                    break;
+                    
+                    case 'de':
+                        return 'Laden';
+                    break;
+                    
+                    default:
+                        return 'Loading';
+                }
+            };
+
+            if (null === scope.chargement) {
+                scope.chargement = printLoadMsg();
             }
             var displayLoading = function () {
                 element.append('<div class="loading"><span>' + scope.chargement + '...</span></div>');
