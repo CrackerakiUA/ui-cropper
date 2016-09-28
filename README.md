@@ -63,4 +63,4 @@ You can checkout all options under [our wiki page](https://github.com/Crackeraki
 
 ## License
 
-See the [LICENSE](https://github.com/CrackerakiUA/blob/master/LICENSE) file
+See the [LICENSE](https://github.com/CrackerakiUA/ngImgCropFullExtended/blob/master/LICENSE) file
