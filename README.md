@@ -1,4 +1,4 @@
-## Import Notes
+## Important Notes
 We are going to move this lib to new repo. We will accept here Pull Requests until 16 October. After move we will leave this lib as it is, so on your projects it will work forever, just without updates, deprecated. 17 October you will have access to new repo.
 
 ## ngImgCropFullExtended
