@@ -1,3 +1,6 @@
+## Import Notes
+We are going to move this lib to new repo. We will accept here Pull Requests until 16 October. After move we will leave this lib as it is, so on your projects it will work forever, just without updates, deprecated. 17 October you will have access to new repo.
+
 ## ngImgCropFullExtended
 [![Build Status](https://travis-ci.org/CrackerakiUA/ngImgCropFullExtended.svg?branch=master)](https://travis-ci.org/CrackerakiUA/ngImgCropFullExtended)
 [![GitHub release](https://img.shields.io/github/release/CrackerakiUA/ngImgCropFullExtended.svg)](https://github.com/CrackerakiUA/ngImgCropFullExtended) [![Join the chat at https://gitter.im/CrackerakiUA/ngImgCropFullExtended](https://badges.gitter.im/CrackerakiUA/ngImgCropFullExtended.svg)](https://gitter.im/CrackerakiUA/ngImgCropFullExtended?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
