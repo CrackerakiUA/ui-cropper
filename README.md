@@ -20,12 +20,12 @@ or pick a Codepen to play around with it<br>
 
 ## News
 
-On update 0.5.4 i have fixed resize of the circle, it's looks not perfect, but it's better then bugged we had. If you believe you can fix algorithm of the circle resize, check the line 74 of the crop-area.js
+We just moved this lib to new name, before you add it to your please do tests.
 
 
 ## Contribution
 
-If you want to contribute, please join our [gitter chat](https://gitter.im/CrackerakiUA/ngImgCropFullExtended) and [trello board](https://trello.com/b/ojPTSMax/ngimgcropfullextended) for better organisation. To join trello write reply [HERE.](https://github.com/CrackerakiUA/ngImgCropFullExtended/issues/78)
+If you want to contribute, please join our [gitter chat](https://gitter.im/CrackerakiUA/ngImgCropFullExtended).
 
 ## Installing
 
