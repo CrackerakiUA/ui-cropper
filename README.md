@@ -1,13 +1,13 @@
 ## uiCropper
 [![Build Status](https://travis-ci.org/CrackerakiUA/ngImgCropFullExtended.svg?branch=master)](https://travis-ci.org/CrackerakiUA/ngImgCropFullExtended)
-[![GitHub release](https://img.shields.io/github/release/CrackerakiUA/ngImgCropFullExtended.svg)](https://github.com/CrackerakiUA/ngImgCropFullExtended) [![Join the chat at https://gitter.im/CrackerakiUA/ngImgCropFullExtended](https://badges.gitter.im/CrackerakiUA/ngImgCropFullExtended.svg)](https://gitter.im/CrackerakiUA/ngImgCropFullExtended?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![GitHub release](https://img.shields.io/github/release/CrackerakiUA/ngImgCropFullExtended.svg)](https://github.com/CrackerakiUA/ui-cropper) [![Join the chat at https://gitter.im/CrackerakiUA/ngImgCropFullExtended](https://badges.gitter.im/CrackerakiUA/ngImgCropFullExtended.svg)](https://gitter.im/CrackerakiUA/ui-cropper?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Simple Image Crop directive for AngularJS. Enables to crop a circle, square or rectangle from of an image.
 
 
 ## Live demo
 
-**Test it yourself, upload or choose an image from url in our amazing** [Online test suite](http://crackerakiua.github.io/ngImgCropFullExtended)<br><br>
+**Test it yourself, upload or choose an image from url in our amazing** [Online test suite](http://crackerakiua.github.io/ui-cropper)<br><br>
 or pick a Codepen to play around with it<br>
 [Codepen: Circle + Chargement Crop](http://codepen.io/Crackeraki/pen/avYNKP)<br>
 [Codepen: Square + Init Url Crop + Maximum rendered image](http://codepen.io/Crackeraki/pen/QjmNVM)<br>
@@ -25,12 +25,12 @@ We just moved this lib to new name, before you add it to your please do tests.
 
 ## Contribution
 
-If you want to contribute, please join our [gitter chat](https://gitter.im/CrackerakiUA/ngImgCropFullExtended).
+If you want to contribute, please join our [gitter chat](https://gitter.im/CrackerakiUA/ui-cropper).
 
 ## Installing
 
 #### Download directly
-[Download ngImgCropExtended](https://github.com/CrackerakiUA/ngImgCropExtended/archive/master.zip) files from GitHub
+[Download ngImgCropExtended](https://github.com/CrackerakiUA/ui-cropper/archive/master.zip) files from GitHub
 
 #### Bower
 	bower install ui-cropper
@@ -39,17 +39,14 @@ If you want to contribute, please join our [gitter chat](https://gitter.im/Crack
 	npm install ui-cropper
 
 #### Meteor
-	meteor add correpw:ng-img-crop-full-extended
-
-#### JSPM
-	import "ng-img-crop-full-extended/compile/unminified/ng-img-crop.js";
+	meteor add crackeraki:ui-cropper
 
 ## How to Use
 
 ``` javascript
 angular.module('app', ['uiCropper'])
 .controller(function($scope){
-	$scope.myImage = 'https://raw.githubusercontent.com/CrackerakiUA/ngImgCropFullExtended/master/screenshots/live.jpg';
+	$scope.myImage = 'https://raw.githubusercontent.com/CrackerakiUA/ui-cropper/master/screenshots/live.jpg';
 	$scope.myCroppedImage = ''; // in this variable you will have dataUrl of cropped area.
 });
 ```
@@ -59,8 +56,8 @@ angular.module('app', ['uiCropper'])
 
 ## Documentation
 
-You can checkout all options under [our wiki page](https://github.com/CrackerakiUA/ngImgCropFullExtended/wiki/Options)
+You can checkout all options under [our wiki page](https://github.com/CrackerakiUA/ui-cropper/wiki/Options)
 
 ## License
 
-See the [LICENSE](https://github.com/CrackerakiUA/ngImgCropFullExtended/blob/master/LICENSE) file
+See the [LICENSE](https://github.com/CrackerakiUA/ui-cropper/blob/master/LICENSE) file
