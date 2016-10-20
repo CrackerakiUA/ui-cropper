@@ -32,7 +32,7 @@
   "name": "ui-cropper",
   "prettyName": "uiCropper",
   "description": "Image crop directive for AngularJS, square, circle and rectangle areas. Working aspect. Features like export array and more comming.",
-  "main": "compile/unminified/ng-img-crop.js",
+  "main": "compile/unminified/ui-cropper.js",
   "license": "MIT",
   "homepage": "https://crackerakiua.github.io/ui-cropper/",
   "repository": {

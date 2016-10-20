@@ -1,6 +1,6 @@
 {
-	"name": "ng-img-crop-full-extended",
-	"prettyName": "ngImgCropFullExtended",
+	"name": "ui-cropper",
+	"prettyName": "uiCropper",
 	"authors": [{
 		"name": "Alex Kaul",
 		"email": "alexkaul@googlemail.com"
@@ -24,12 +24,12 @@
 	}],
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/CrackerakiUA/ngImgCropExtended"
+		"url": "https://github.com/CrackerakiUA/ui-cropper/"
 	},
 	"description": "Image crop directive for AngularJS, square, circle and rectangle areas. Working aspect.",
 	"main": [
-		"compile/minified/ng-img-crop.js",
-		"compile/minified/ng-img-crop.css"
+		"compile/minified/ui-cropper.js",
+		"compile/minified/ui-cropper.css"
 	],
 	"keywords": [
 		"angular",
@@ -39,7 +39,7 @@
 		"cropper"
 	],
 	"license": "MIT",
-	"homepage": "https://github.com/CrackerakiUA/ngImgCropExtended/",
+	"homepage": "https://crackerakiua.github.io/ui-cropper/",
 	"ignore": [
 		"node_modules",
 		"bower_components",

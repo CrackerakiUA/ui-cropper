@@ -36,7 +36,7 @@ If you want to contribute, please join our [gitter chat](https://gitter.im/Crack
 	bower install ngImgCropFullExtended
 
 #### NPM
-	npm install ng-img-crop-full-extended
+	npm install ui-cropper
 
 #### Meteor
 	meteor add correpw:ng-img-crop-full-extended
