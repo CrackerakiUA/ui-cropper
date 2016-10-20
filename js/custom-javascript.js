@@ -1,4 +1,4 @@
-angular.module('app', ['ngImgCrop'])
+angular.module('app', ['uiCropper'])
     .controller('Ctrl', function ($scope) {
         $scope.blockingObject = {block: true};
         $scope.callTestFuntion = function () {
