@@ -47,14 +47,14 @@ If you want to contribute, please join our [gitter chat](https://gitter.im/Crack
 ## How to Use
 
 ``` javascript
-angular.module('app', ['ngImgCrop'])
+angular.module('app', ['uiCropper'])
 .controller(function($scope){
 	$scope.myImage = 'https://raw.githubusercontent.com/CrackerakiUA/ngImgCropFullExtended/master/screenshots/live.jpg';
 	$scope.myCroppedImage = ''; // in this variable you will have dataUrl of cropped area.
 });
 ```
 ``` html
-<img-crop image="myImage" result-image="myCroppedImage"></img-crop>
+<ui-cropper image="myImage" result-image="myCroppedImage"></ui-cropper>
 ```
 
 ## Documentation
