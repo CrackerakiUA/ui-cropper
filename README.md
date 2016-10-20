@@ -33,7 +33,7 @@ If you want to contribute, please join our [gitter chat](https://gitter.im/Crack
 [Download ngImgCropExtended](https://github.com/CrackerakiUA/ngImgCropExtended/archive/master.zip) files from GitHub
 
 #### Bower
-	bower install ngImgCropFullExtended
+	bower install ui-cropper
 
 #### NPM
 	npm install ui-cropper
