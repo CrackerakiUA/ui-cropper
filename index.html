@@ -61,7 +61,7 @@
 
             <div data-ng-if="enableCrop" class="cropArea"
                  data-ng-class="{'big':size=='big', 'medium':size=='medium', 'small':size=='small'}">
-                <img-crop
+                <ui-cropper
                         image="imageDataURI"
                         result-image="$parent.resImageDataURI"
                         result-blob="$parent.resBlob"
@@ -84,7 +84,7 @@
                         live-view="blockingObject"
                         area-coords="myAreaCoords"
                         canvas-scalemode="true">
-                </img-crop>
+                </ui-cropper>
             </div>
 
             <div class="row">
