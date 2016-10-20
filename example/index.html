@@ -41,29 +41,30 @@
 
             <div data-ng-if="enableCrop" class="cropArea"
                  data-ng-class="{'big':size=='big', 'medium':size=='medium', 'small':size=='small'}">
-                <img-crop
-                        image="imageDataURI"
-                        result-image="$parent.resImageDataURI"
-                        result-blob="$parent.resBlob"
-                        url-blob="$parent.urlBlob"
-                        change-on-fly="changeOnFly"
-                        area-type="{{type}}"
-                        area-min-size="selMinSize"
-                        area-init-size="selInitSize"
-                        result-image-format="resImgFormat"
-                        result-image-quality="resImgQuality"
-                        result-image-size="resImgSize"
-                        aspect-ratio="aspectRatio"
-                        allow-crop-resize-on-corners="false"
-                        init-max-area="true"
-                        chargement="'Testing Message'"
-                        on-change="onChange($dataURI)"
-                        on-load-begin="onLoadBegin()"
-                        on-load-done="onLoadDone()"
-                        on-load-error="onLoadError()"
-                        live-view="blockingObject"
-                        area-coords="myAreaCoords">
-                </img-crop>
+                <ui-cropper
+                    image="imageDataURI"
+                    result-image="$parent.resImageDataURI"
+                    result-blob="$parent.resBlob"
+                    url-blob="$parent.urlBlob"
+                    change-on-fly="changeOnFly"
+                    area-type="{{type}}"
+                    area-min-size="selMinSize"
+                    area-init-size="selInitSize"
+                    result-image-format="resImgFormat"
+                    result-image-quality="resImgQuality"
+                    result-image-size="resImgSize"
+                    aspect-ratio="aspectRatio"
+                    allow-crop-resize-on-corners="false"
+                    init-max-area="true"
+                    chargement="'Testing Message'"
+                    on-change="onChange($dataURI)"
+                    on-load-begin="onLoadBegin()"
+                    on-load-done="onLoadDone()"
+                    on-load-error="onLoadError()"
+                    live-view="blockingObject"
+                    area-coords="myAreaCoords"
+                    canvas-scalemode="true">
+                </ui-cropper>
             </div>
 
             <div class="row">

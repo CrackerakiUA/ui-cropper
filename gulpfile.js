@@ -29,7 +29,7 @@ var today = new Date();
 var Config = {
     port: 9000,
     livereloadPort: 35728,
-    testPage: 'test/ng-img-crop.html',
+    testPage: 'example/index.html',
     cache: (typeof argv.cache !== 'undefined' ? !!argv.cache : true),
     paths: {
         source: {
@@ -68,7 +68,7 @@ var Config = {
 
 // Compile Styles
 gulp.task('styles', function () {
-    return gulp.src(Config.paths.source.scss + '/ng-img-crop.scss')
+    return gulp.src(Config.paths.source.scss + '/ui-cropper.scss')
         .pipe(compass({
             sass: Config.paths.source.scss,
             css: Config.paths.compileUnminified.css,
@@ -83,9 +83,9 @@ gulp.task('scripts-part-1', function () {
     return gulp.src([
         Config.paths.source.js + '/init.js',
         Config.paths.source.js + '/classes/*.js',
-        Config.paths.source.js + '/ng-img-crop.js'
+        Config.paths.source.js + '/ui-cropper.js'
     ])
-        .pipe(concat('ng-img-crop' + '.js', {
+        .pipe(concat('ui-cropper' + '.js', {
             separator: '\n\n',
             process: function (src) {
                 // Remove all 'use strict'; from the code and
@@ -103,10 +103,10 @@ gulp.task('scripts-part-1', function () {
 
 gulp.task('scripts-part-2', function () {
     return gulp.src([
-        Config.paths.tmp + '/ng-img-crop' + '.js',
+        Config.paths.tmp + '/ui-cropper' + '.js',
         Config.paths.source.js + '/3rdparty/*.js'
     ])
-        .pipe(concat('ng-img-crop' + '.js', {
+        .pipe(concat('ui-cropper' + '.js', {
             separator: '\n\n',
             process: function (src) {
                 // Remove all 'use strict'; from the code and
