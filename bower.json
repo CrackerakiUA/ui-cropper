@@ -20,13 +20,13 @@
 		"email": "crackeraki@gmail.com"
 	}, {
 		"name": "Rick de Graaff",
-		"email": "info@rickdegraaff.nl"
+		"email": "rick@rickdegraaff.nl"
 	}],
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/CrackerakiUA/ui-cropper/"
 	},
-	"description": "Image crop directive for AngularJS, square, circle and rectangle areas. Working aspect.",
+	"description": "Image crop directive for AngularJS, square, circle and rectangle areas. Working with aspects.",
 	"main": [
 		"compile/minified/ui-cropper.js",
 		"compile/minified/ui-cropper.css"

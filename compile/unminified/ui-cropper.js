@@ -1,11 +1,11 @@
 /*!
- * uiCropper v1.0.0
+ * uiCropper v1.0.2
  * https://crackerakiua.github.io/ui-cropper/
  *
  * Copyright (c) 2016 Alex Kaul
  * License: MIT
  *
- * Generated at Friday, October 21st, 2016, 1:01:32 AM
+ * Generated at Thursday, October 27th, 2016, 9:56:01 AM
  */
 (function() {
 var crop = angular.module('uiCropper', []);

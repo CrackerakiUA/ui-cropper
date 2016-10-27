@@ -1,5 +1,5 @@
 {
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": {
     "name": "Alex Kaul",
     "email": "alexkaul@googlemail.com"
@@ -26,7 +26,7 @@
     },
     {
       "name": "Rick de Graaff",
-      "email": "info@rickdegraaff.nl"
+      "email": "rick@rickdegraaff.nl"
     }
   ],
   "name": "ui-cropper",
