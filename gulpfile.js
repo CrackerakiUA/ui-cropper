@@ -75,7 +75,7 @@ gulp.task('styles', function () {
             errLogToConsole: true
         }))
         .pipe(prefix('last 2 version', '> 5%', 'safari 5', 'ie 8', 'ie 7', 'opera 12.1', 'ios 6', 'android 4'))
-        .pipe(gulp.dest(Config.paths.compileUnminified.css));
+        .pipe(gulp.dest(Config.paths.compileUnminified.css), {overwrite: true});
 });
 
 // Compile Scripts
@@ -142,7 +142,7 @@ gulp.task('dist:js', ['scripts', 'dist:js:clean'], function () {
 gulp.task('dist:css', ['dist:css:clean', 'styles'], function () {
     return gulp.src(Config.paths.compileUnminified.css + '/**/*.css')
         .pipe(cleanCSS())
-        .pipe(gulp.dest(Config.paths.compileMinified.css));
+        .pipe(gulp.dest(Config.paths.compileMinified.css), {overwrite: true});
 });
 
 // Server
