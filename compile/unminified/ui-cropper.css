@@ -1,37 +1,37 @@
 /* line 1, ../../source/scss/ui-cropper.scss */
-img-crop {
+ui-cropper {
   width: 100%;
   display: block;
 }
 /* line 3, ../../source/scss/ui-cropper.scss */
-img-crop.fixed-height {
+ui-cropper.fixed-height {
   height: 100%;
   position: relative;
   overflow: hidden;
 }
 /* line 7, ../../source/scss/ui-cropper.scss */
-img-crop.fixed-height canvas {
+ui-cropper.fixed-height canvas {
   display: block;
   position: absolute;
   top: 50%;
   left: 50%;
 }
 /* line 14, ../../source/scss/ui-cropper.scss */
-img-crop.full-width {
+ui-cropper.full-width {
   text-align: center;
 }
 /* line 16, ../../source/scss/ui-cropper.scss */
-img-crop.full-width canvas {
+ui-cropper.full-width canvas {
   display: inline;
 }
 /* line 22, ../../source/scss/ui-cropper.scss */
-img-crop canvas {
+ui-cropper canvas {
   outline: none;
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
   /* mobile webkit */
 }
 /* line 28, ../../source/scss/ui-cropper.scss */
-img-crop .loading {
+ui-cropper .loading {
   width: 100%;
   font-size: 16px;
   font-weight: bold;
@@ -51,7 +51,7 @@ img-crop .loading {
   background-color: rgba(0, 0, 0, 0.75);
 }
 /* line 29, ../../source/scss/ui-cropper.scss */
-img-crop .loading .fixed-height {
+ui-cropper .loading .fixed-height {
   height: 100%;
   position: absolute;
 }
