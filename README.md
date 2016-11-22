@@ -1,7 +1,7 @@
 ## uiCropper
 
 [![Build Status](https://travis-ci.org/CrackerakiUA/ui-cropper.svg?branch=master)](https://travis-ci.org/CrackerakiUA/ui-cropper)
-[![GitHub release](https://img.shields.io/github/release/CrackerakiUA/ui-cropper.svg)](https://github.com/CrackerakiUA/ui-cropper) [![Join the chat at https://gitter.im/CrackerakiUA/ngImgCropFullExtended](https://badges.gitter.im/CrackerakiUA/ngImgCropFullExtended.svg)](https://gitter.im/CrackerakiUA/ui-cropper?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![GitHub release](https://img.shields.io/github/release/CrackerakiUA/ui-cropper.svg)](https://github.com/CrackerakiUA/ui-cropper) [![Join the chat at https://gitter.im/CrackerakiUA/ui-cropper](https://badges.gitter.im/CrackerakiUA/ui-cropper.svg)](https://gitter.im/CrackerakiUA/ui-cropper?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Simple Image Crop directive for AngularJS. Enables to crop a circle, square or rectangle from of an image.
 
@@ -31,7 +31,7 @@ If you want to contribute, please join our [gitter chat](https://gitter.im/Crack
 ## Installing
 
 #### Download directly
-[Download ngImgCropExtended](https://github.com/CrackerakiUA/ui-cropper/archive/master.zip) files from GitHub
+[Download ui-cropper](https://github.com/CrackerakiUA/ui-cropper/archive/master.zip) files from GitHub
 
 #### Bower
 	bower install ui-cropper
