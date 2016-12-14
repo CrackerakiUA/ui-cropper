@@ -40,7 +40,7 @@ If you want to contribute, please join our [gitter chat](https://gitter.im/Crack
 	npm install ui-cropper
 
 #### Meteor
-	meteor add crackeraki:ui-cropper
+	meteor npm install --save ui-cropper
 
 ## How to Use
 
