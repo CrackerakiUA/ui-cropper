@@ -271,4 +271,4 @@
         this.MegaPixImage = MegaPixImage;
     }
 
-})();
+}.call(this));
