@@ -4,7 +4,7 @@
 
 'use strict';
 
-crop.service('cropEXIF', [function () {
+angular.module('uiCropper').service('cropEXIF', [function () {
     var debug = false;
 
     var ExifTags = this.Tags = {

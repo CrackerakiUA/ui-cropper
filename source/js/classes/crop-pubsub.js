@@ -1,6 +1,6 @@
 'use strict';
 
-crop.factory('cropPubSub', [function() {
+angular.module('uiCropper').factory('cropPubSub', [function() {
     return function() {
         var events = {};
         // Subscribe

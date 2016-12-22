@@ -1,8 +1,9 @@
 'use strict';
 
-crop.factory('cropHost', ['$document', '$q', 'cropAreaCircle', 'cropAreaSquare', 'cropAreaRectangle', 'cropEXIF', function ($document, $q, CropAreaCircle, CropAreaSquare, CropAreaRectangle, cropEXIF) {
+angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCircle', 'cropAreaSquare', 'cropAreaRectangle', 'cropEXIF', function ($document, $q, CropAreaCircle, CropAreaSquare, CropAreaRectangle, cropEXIF) {
     /* STATIC FUNCTIONS */
-
+    var colorPaletteLength = 8;
+    
     // Get Element's Offset
     var getElementOffset = function (elem) {
         var box = elem.getBoundingClientRect();
@@ -18,8 +19,6 @@ crop.factory('cropHost', ['$document', '$q', 'cropAreaCircle', 'cropAreaSquare',
 
         var top = box.top + scrollTop - clientTop;
         var left = box.left + scrollLeft - clientLeft;
-
-        var colorPaletteLength = 8;
 
         return {
             top: Math.round(top),
@@ -392,7 +391,7 @@ crop.factory('cropHost', ['$document', '$q', 'cropAreaCircle', 'cropAreaSquare',
         this.setNewImageSource = function (imageSource) {
             image = null;
             resetCropHost();
-            if (!!imageSource) {
+            if (imageSource) {
                 var newImage = new Image();
                 newImage.onload = function () {
                     events.trigger('load-done');

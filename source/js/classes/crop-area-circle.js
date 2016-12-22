@@ -1,6 +1,6 @@
 'use strict';
 
-crop.factory('cropAreaCircle', ['cropArea', function(CropArea) {
+angular.module('uiCropper').factory('cropAreaCircle', ['cropArea', function(CropArea) {
     var CropAreaCircle = function() {
         CropArea.apply(this, arguments);
 

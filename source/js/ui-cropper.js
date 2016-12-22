@@ -1,6 +1,6 @@
 'use strict';
 
-crop.directive('uiCropper', ['$timeout', 'cropHost', 'cropPubSub', function ($timeout, CropHost, CropPubSub) {
+angular.module('uiCropper').directive('uiCropper', ['$timeout', 'cropHost', 'cropPubSub', function ($timeout, CropHost, CropPubSub) {
     return {
         restrict: 'E',
         scope: {
@@ -53,15 +53,6 @@ crop.directive('uiCropper', ['$timeout', 'cropHost', 'cropPubSub', function ($ti
             $scope.events = new CropPubSub();
         }],
         link: function (scope, element) {
-
-            if (scope.liveView && typeof scope.liveView.block === 'boolean') {
-                scope.liveView.render = function (callback) {
-                    updateResultImage(scope, true, callback);
-                };
-            } else {
-                scope.liveView = {block: false};
-            }
-
             // Init Events Manager
             var events = scope.events;
 
@@ -79,6 +70,9 @@ crop.directive('uiCropper', ['$timeout', 'cropHost', 'cropPubSub', function ($ti
             // Store Result Image to check if it's changed
             var storedResultImage;
 
+            var updateAreaCoords = function (scope) {
+                scope.areaCoords = cropHost.getAreaCoords();
+            };
 
             var updateResultImage = function (scope, force, callback) {
                 if (scope.image !== '' && (!scope.liveView.block || force)) {
@@ -123,9 +117,13 @@ crop.directive('uiCropper', ['$timeout', 'cropHost', 'cropPubSub', function ($ti
                 }
             };
 
-            var updateAreaCoords = function (scope) {
-                scope.areaCoords = cropHost.getAreaCoords();
-            };
+            if (scope.liveView && typeof scope.liveView.block === 'boolean') {
+                scope.liveView.render = function (callback) {
+                    updateResultImage(scope, true, callback);
+                };
+            } else {
+                scope.liveView = {block: false};
+            }
 
             var updateCropject = function (scope) {
                 var areaCoords = cropHost.getAreaCoords();
@@ -204,7 +202,7 @@ crop.directive('uiCropper', ['$timeout', 'cropHost', 'cropPubSub', function ($ti
                 }))
                 .on('load-done', fnSafeApply(function (scope) {
                     var children = element.children();
-                    angular.forEach(children, function (child, index) {
+                    angular.forEach(children, function (child) {
                         if (angular.element(child).hasClass('loading')) {
                             angular.element(child).remove();
                         }
@@ -216,7 +214,7 @@ crop.directive('uiCropper', ['$timeout', 'cropHost', 'cropPubSub', function ($ti
                     scope.onLoadError({});
                 }))
                 .on('area-move area-resize', fnSafeApply(function (scope) {
-                    if (!!scope.changeOnFly) {
+                    if (scope.changeOnFly === 'true') {
                         updateResultImage(scope);
                     }
                     updateCropject(scope);
@@ -236,7 +234,7 @@ crop.directive('uiCropper', ['$timeout', 'cropHost', 'cropPubSub', function ($ti
                     displayLoading();
                 }
                 // cancel timeout if necessary
-                if (!!scope.timeout) {
+                if (scope.timeout !== null) {
                     $timeout.cancel(scope.timeout);
                 }
                 scope.timeout = $timeout(function () {
