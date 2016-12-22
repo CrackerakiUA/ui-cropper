@@ -1,9 +1,9 @@
 /**
  * EXIF service is based on the exif-js library (https://github.com/jseidelin/exif-js)
  */
-
 'use strict';
-
+/*eslint-disable */
+//Disable eslint as this is a 3rd party lib
 angular.module('uiCropper').service('cropEXIF', [function () {
     var debug = false;
 

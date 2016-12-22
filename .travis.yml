@@ -3,4 +3,7 @@ node_js:
   - "6.1"
 before_script:
   - npm install -g gulp
-script: gulp lint -v
+  - npm install -g eslint
+script: 
+  - gulp lint -v
+  - eslint .
