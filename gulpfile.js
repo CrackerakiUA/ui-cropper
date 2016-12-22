@@ -104,7 +104,7 @@ gulp.task('scripts-part-1', function () {
 gulp.task('scripts-part-2', function () {
     return gulp.src([
         Config.paths.tmp + '/ui-cropper' + '.js',
-        Config.paths.source.js + '/3rdparty/*.js'
+        Config.paths.source.js + '/3rdparty/!(exif).js'
     ])
         .pipe(concat('ui-cropper' + '.js', {
             separator: '\n\n',
