@@ -5,7 +5,7 @@
  * Copyright (c) 2016 Alex Kaul
  * License: MIT
  *
- * Generated at Friday, December 23rd, 2016, 2:13:55 PM
+ * Generated at Friday, December 23rd, 2016, 3:05:21 PM
  */
 (function() {
 angular.module('uiCropper', []);
@@ -1953,7 +1953,7 @@ angular.module('uiCropper').service('cropEXIF', [function () {
                 if (numValues === 1) {
                     numerator = file.getUint32(valueOffset, !bigEnd);
                     denominator = file.getUint32(valueOffset + 4, !bigEnd);
-                    val = (numerator / denominator); //@TODO need to inspect if this fix is really working
+                    val = {}; //@TODO need to inspect if this fix is really working
                     val.numerator = numerator;
                     val.denominator = denominator;
                     return val;
@@ -1962,7 +1962,7 @@ angular.module('uiCropper').service('cropEXIF', [function () {
                 for (n = 0; n < numValues; n++) {
                     numerator = file.getUint32(valueOffset + 8 * n, !bigEnd);
                     denominator = file.getUint32(valueOffset + 4 + 8 * n, !bigEnd);
-                    vals[n] = (numerator / denominator); //@TODO need to inspect if this fix is really working
+                    vals[n] = {}; //@TODO need to inspect if this fix is really working
                     vals[n].numerator = numerator;
                     vals[n].denominator = denominator;
                 }
