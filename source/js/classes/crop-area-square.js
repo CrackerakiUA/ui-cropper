@@ -1,6 +1,6 @@
 'use strict';
 
-crop.factory('cropAreaSquare', ['cropArea', function(CropArea) {
+angular.module('uiCropper').factory('cropAreaSquare', ['cropArea', function(CropArea) {
     var CropAreaSquare = function() {
         CropArea.apply(this, arguments);
 
@@ -73,7 +73,6 @@ crop.factory('cropAreaSquare', ['cropArea', function(CropArea) {
     };
 
     CropAreaSquare.prototype._drawArea = function(ctx, centerCoords, size) {
-        var hSize = size / 2;
         ctx.rect(size.x, size.y, size.w, size.h);
     };
 

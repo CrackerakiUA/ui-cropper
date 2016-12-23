@@ -1,6 +1,6 @@
 'use strict';
 
-crop.factory('cropAreaCircle', ['cropArea', function(CropArea) {
+angular.module('uiCropper').factory('cropAreaCircle', ['cropArea', function(CropArea) {
     var CropAreaCircle = function() {
         CropArea.apply(this, arguments);
 
@@ -95,8 +95,7 @@ crop.factory('cropAreaCircle', ['cropArea', function(CropArea) {
                 iFR = this._posResizeStartSize.w + iFX * 2;
             }
 
-            var center = this.getCenterPoint(),
-                newNO = {},
+            var newNO = {},
                 newSE = {};
 
             newNO.x = this.getCenterPoint().x - iFR * 0.5;
@@ -105,7 +104,7 @@ crop.factory('cropAreaCircle', ['cropArea', function(CropArea) {
             newNO.y = this.getCenterPoint().y - iFR * 0.5;
             newSE.y = this.getCenterPoint().y + iFR * 0.5;
 
-            this.CircleOnMove(newNO, newSE);
+            this.circleOnMove(newNO, newSE);
             this._boxResizeIsHover = true;
             res = true;
             this._events.trigger('area-resize');

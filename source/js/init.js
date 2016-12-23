@@ -1,3 +1,3 @@
 'use strict';
 
-var crop = angular.module('uiCropper', []);
+angular.module('uiCropper', []);

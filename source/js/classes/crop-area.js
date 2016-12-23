@@ -1,6 +1,6 @@
 'use strict';
 
-crop.factory('cropArea', ['cropCanvas', function (CropCanvas) {
+angular.module('uiCropper').factory('cropArea', ['cropCanvas', function (CropCanvas) {
     var CropArea = function (ctx, events) {
         this._ctx = ctx;
         this._events = events;
@@ -71,7 +71,7 @@ crop.factory('cropArea', ['cropCanvas', function (CropCanvas) {
             this._size = this._allowMouseOutsideCanvas(size);
         }
     };
-    CropArea.prototype.CircleOnMove = function (northWestCorner, southEastCorner) {
+    CropArea.prototype.circleOnMove = function (northWestCorner, southEastCorner) {
         var size = {
             x: northWestCorner.x,
             y: northWestCorner.y,
