@@ -73,7 +73,6 @@ angular.module('uiCropper').factory('cropAreaSquare', ['cropArea', function(Crop
     };
 
     CropAreaSquare.prototype._drawArea = function(ctx, centerCoords, size) {
-        var hSize = size / 2;
         ctx.rect(size.x, size.y, size.w, size.h);
     };
 

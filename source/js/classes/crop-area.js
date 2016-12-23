@@ -71,7 +71,7 @@ angular.module('uiCropper').factory('cropArea', ['cropCanvas', function (CropCan
             this._size = this._allowMouseOutsideCanvas(size);
         }
     };
-    CropArea.prototype.CircleOnMove = function (northWestCorner, southEastCorner) {
+    CropArea.prototype.circleOnMove = function (northWestCorner, southEastCorner) {
         var size = {
             x: northWestCorner.x,
             y: northWestCorner.y,

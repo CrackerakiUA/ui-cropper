@@ -17,19 +17,20 @@ module.exports = {
     "extends": "eslint:recommended",
     "rules": {
         "indent": [
-            "off",
-            2
+            "error",
+            4,
+            { 'SwitchCase': 1 }
         ],
         "linebreak-style": [
             "error",
             "unix"
         ],
         "quotes": [
-            "off",
+            "error",
             "single"
         ],
         "semi": [
-            "off",
+            "error",
             "always"
         ],
         'no-console': ['off'],

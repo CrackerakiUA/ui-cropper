@@ -16,8 +16,7 @@ var argv         = require('minimist')(process.argv.slice(2)),
     tinylr       = require('tiny-lr'),
     opn          = require('opn'),
     runSequence  = require('run-sequence'),
-    jshint       = require('gulp-jshint'),
-    jshintStylish= require('jshint-stylish'),
+    eslint       = require('gulp-eslint'),
     pkg          = require('./package.json'),
     lr,
     refresh_lr;
@@ -185,9 +184,9 @@ gulp.task('watch', function () {
 // Code linter
 gulp.task('lint', function () {
     return gulp.src([Config.paths.source.js + '/**/*.js', '!' + Config.paths.source.js + '/3rdparty/*.js'])
-        .pipe(jshint('.jshintrc', '.jshintignore'))
-        .pipe(jshint.reporter(jshintStylish))
-        .pipe(jshint.reporter('fail'));
+        .pipe(eslint())
+        .pipe(eslint.format())
+        .pipe(eslint.failAfterError());
 });
 
 // Build

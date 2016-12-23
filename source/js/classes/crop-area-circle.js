@@ -95,8 +95,7 @@ angular.module('uiCropper').factory('cropAreaCircle', ['cropArea', function(Crop
                 iFR = this._posResizeStartSize.w + iFX * 2;
             }
 
-            var center = this.getCenterPoint(),
-                newNO = {},
+            var newNO = {},
                 newSE = {};
 
             newNO.x = this.getCenterPoint().x - iFR * 0.5;
@@ -105,7 +104,7 @@ angular.module('uiCropper').factory('cropAreaCircle', ['cropArea', function(Crop
             newNO.y = this.getCenterPoint().y - iFR * 0.5;
             newSE.y = this.getCenterPoint().y + iFR * 0.5;
 
-            this.CircleOnMove(newNO, newSE);
+            this.circleOnMove(newNO, newSE);
             this._boxResizeIsHover = true;
             res = true;
             this._events.trigger('area-resize');
