@@ -33,7 +33,7 @@ angular.module('uiCropper').directive('uiCropper', ['$timeout', 'cropHost', 'cro
             /* if canvas is 100x100 crop coordinates will be x: 10, y: 10, w: 10, h: 10 */
             areaMinRelativeSize: '=?',
             resultImageSize: '=?',
-            resultImageFormat: '=?',
+            resultImageFormat: '@',
             resultImageQuality: '=?',
 
             aspectRatio: '=?',
