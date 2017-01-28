@@ -16,8 +16,8 @@ or pick a Codepen to play around with it<br>
 [Codepen: Rectangle Crop + Crop info](http://codepen.io/Crackeraki/pen/YqKwzZ)<br>
 [Codepen: Rectangle With Aspect Crop and Max Init](http://codepen.io/Crackeraki/pen/zvWqJM)<br>
 [Codepen: Rectangle + Aspect + Array Crop](http://codepen.io/Crackeraki/pen/jWgmYB)<br>
-[Codepen: Rectangle + CSS Crop](https://codepen.io/rickderd/pen/ZOyjRr)<br>
-[Codepen: Different sizes](http://codepen.io/ignacio-chiazzo/pen/QNQyRW)<br>
+[Codepen: Rectangle + CSS Crop](https://codepen.io/Crackeraki/pen/YNExrw)<br>
+[Codepen: Different sizes](http://codepen.io/Crackeraki/pen/RKjZLR)<br>
 
 ## News
 
