@@ -214,7 +214,7 @@ angular.module('uiCropper').directive('uiCropper', ['$timeout', 'cropHost', 'cro
                     scope.onLoadError({});
                 }))
                 .on('area-move area-resize', fnSafeApply(function (scope) {
-                    if (scope.changeOnFly === 'true') {
+                    if (scope.changeOnFly === true) {
                         updateResultImage(scope);
                     }
                     updateCropject(scope);
