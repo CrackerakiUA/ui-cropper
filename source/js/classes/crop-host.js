@@ -277,6 +277,9 @@ angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCir
                         resultWidth = resultHeight * aspectRatio;
                     }
 
+                    temp_canvas.width = resultWidth;
+                    temp_canvas.height = resultHeight;
+
                     temp_ctx.drawImage(image,
                         x,
                         y,
