@@ -245,14 +245,8 @@ angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCir
             }
         };
 
-        var renderImageToDataURL = function (getResultImageSize) {
-            var temp_ctx, temp_canvas,
-                ris = getResultImageSize,
-                center = theArea.getCenterPoint(),
-                retObj = {
-                    dataURI: null,
-                    imageData: null
-                };
+        var renderTempCanvas = function (ris, center) {
+            var temp_ctx, temp_canvas;
             temp_canvas = angular.element('<canvas></canvas>')[0];
             temp_ctx = temp_canvas.getContext('2d');
             temp_canvas.width = ris.w;
@@ -294,6 +288,19 @@ angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCir
                         Math.round(resultHeight));
                 }
 
+            }
+            return temp_canvas;
+
+        };
+
+        var renderImageToDataURL = function (getResultImageSize) {
+            var temp_canvas,
+                retObj = {
+                    dataURI: null,
+                    imageData: null
+                };
+            temp_canvas = renderTempCanvas(getResultImageSize, theArea.getCenterPoint());
+            if (image !== null) {
                 if (resImgQuality !== null) {
                     retObj.dataURI = temp_canvas.toDataURL(resImgFormat, resImgQuality);
                 } else {
@@ -321,52 +328,9 @@ angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCir
         };
 
         this.getResultImageDataBlob = function () {
-            var temp_ctx, temp_canvas,
-                center = theArea.getCenterPoint(),
-                ris = this.getResultImageSize(),
+            var temp_canvas,
                 _p = $q.defer();
-            temp_canvas = angular.element('<canvas></canvas>')[0];
-            temp_ctx = temp_canvas.getContext('2d');
-            temp_canvas.width = ris.w;
-            temp_canvas.height = ris.h;
-            if (image !== null) {
-                var x = (center.x - theArea.getSize().w / 2) * (image.width / ctx.canvas.width),
-                    y = (center.y - theArea.getSize().h / 2) * (image.height / ctx.canvas.height),
-                    areaWidth = theArea.getSize().w * (image.width / ctx.canvas.width),
-                    areaHeight = theArea.getSize().h * (image.height / ctx.canvas.height);
-
-                if (forceAspectRatio) {
-                    temp_ctx.drawImage(image, x, y,
-                        areaWidth,
-                        areaHeight,
-                        0,
-                        0,
-                        ris.w,
-                        ris.h);
-                } else {
-                    var aspectRatio = areaWidth / areaHeight;
-                    var resultHeight, resultWidth;
-
-                    if (aspectRatio > 1) {
-                        resultWidth = ris.w;
-                        resultHeight = resultWidth / aspectRatio;
-                    } else {
-                        resultHeight = ris.h;
-                        resultWidth = resultHeight * aspectRatio;
-                    }
-
-                    temp_ctx.drawImage(image,
-                        x,
-                        y,
-                        areaWidth,
-                        areaHeight,
-                        0,
-                        0,
-                        Math.round(resultWidth),
-                        Math.round(resultHeight));
-                }
-            }
-
+            temp_canvas = renderTempCanvas(this.getResultImageSize(), theArea.getCenterPoint());
             if (resImgQuality !== null) {
                 temp_canvas.toBlob(function (blob) {
                     _p.resolve(blob);
