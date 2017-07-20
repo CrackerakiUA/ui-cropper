@@ -182,6 +182,10 @@ angular.module('uiCropper').directive('uiCropper', ['$timeout', 'cropHost', 'cro
                     case 'de':
                     case 'de-DE':
                         return 'Laden';
+                        
+                    case 'pt':
+                    case 'pt-BR':
+                        return 'Carregando';
 
                     default:
                         return 'Loading';
