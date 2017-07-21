@@ -5,7 +5,7 @@
  * Copyright (c) 2017 Alex Kaul
  * License: MIT
  *
- * Generated at Friday, July 14th, 2017, 10:41:23 AM
+ * Generated at Thursday, July 20th, 2017, 6:44:47 PM
  */
 (function() {
 angular.module('uiCropper', []);
@@ -3220,6 +3220,10 @@ angular.module('uiCropper').directive('uiCropper', ['$timeout', 'cropHost', 'cro
                     case 'de':
                     case 'de-DE':
                         return 'Laden';
+                        
+                    case 'pt':
+                    case 'pt-BR':
+                        return 'Carregando';
 
                     default:
                         return 'Loading';
