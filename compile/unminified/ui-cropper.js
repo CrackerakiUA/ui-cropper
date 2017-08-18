@@ -5,7 +5,7 @@
  * Copyright (c) 2017 Alex Kaul
  * License: MIT
  *
- * Generated at Friday, August 18th, 2017, 5:04:14 PM
+ * Generated at Friday, August 18th, 2017, 5:08:52 PM
  */
 (function() {
 angular.module('uiCropper', []);
@@ -3577,7 +3577,8 @@ angular.module('uiCropper').directive('uiCropper', ['$timeout', 'cropHost', 'cro
         this.canvas.parentNode.removeChild(this.canvas);
     };
 
-    window.ColorThief = var ColorThief = function() {};
+    var ColorThief = function() {};
+    window.ColorThief = ColorThief;
 
     /*
      * getColor(sourceImage[, quality])
