@@ -5,7 +5,7 @@
  * Copyright (c) 2017 Alex Kaul
  * License: MIT
  *
- * Generated at Friday, August 18th, 2017, 5:08:52 PM
+ * Generated at Friday, September 8th, 2017, 10:00:18 AM
  */
 (function() {
 angular.module('uiCropper', []);
