@@ -1,7 +1,7 @@
+sudo: false
+
 language: node_js
 node_js:
-  - "6.1"
-before_script:
-  - npm install -g gulp
+  - "6"
 script: 
-  - gulp lint -v
+  - npm run lint

@@ -39,6 +39,11 @@
     "type": "git",
     "url": "https://github.com/CrackerakiUA/ui-cropper/"
   },
+  "scripts": {
+    "build": "gulp build",
+    "lint": "gulp lint",
+    "dev": "gulp"
+  },
   "dependencies": {
     "angular": ">=1.4.0"
   },
