@@ -42,6 +42,5 @@ module.exports = {
         "no-extend-native": ["error"],
         "new-cap": ["error"],
         "no-use-before-define": ["error"],
-
     }
 };

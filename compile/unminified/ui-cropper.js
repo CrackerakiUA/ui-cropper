@@ -5,7 +5,7 @@
  * Copyright (c) 2017 Alex Kaul
  * License: MIT
  *
- * Generated at Friday, September 8th, 2017, 10:00:18 AM
+ * Generated at Friday, September 8th, 2017, 5:11:05 PM
  */
 (function() {
 angular.module('uiCropper', []);
@@ -3014,7 +3014,6 @@ angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCir
         };
     };
 }]);
-
 angular.module('uiCropper').factory('cropPubSub', [function() {
     return function() {
         var events = {};
@@ -3378,7 +3377,6 @@ angular.module('uiCropper').directive('uiCropper', ['$timeout', 'cropHost', 'cro
 }]);
 
 }());
-
 /* canvas-toBlob.js
  * A canvas.toBlob() implementation.
  * 2013-12-27
@@ -3501,7 +3499,6 @@ angular.module('uiCropper').directive('uiCropper', ['$timeout', 'cropHost', 'cro
         }
     }
 }(typeof self !== "undefined" && self || typeof window !== "undefined" && window || this.content || this));
-
 
 /*!
  * Color Thief v2.0
@@ -4152,7 +4149,6 @@ angular.module('uiCropper').directive('uiCropper', ['$timeout', 'cropHost', 'cro
         this.ColorThief = ColorThief;
     }
 }.call(this));
-
 
 /**
  * Mega pixel image rendering library for iOS6 Safari
