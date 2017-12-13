@@ -18,6 +18,7 @@ angular.module('uiCropper').directive('uiCropper', ['$timeout', 'cropHost', 'cro
             /* if set to 'fixed-height', the directive is restricted by a parent element in height */
 
             changeOnFly: '=?',
+            disableKeyboardAccess: '=?',
             liveView: '=?',
             initMaxArea: '=?',
             areaCoords: '=?',
