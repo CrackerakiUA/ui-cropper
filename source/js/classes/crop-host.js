@@ -91,6 +91,7 @@ angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCir
         // Resets CropHost
         var resetCropHost = function () {
             if (image !== null) {
+                focusOnCanvas();
                 theArea.setImage(image);
                 var imageDims = [image.width, image.height],
                     imageRatio = image.width / image.height,
@@ -206,6 +207,7 @@ angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCir
                     pageX = e.pageX;
                     pageY = e.pageY;
                 }
+
                 theArea.processMouseMove(pageX - offset.left, pageY - offset.top);
                 drawScene();
             }
@@ -215,6 +217,7 @@ angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCir
             e.preventDefault();
             e.stopPropagation();
             if (image !== null) {
+                focusOnCanvas();
                 var offset = getElementOffset(ctx.canvas),
                     pageX, pageY;
                 if (e.type === 'touchstart') {
@@ -243,6 +246,10 @@ angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCir
                 theArea.processMouseUp(pageX - offset.left, pageY - offset.top);
                 drawScene();
             }
+        };
+
+        var focusOnCanvas = function () {
+            elCanvas.focus();
         };
 
         var renderTempCanvas = function (ris, center) {
@@ -836,6 +843,8 @@ angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCir
         $document.on('touchmove', onMouseMove);
         elCanvas.on('touchstart', onMouseDown);
         $document.on('touchend', onMouseUp);
+
+        elCanvas.prop('tabindex', '0');
 
         // CropHost Destructor
         this.destroy = function () {
