@@ -58,7 +58,9 @@ angular.module('uiCropper').directive('uiCropper', ['$timeout', 'cropHost', 'cro
             var events = scope.events;
 
             // Init Crop Host
-            var cropHost = new CropHost(element.find('canvas'), {}, events);
+            var cropHost = new CropHost(element.find('canvas'), {
+                disableKeyboardAccess: scope.disableKeyboardAccess
+            }, events);
 
             if (scope.canvasScalemode) {
                 cropHost.setScalemode(scope.canvasScalemode);
@@ -183,7 +185,7 @@ angular.module('uiCropper').directive('uiCropper', ['$timeout', 'cropHost', 'cro
                     case 'de':
                     case 'de-DE':
                         return 'Laden';
-                        
+
                     case 'pt':
                     case 'pt-BR':
                         return 'Carregando';

@@ -3,7 +3,7 @@
 angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCircle', 'cropAreaSquare', 'cropAreaRectangle', 'cropEXIF', function ($document, $q, CropAreaCircle, CropAreaSquare, CropAreaRectangle, cropEXIF) {
     /* STATIC FUNCTIONS */
     var colorPaletteLength = 8;
-    
+
     // Get Element's Offset
     var getElementOffset = function (elem) {
         var box = elem.getBoundingClientRect();
@@ -57,15 +57,25 @@ angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCir
             // Result Image quality
             resImgQuality = null,
 
+            keys = {
+                up: 38,
+                down: 40,
+                left: 37,
+                right: 39
+            },
+
             forceAspectRatio = false;
 
         /* PRIVATE FUNCTIONS */
+
         this.setInitMax = function (bool) {
             initMax = bool;
         };
+
         this.setAllowCropResizeOnCorners = function (bool) {
             theArea.setAllowCropResizeOnCorners(bool);
         };
+
         // Draw Scene
         function drawScene() {
             // clear canvas
@@ -247,6 +257,60 @@ angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCir
                 drawScene();
             }
         };
+
+        var onKeyDown = function (e) {
+            if (image !== null && opts.disableKeyboardAccess !== true) {
+                var key = e.which;
+                switch (key) {
+                    case keys.up:
+                    case keys.down:
+                    case keys.left:
+                    case keys.right:
+                        e.preventDefault();
+                        e.stopPropagation();
+                        var direction = getDirectionByKey(key);
+                        moveCropArea(direction);
+                        break;
+                    default:
+                        return;
+                }
+            }
+        };
+
+        var getDirectionByKey = function (key) {
+            return Object.keys(keys).reduce(function(result, direction) {
+                return key === keys[direction] ? direction : result;
+            }, null);
+        };
+
+        var moveCropArea = function (direction) {
+            var center = theArea.getCenterPoint();
+            var step = 5;
+            var point = {
+                x: center.x,
+                y: center.y
+            };
+
+            switch (direction) {
+                case 'up':
+                    point.y -= step;
+                    break;
+                case 'down':
+                    point.y += step;
+                    break;
+                case 'left':
+                    point.x -= step;
+                    break;
+                case 'right':
+                    point.x += step;
+                    break;
+                default:
+                    return;
+            }
+
+            theArea.setCenterPointOnMove(point);
+            drawScene();
+        }
 
         var focusOnCanvas = function () {
             elCanvas.focus();
@@ -846,6 +910,8 @@ angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCir
 
         elCanvas.prop('tabindex', '0');
 
+        elCanvas.on('keydown', onKeyDown);
+
         // CropHost Destructor
         this.destroy = function () {
             $document.off('mousemove', onMouseMove);
@@ -855,6 +921,8 @@ angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCir
             $document.off('touchmove', onMouseMove);
             elCanvas.off('touchstart', onMouseDown);
             $document.off('touchend', onMouseUp);
+
+            elCanvas.off('keydown', onKeyDown);
 
             elCanvas.remove();
         };
