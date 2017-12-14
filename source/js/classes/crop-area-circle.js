@@ -68,7 +68,7 @@ angular.module('uiCropper').factory('cropAreaCircle', ['cropArea', function(Crop
         this._cropCanvas.drawIconResizeBoxNESW(this._calcResizeIconCenterCoords(), this._boxResizeBaseSize, this._boxResizeIsHover ? this._boxResizeHoverRatio : this._boxResizeNormalRatio);
     };
 
-    CropAreaCircle.prototype.setSizeByScale = function(scale, direction) {
+    CropAreaCircle.prototype.setSizeByScale = function(scale) {
         var center = this.getCenterPoint();
         var size = this.getSize();
         var newRadius = size.w * scale / 2;

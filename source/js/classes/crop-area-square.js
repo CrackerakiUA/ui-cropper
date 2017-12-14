@@ -120,7 +120,7 @@ angular.module('uiCropper').factory('cropAreaSquare', ['cropArea', function(Crop
         };
     };
 
-    CropAreaSquare.prototype.setSizeByScale = function(scale, direction) {
+    CropAreaSquare.prototype.setSizeByScale = function(scale) {
         var center = this.getCenterPoint();
         var size = this.getSize();
         var newSize = size.w * scale;

@@ -98,6 +98,10 @@ angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCir
             }
         }
 
+        var focusOnCanvas = function () {
+            elCanvas.focus();
+        };
+
         // Resets CropHost
         var resetCropHost = function () {
             if (image !== null) {
@@ -258,29 +262,6 @@ angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCir
             }
         };
 
-        var onKeyDown = function (e) {
-            if (image !== null && opts.disableKeyboardAccess !== true) {
-                var key = e.which;
-                switch (key) {
-                    case keys.up:
-                    case keys.down:
-                    case keys.left:
-                    case keys.right:
-                        e.preventDefault();
-                        e.stopPropagation();
-                        var direction = getDirectionByKey(key);
-                        if (e.shiftKey) {
-                            resizeCropAreaByDirection(direction);
-                        } else {
-                            moveCropArea(direction);
-                        }
-                        break;
-                    default:
-                        return;
-                }
-            }
-        };
-
         var getDirectionByKey = function (key) {
             return Object.keys(keys).reduce(function(result, direction) {
                 return key === keys[direction] ? direction : result;
@@ -332,10 +313,29 @@ angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCir
 
             theArea.setCenterPointOnMove(point);
             drawScene();
-        }
+        };
 
-        var focusOnCanvas = function () {
-            elCanvas.focus();
+        var onKeyDown = function (e) {
+            if (image !== null && opts.disableKeyboardAccess !== true) {
+                var key = e.which;
+                switch (key) {
+                    case keys.up:
+                    case keys.down:
+                    case keys.left:
+                    case keys.right:
+                        e.preventDefault();
+                        e.stopPropagation();
+                        var direction = getDirectionByKey(key);
+                        if (e.shiftKey) {
+                            resizeCropAreaByDirection(direction);
+                        } else {
+                            moveCropArea(direction);
+                        }
+                        break;
+                    default:
+                        return;
+                }
+            }
         };
 
         var renderTempCanvas = function (ris, center) {
