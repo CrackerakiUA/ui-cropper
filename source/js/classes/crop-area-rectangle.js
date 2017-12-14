@@ -95,6 +95,48 @@ angular.module('uiCropper').factory('cropAreaRectangle', ['cropArea', function (
         }
     };
 
+    CropAreaRectangle.prototype.setSizeByScale = function(scale, direction) {
+        var center = this.getCenterPoint();
+        var size = this.getSize();
+        var northWestPoint;
+        var southEastPoint;
+
+        if (this._aspect) {
+            var newWidth = size.w * scale;
+            var newHeight = size.h * scale;
+            northWestPoint = {
+                x: center.x - (newWidth / 2),
+                y: center.y - (newHeight / 2)
+            };
+            southEastPoint = {
+                x: center.x + (newWidth / 2),
+                y: center.y + (newHeight / 2)
+            };
+        } else {
+            northWestPoint = {
+                x: size.x,
+                y: size.y
+            };
+            southEastPoint = {
+                x: size.x + size.w,
+                y: size.y + size.h
+            };
+            switch (direction) {
+                case 'up':
+                case 'down':
+                    southEastPoint.y = size.y + (size.h * scale);
+                    break;
+                case 'left':
+                case 'right':
+                    southEastPoint.x = size.x + (size.w * scale);
+                    break;
+            }
+        }
+
+        this.setSizeByCorners(northWestPoint, southEastPoint);
+        this._events.trigger('area-resize');
+    };
+
     CropAreaRectangle.prototype.processMouseMove = function (mouseCurX, mouseCurY) {
         var cursor = 'default';
         var res = false;

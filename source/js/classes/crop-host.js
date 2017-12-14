@@ -269,7 +269,11 @@ angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCir
                         e.preventDefault();
                         e.stopPropagation();
                         var direction = getDirectionByKey(key);
-                        moveCropArea(direction);
+                        if (e.shiftKey) {
+                            resizeCropAreaByDirection(direction);
+                        } else {
+                            moveCropArea(direction);
+                        }
                         break;
                     default:
                         return;
@@ -281,6 +285,24 @@ angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCir
             return Object.keys(keys).reduce(function(result, direction) {
                 return key === keys[direction] ? direction : result;
             }, null);
+        };
+
+        var resizeCropAreaByDirection = function (direction) {
+            var scale;
+            switch (direction) {
+                case 'up':
+                case 'left':
+                    scale = 0.95;
+                    break;
+                case 'down':
+                case 'right':
+                    scale = 1.05;
+                    break;
+                default:
+                    return;
+            }
+            theArea.setSizeByScale(scale, direction);
+            drawScene();
         };
 
         var moveCropArea = function (direction) {
