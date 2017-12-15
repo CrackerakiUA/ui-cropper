@@ -120,6 +120,25 @@ angular.module('uiCropper').factory('cropAreaSquare', ['cropArea', function(Crop
         };
     };
 
+    CropAreaSquare.prototype.setSizeByScale = function(scale) {
+        var center = this.getCenterPoint();
+        var size = this.getSize();
+        var newSize = size.w * scale;
+        if (newSize < this._minSize.w) {
+            newSize = this._minSize.w;
+        }
+        var northWestPoint = {
+            x: center.x - (newSize / 2),
+            y: center.y - (newSize / 2)
+        };
+        var southEastPoint = {
+            x: center.x + (newSize / 2),
+            y: center.y + (newSize / 2)
+        };
+        this.setSizeByCorners(northWestPoint, southEastPoint);
+        this._events.trigger('area-resize');
+    };
+
     CropAreaSquare.prototype.processMouseMove = function(mouseCurX, mouseCurY) {
         var cursor = 'default';
         var res = false;
