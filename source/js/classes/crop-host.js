@@ -99,31 +99,66 @@ angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCir
         }
 
         var focusOnCanvas = function () {
-            elCanvas.focus();
+            elCanvas[0].focus();
         };
+
+        function fitCanvasDims(width, height) {
+            var imageRatio = width / height;
+            var canvasDims = [width, height];
+            var margins = {left: 0, top: 0};
+            if (canvasDims[0] > maxCanvasDims[0]) {
+                canvasDims[0] = maxCanvasDims[0];
+                canvasDims[1] = canvasDims[0] / imageRatio;
+                margins.top = (maxCanvasDims[1] - canvasDims[1]) / 2;
+            }
+            else if (canvasDims[1] > maxCanvasDims[1]) {
+                canvasDims[1] = maxCanvasDims[1];
+                canvasDims[0] = canvasDims[1] * imageRatio;
+                margins.left = (maxCanvasDims[0] - canvasDims[0]) / 2;
+            }
+            else {
+                margins.top = (maxCanvasDims[1] - canvasDims[1]) / 2;
+                margins.left = (maxCanvasDims[0] - canvasDims[0]) / 2;
+            }
+            return {
+                dims: canvasDims,
+                margins: margins,
+            };
+        }
 
         // Resets CropHost
         var resetCropHost = function () {
             if (image !== null) {
                 focusOnCanvas();
                 theArea.setImage(image);
-                var imageDims = [image.width, image.height],
-                    imageRatio = image.width / image.height,
-                    canvasDims = imageDims;
-
-                if (canvasDims[0] > maxCanvasDims[0]) {
-                    canvasDims[0] = maxCanvasDims[0];
-                    canvasDims[1] = canvasDims[0] / imageRatio;
-                } else if (canvasDims[0] < minCanvasDims[0]) {
-                    canvasDims[0] = minCanvasDims[0];
-                    canvasDims[1] = canvasDims[0] / imageRatio;
+                if (scalemode === 'fit') {
+                    var results = fitCanvasDims(image.width, image.height);
+                    var canvasDims = results.dims;
+                    var margins = results.margins;
+                    elCanvas.css({
+                        'margin-left': margins.left + 'px',
+                        'margin-top': margins.top + 'px'
+                    });
                 }
-                if (scalemode === 'fixed-height' && canvasDims[1] > maxCanvasDims[1]) {
-                    canvasDims[1] = maxCanvasDims[1];
-                    canvasDims[0] = canvasDims[1] * imageRatio;
-                } else if (canvasDims[1] < minCanvasDims[1]) {
-                    canvasDims[1] = minCanvasDims[1];
-                    canvasDims[0] = canvasDims[1] * imageRatio;
+                else {
+                    var imageDims = [image.width, image.height],
+                        imageRatio = image.width / image.height,
+                        canvasDims = imageDims;
+
+                    if (canvasDims[0] > maxCanvasDims[0]) {
+                        canvasDims[0] = maxCanvasDims[0];
+                        canvasDims[1] = canvasDims[0] / imageRatio;
+                    } else if (canvasDims[0] < minCanvasDims[0]) {
+                        canvasDims[0] = minCanvasDims[0];
+                        canvasDims[1] = canvasDims[0] / imageRatio;
+                    }
+                    if (scalemode === 'fixed-height' && canvasDims[1] > maxCanvasDims[1]) {
+                        canvasDims[1] = maxCanvasDims[1];
+                        canvasDims[0] = canvasDims[1] * imageRatio;
+                    } else if (canvasDims[1] < minCanvasDims[1]) {
+                        canvasDims[1] = minCanvasDims[1];
+                        canvasDims[0] = canvasDims[1] * imageRatio;
+                    }
                 }
                 elCanvas.prop('width', canvasDims[0]).prop('height', canvasDims[1]);
                 if (scalemode === 'fixed-height') {
@@ -555,24 +590,34 @@ angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCir
             if (image !== null) {
                 var curWidth = ctx.canvas.width,
                     curHeight = ctx.canvas.height;
-
-                var imageDims = [image.width, image.height],
-                    imageRatio = image.width / image.height,
-                    canvasDims = imageDims;
-
-                if (canvasDims[0] > maxCanvasDims[0]) {
-                    canvasDims[0] = maxCanvasDims[0];
-                    canvasDims[1] = canvasDims[0] / imageRatio;
-                } else if (canvasDims[0] < minCanvasDims[0]) {
-                    canvasDims[0] = minCanvasDims[0];
-                    canvasDims[1] = canvasDims[0] / imageRatio;
+                if (scalemode === 'fit') {
+                    var results = fitCanvasDims(image.width, image.height);
+                    var canvasDims = results.dims;
+                    var margins = results.margins;
+                    elCanvas.css({
+                        'margin-left': margins.left + 'px',
+                        'margin-top': margins.top + 'px'
+                    });
                 }
-                if (scalemode === 'fixed-height' && canvasDims[1] > maxCanvasDims[1]) {
-                    canvasDims[1] = maxCanvasDims[1];
-                    canvasDims[0] = canvasDims[1] * imageRatio;
-                } else if (canvasDims[1] < minCanvasDims[1]) {
-                    canvasDims[1] = minCanvasDims[1];
-                    canvasDims[0] = canvasDims[1] * imageRatio;
+                else {
+                    var imageDims = [image.width, image.height],
+                        imageRatio = image.width / image.height,
+                        canvasDims = imageDims;
+
+                    if (canvasDims[0] > maxCanvasDims[0]) {
+                        canvasDims[0] = maxCanvasDims[0];
+                        canvasDims[1] = canvasDims[0] / imageRatio;
+                    } else if (canvasDims[0] < minCanvasDims[0]) {
+                        canvasDims[0] = minCanvasDims[0];
+                        canvasDims[1] = canvasDims[0] / imageRatio;
+                    }
+                    if (scalemode === 'fixed-height' && canvasDims[1] > maxCanvasDims[1]) {
+                        canvasDims[1] = maxCanvasDims[1];
+                        canvasDims[0] = canvasDims[1] * imageRatio;
+                    } else if (canvasDims[1] < minCanvasDims[1]) {
+                        canvasDims[1] = minCanvasDims[1];
+                        canvasDims[0] = canvasDims[1] * imageRatio;
+                    }
                 }
                 elCanvas.prop('width', canvasDims[0]).prop('height', canvasDims[1]);
 
@@ -583,8 +628,8 @@ angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCir
                     });
                 }
 
-                var ratioNewCurWidth = ctx.canvas.width / curWidth,
-                    ratioNewCurHeight = ctx.canvas.height / curHeight,
+                var ratioNewCurWidth = curWidth ? ctx.canvas.width / curWidth : 0,
+                    ratioNewCurHeight = curHeight ? ctx.canvas.height / curHeight : 0,
                     ratioMin = Math.min(ratioNewCurWidth, ratioNewCurHeight);
 
                 //TODO: use top left corner point
