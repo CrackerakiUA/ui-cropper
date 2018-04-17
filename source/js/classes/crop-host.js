@@ -590,9 +590,10 @@ angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCir
             if (image !== null) {
                 var curWidth = ctx.canvas.width,
                     curHeight = ctx.canvas.height;
+                var canvasDims = [0, 0];
                 if (scalemode === 'fit') {
                     var results = fitCanvasDims(image.width, image.height);
-                    var canvasDims = results.dims;
+                    canvasDims = results.dims;
                     var margins = results.margins;
                     elCanvas.css({
                         'margin-left': margins.left + 'px',
@@ -601,8 +602,8 @@ angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCir
                 }
                 else {
                     var imageDims = [image.width, image.height],
-                        imageRatio = image.width / image.height,
-                        canvasDims = imageDims;
+                        imageRatio = image.width / image.height;
+                    canvasDims = imageDims;
 
                     if (canvasDims[0] > maxCanvasDims[0]) {
                         canvasDims[0] = maxCanvasDims[0];
