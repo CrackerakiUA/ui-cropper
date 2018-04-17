@@ -1,11 +1,11 @@
 /*!
- * uiCropper v1.0.4
+ * uiCropper v1.0.6
  * https://crackerakiua.github.io/ui-cropper/
  *
- * Copyright (c) 2017 Alex Kaul
+ * Copyright (c) 2018 Alex Kaul
  * License: MIT
  *
- * Generated at Friday, September 8th, 2017, 5:11:05 PM
+ * Generated at Tuesday, April 17th, 2018, 11:17:53 AM
  */
 (function() {
 angular.module('uiCropper', []);
@@ -76,6 +76,22 @@ angular.module('uiCropper').factory('cropAreaCircle', ['cropArea', function(Crop
 
         // draw resize cubes
         this._cropCanvas.drawIconResizeBoxNESW(this._calcResizeIconCenterCoords(), this._boxResizeBaseSize, this._boxResizeIsHover ? this._boxResizeHoverRatio : this._boxResizeNormalRatio);
+    };
+
+    CropAreaCircle.prototype.setSizeByScale = function(scale) {
+        var center = this.getCenterPoint();
+        var size = this.getSize();
+        var newRadius = size.w * scale / 2;
+        var northWestPoint = {
+            x: center.x - newRadius,
+            y: center.y - newRadius
+        };
+        var southEastPoint = {
+            x: center.x + newRadius,
+            y: center.y + newRadius
+        };
+        this.circleOnMove(northWestPoint, southEastPoint);
+        this._events.trigger('area-resize');
     };
 
     CropAreaCircle.prototype.processMouseMove = function(mouseCurX, mouseCurY) {
@@ -271,6 +287,48 @@ angular.module('uiCropper').factory('cropAreaRectangle', ['cropArea', function (
             var resizeIconCenterCoords = resizeIconsCenterCoords[i];
             this._cropCanvas.drawIconResizeBoxBase(resizeIconCenterCoords, this._resizeCtrlBaseRadius, this._resizeCtrlIsHover === i ? this._resizeCtrlHoverRatio : this._resizeCtrlNormalRatio);
         }
+    };
+
+    CropAreaRectangle.prototype.setSizeByScale = function(scale, direction) {
+        var center = this.getCenterPoint();
+        var size = this.getSize();
+        var northWestPoint;
+        var southEastPoint;
+
+        if (this._aspect) {
+            var newWidth = size.w * scale;
+            var newHeight = size.h * scale;
+            northWestPoint = {
+                x: center.x - (newWidth / 2),
+                y: center.y - (newHeight / 2)
+            };
+            southEastPoint = {
+                x: center.x + (newWidth / 2),
+                y: center.y + (newHeight / 2)
+            };
+        } else {
+            northWestPoint = {
+                x: size.x,
+                y: size.y
+            };
+            southEastPoint = {
+                x: size.x + size.w,
+                y: size.y + size.h
+            };
+            switch (direction) {
+                case 'up':
+                case 'down':
+                    southEastPoint.y = size.y + (size.h * scale);
+                    break;
+                case 'left':
+                case 'right':
+                    southEastPoint.x = size.x + (size.w * scale);
+                    break;
+            }
+        }
+
+        this.setSizeByCorners(northWestPoint, southEastPoint);
+        this._events.trigger('area-resize');
     };
 
     CropAreaRectangle.prototype.processMouseMove = function (mouseCurX, mouseCurY) {
@@ -545,6 +603,25 @@ angular.module('uiCropper').factory('cropAreaSquare', ['cropArea', function(Crop
             x: x,
             y: y
         };
+    };
+
+    CropAreaSquare.prototype.setSizeByScale = function(scale) {
+        var center = this.getCenterPoint();
+        var size = this.getSize();
+        var newSize = size.w * scale;
+        if (newSize < this._minSize.w) {
+            newSize = this._minSize.w;
+        }
+        var northWestPoint = {
+            x: center.x - (newSize / 2),
+            y: center.y - (newSize / 2)
+        };
+        var southEastPoint = {
+            x: center.x + (newSize / 2),
+            y: center.y + (newSize / 2)
+        };
+        this.setSizeByCorners(northWestPoint, southEastPoint);
+        this._events.trigger('area-resize');
     };
 
     CropAreaSquare.prototype.processMouseMove = function(mouseCurX, mouseCurY) {
@@ -2166,7 +2243,7 @@ angular.module('uiCropper').service('cropEXIF', [function () {
 angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCircle', 'cropAreaSquare', 'cropAreaRectangle', 'cropEXIF', function ($document, $q, CropAreaCircle, CropAreaSquare, CropAreaRectangle, cropEXIF) {
     /* STATIC FUNCTIONS */
     var colorPaletteLength = 8;
-    
+
     // Get Element's Offset
     var getElementOffset = function (elem) {
         var box = elem.getBoundingClientRect();
@@ -2220,15 +2297,25 @@ angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCir
             // Result Image quality
             resImgQuality = null,
 
+            keys = {
+                up: 38,
+                down: 40,
+                left: 37,
+                right: 39
+            },
+
             forceAspectRatio = false;
 
         /* PRIVATE FUNCTIONS */
+
         this.setInitMax = function (bool) {
             initMax = bool;
         };
+
         this.setAllowCropResizeOnCorners = function (bool) {
             theArea.setAllowCropResizeOnCorners(bool);
         };
+
         // Draw Scene
         function drawScene() {
             // clear canvas
@@ -2251,27 +2338,67 @@ angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCir
             }
         }
 
+        var focusOnCanvas = function () {
+            elCanvas[0].focus();
+        };
+
+        function fitCanvasDims(width, height) {
+            var imageRatio = width / height;
+            var canvasDims = [width, height];
+            var margins = {left: 0, top: 0};
+            if (canvasDims[0] > maxCanvasDims[0]) {
+                canvasDims[0] = maxCanvasDims[0];
+                canvasDims[1] = canvasDims[0] / imageRatio;
+                margins.top = (maxCanvasDims[1] - canvasDims[1]) / 2;
+            }
+            else if (canvasDims[1] > maxCanvasDims[1]) {
+                canvasDims[1] = maxCanvasDims[1];
+                canvasDims[0] = canvasDims[1] * imageRatio;
+                margins.left = (maxCanvasDims[0] - canvasDims[0]) / 2;
+            }
+            else {
+                margins.top = (maxCanvasDims[1] - canvasDims[1]) / 2;
+                margins.left = (maxCanvasDims[0] - canvasDims[0]) / 2;
+            }
+            return {
+                dims: canvasDims,
+                margins: margins,
+            };
+        }
+
         // Resets CropHost
         var resetCropHost = function () {
             if (image !== null) {
+                focusOnCanvas();
                 theArea.setImage(image);
-                var imageDims = [image.width, image.height],
-                    imageRatio = image.width / image.height,
-                    canvasDims = imageDims;
-
-                if (canvasDims[0] > maxCanvasDims[0]) {
-                    canvasDims[0] = maxCanvasDims[0];
-                    canvasDims[1] = canvasDims[0] / imageRatio;
-                } else if (canvasDims[0] < minCanvasDims[0]) {
-                    canvasDims[0] = minCanvasDims[0];
-                    canvasDims[1] = canvasDims[0] / imageRatio;
+                if (scalemode === 'fit') {
+                    var results = fitCanvasDims(image.width, image.height);
+                    var canvasDims = results.dims;
+                    var margins = results.margins;
+                    elCanvas.css({
+                        'margin-left': margins.left + 'px',
+                        'margin-top': margins.top + 'px'
+                    });
                 }
-                if (scalemode === 'fixed-height' && canvasDims[1] > maxCanvasDims[1]) {
-                    canvasDims[1] = maxCanvasDims[1];
-                    canvasDims[0] = canvasDims[1] * imageRatio;
-                } else if (canvasDims[1] < minCanvasDims[1]) {
-                    canvasDims[1] = minCanvasDims[1];
-                    canvasDims[0] = canvasDims[1] * imageRatio;
+                else {
+                    var imageDims = [image.width, image.height],
+                        imageRatio = image.width / image.height,
+                        canvasDims = imageDims;
+
+                    if (canvasDims[0] > maxCanvasDims[0]) {
+                        canvasDims[0] = maxCanvasDims[0];
+                        canvasDims[1] = canvasDims[0] / imageRatio;
+                    } else if (canvasDims[0] < minCanvasDims[0]) {
+                        canvasDims[0] = minCanvasDims[0];
+                        canvasDims[1] = canvasDims[0] / imageRatio;
+                    }
+                    if (scalemode === 'fixed-height' && canvasDims[1] > maxCanvasDims[1]) {
+                        canvasDims[1] = maxCanvasDims[1];
+                        canvasDims[0] = canvasDims[1] * imageRatio;
+                    } else if (canvasDims[1] < minCanvasDims[1]) {
+                        canvasDims[1] = minCanvasDims[1];
+                        canvasDims[0] = canvasDims[1] * imageRatio;
+                    }
                 }
                 elCanvas.prop('width', canvasDims[0]).prop('height', canvasDims[1]);
                 if (scalemode === 'fixed-height') {
@@ -2369,6 +2496,7 @@ angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCir
                     pageX = e.pageX;
                     pageY = e.pageY;
                 }
+
                 theArea.processMouseMove(pageX - offset.left, pageY - offset.top);
                 drawScene();
             }
@@ -2378,6 +2506,7 @@ angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCir
             e.preventDefault();
             e.stopPropagation();
             if (image !== null) {
+                focusOnCanvas();
                 var offset = getElementOffset(ctx.canvas),
                     pageX, pageY;
                 if (e.type === 'touchstart') {
@@ -2405,6 +2534,82 @@ angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCir
                 }
                 theArea.processMouseUp(pageX - offset.left, pageY - offset.top);
                 drawScene();
+            }
+        };
+
+        var getDirectionByKey = function (key) {
+            return Object.keys(keys).reduce(function(result, direction) {
+                return key === keys[direction] ? direction : result;
+            }, null);
+        };
+
+        var resizeCropAreaByDirection = function (direction) {
+            var scale;
+            switch (direction) {
+                case 'up':
+                case 'left':
+                    scale = 0.95;
+                    break;
+                case 'down':
+                case 'right':
+                    scale = 1.05;
+                    break;
+                default:
+                    return;
+            }
+            theArea.setSizeByScale(scale, direction);
+            drawScene();
+        };
+
+        var moveCropArea = function (direction) {
+            var center = theArea.getCenterPoint();
+            var step = 5;
+            var point = {
+                x: center.x,
+                y: center.y
+            };
+
+            switch (direction) {
+                case 'up':
+                    point.y -= step;
+                    break;
+                case 'down':
+                    point.y += step;
+                    break;
+                case 'left':
+                    point.x -= step;
+                    break;
+                case 'right':
+                    point.x += step;
+                    break;
+                default:
+                    return;
+            }
+
+            theArea.setCenterPointOnMove(point);
+            drawScene();
+        };
+
+        var onKeyDown = function (e) {
+            if (image !== null && opts.disableKeyboardAccess !== true) {
+                var key = e.which;
+                switch (key) {
+                    case keys.up:
+                    case keys.down:
+                    case keys.left:
+                    case keys.right:
+                        e.preventDefault();
+                        e.stopPropagation();
+                        var direction = getDirectionByKey(key);
+                        if (e.shiftKey) {
+                            resizeCropAreaByDirection(direction);
+                        } else {
+                            moveCropArea(direction);
+                        }
+                        break;
+                    default:
+                        return;
+                }
             }
         };
 
@@ -2625,24 +2830,35 @@ angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCir
             if (image !== null) {
                 var curWidth = ctx.canvas.width,
                     curHeight = ctx.canvas.height;
-
-                var imageDims = [image.width, image.height],
-                    imageRatio = image.width / image.height,
+                var canvasDims = [0, 0];
+                if (scalemode === 'fit') {
+                    var results = fitCanvasDims(image.width, image.height);
+                    canvasDims = results.dims;
+                    var margins = results.margins;
+                    elCanvas.css({
+                        'margin-left': margins.left + 'px',
+                        'margin-top': margins.top + 'px'
+                    });
+                }
+                else {
+                    var imageDims = [image.width, image.height],
+                        imageRatio = image.width / image.height;
                     canvasDims = imageDims;
 
-                if (canvasDims[0] > maxCanvasDims[0]) {
-                    canvasDims[0] = maxCanvasDims[0];
-                    canvasDims[1] = canvasDims[0] / imageRatio;
-                } else if (canvasDims[0] < minCanvasDims[0]) {
-                    canvasDims[0] = minCanvasDims[0];
-                    canvasDims[1] = canvasDims[0] / imageRatio;
-                }
-                if (scalemode === 'fixed-height' && canvasDims[1] > maxCanvasDims[1]) {
-                    canvasDims[1] = maxCanvasDims[1];
-                    canvasDims[0] = canvasDims[1] * imageRatio;
-                } else if (canvasDims[1] < minCanvasDims[1]) {
-                    canvasDims[1] = minCanvasDims[1];
-                    canvasDims[0] = canvasDims[1] * imageRatio;
+                    if (canvasDims[0] > maxCanvasDims[0]) {
+                        canvasDims[0] = maxCanvasDims[0];
+                        canvasDims[1] = canvasDims[0] / imageRatio;
+                    } else if (canvasDims[0] < minCanvasDims[0]) {
+                        canvasDims[0] = minCanvasDims[0];
+                        canvasDims[1] = canvasDims[0] / imageRatio;
+                    }
+                    if (scalemode === 'fixed-height' && canvasDims[1] > maxCanvasDims[1]) {
+                        canvasDims[1] = maxCanvasDims[1];
+                        canvasDims[0] = canvasDims[1] * imageRatio;
+                    } else if (canvasDims[1] < minCanvasDims[1]) {
+                        canvasDims[1] = minCanvasDims[1];
+                        canvasDims[0] = canvasDims[1] * imageRatio;
+                    }
                 }
                 elCanvas.prop('width', canvasDims[0]).prop('height', canvasDims[1]);
 
@@ -2653,8 +2869,8 @@ angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCir
                     });
                 }
 
-                var ratioNewCurWidth = ctx.canvas.width / curWidth,
-                    ratioNewCurHeight = ctx.canvas.height / curHeight,
+                var ratioNewCurWidth = curWidth ? ctx.canvas.width / curWidth : 0,
+                    ratioNewCurHeight = curHeight ? ctx.canvas.height / curHeight : 0,
                     ratioMin = Math.min(ratioNewCurWidth, ratioNewCurHeight);
 
                 //TODO: use top left corner point
@@ -3000,6 +3216,10 @@ angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCir
         elCanvas.on('touchstart', onMouseDown);
         $document.on('touchend', onMouseUp);
 
+        elCanvas.prop('tabindex', '0');
+
+        elCanvas.on('keydown', onKeyDown);
+
         // CropHost Destructor
         this.destroy = function () {
             $document.off('mousemove', onMouseMove);
@@ -3010,10 +3230,13 @@ angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCir
             elCanvas.off('touchstart', onMouseDown);
             $document.off('touchend', onMouseUp);
 
+            elCanvas.off('keydown', onKeyDown);
+
             elCanvas.remove();
         };
     };
 }]);
+
 angular.module('uiCropper').factory('cropPubSub', [function() {
     return function() {
         var events = {};
@@ -3053,8 +3276,10 @@ angular.module('uiCropper').directive('uiCropper', ['$timeout', 'cropHost', 'cro
             canvasScalemode: '@?', /* String. If set to 'full-width' the directive uses all width available */
             /* and the canvas expands in height as much as it need to maintain the aspect ratio */
             /* if set to 'fixed-height', the directive is restricted by a parent element in height */
+            /* set to 'fit' to fit image into ui-cropper container */
 
             changeOnFly: '=?',
+            disableKeyboardAccess: '=?',
             liveView: '=?',
             initMaxArea: '=?',
             areaCoords: '=?',
@@ -3094,7 +3319,9 @@ angular.module('uiCropper').directive('uiCropper', ['$timeout', 'cropHost', 'cro
             var events = scope.events;
 
             // Init Crop Host
-            var cropHost = new CropHost(element.find('canvas'), {}, events);
+            var cropHost = new CropHost(element.find('canvas'), {
+                disableKeyboardAccess: scope.disableKeyboardAccess
+            }, events);
 
             if (scope.canvasScalemode) {
                 cropHost.setScalemode(scope.canvasScalemode);
@@ -3134,7 +3361,7 @@ angular.module('uiCropper').directive('uiCropper', ['$timeout', 'cropHost', 'cro
                         }
                         cropHost.getResultImageDataBlob().then(function (blob) {
                             scope.resultBlob = blob;
-                            scope.urlBlob = urlCreator.createObjectURL(blob);
+                            scope.urlBlob = blob ? urlCreator.createObjectURL(blob) : null;
                         });
 
                         if (scope.resultImage) {
@@ -3219,7 +3446,7 @@ angular.module('uiCropper').directive('uiCropper', ['$timeout', 'cropHost', 'cro
                     case 'de':
                     case 'de-DE':
                         return 'Laden';
-                        
+
                     case 'pt':
                     case 'pt-BR':
                         return 'Carregando';
@@ -3344,6 +3571,9 @@ angular.module('uiCropper').directive('uiCropper', ['$timeout', 'cropHost', 'cro
             // Update CropHost dimensions when the directive element is resized
             scope.$watch(
                 function () {
+                    if (cropHost.getScalemode() === 'fit') {
+                        return [element[0].clientWidth, element[0].clientHeight];
+                    }
                     if (cropHost.getScalemode() === 'fixed-height') {
                         return [element[0].clientWidth, element[0].clientHeight];
                     }
@@ -3353,6 +3583,10 @@ angular.module('uiCropper').directive('uiCropper', ['$timeout', 'cropHost', 'cro
                 },
                 function (value) {
 
+                    if (cropHost.getScalemode() === 'fit') {
+                        cropHost.setMaxDimensions(value[0], value[1]);
+                        updateResultImage(scope);
+                    }
                     if (cropHost.getScalemode() === 'fixed-height') {
                         if (value[0] > 0 && value[1] > 0) {
                             cropHost.setMaxDimensions(value[0], value[1]);
