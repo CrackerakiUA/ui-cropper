@@ -297,7 +297,7 @@ angular.module('uiCropper').directive('uiCropper', ['$timeout', 'cropHost', 'cro
             });
             scope.$watch('aspectRatio', function () {
                 if (typeof scope.aspectRatio === 'string' && scope.aspectRatio !== '') {
-                    scope.aspectRatio = parseInt(scope.aspectRatio);
+                    scope.aspectRatio = parseFloat(scope.aspectRatio);
                 }
                 if (scope.aspectRatio) {
                     cropHost.setAspect(scope.aspectRatio);
