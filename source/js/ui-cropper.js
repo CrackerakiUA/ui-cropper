@@ -16,6 +16,7 @@ angular.module('uiCropper').directive('uiCropper', ['$timeout', 'cropHost', 'cro
             canvasScalemode: '@?', /* String. If set to 'full-width' the directive uses all width available */
             /* and the canvas expands in height as much as it need to maintain the aspect ratio */
             /* if set to 'fixed-height', the directive is restricted by a parent element in height */
+            /* set to 'fit' to fit image into ui-cropper container */
 
             changeOnFly: '=?',
             disableKeyboardAccess: '=?',
@@ -100,7 +101,7 @@ angular.module('uiCropper').directive('uiCropper', ['$timeout', 'cropHost', 'cro
                         }
                         cropHost.getResultImageDataBlob().then(function (blob) {
                             scope.resultBlob = blob;
-                            scope.urlBlob = urlCreator.createObjectURL(blob);
+                            scope.urlBlob = blob ? urlCreator.createObjectURL(blob) : null;
                         });
 
                         if (scope.resultImage) {
@@ -311,6 +312,9 @@ angular.module('uiCropper').directive('uiCropper', ['$timeout', 'cropHost', 'cro
             // Update CropHost dimensions when the directive element is resized
             scope.$watch(
                 function () {
+                    if (cropHost.getScalemode() === 'fit') {
+                        return [element[0].clientWidth, element[0].clientHeight];
+                    }
                     if (cropHost.getScalemode() === 'fixed-height') {
                         return [element[0].clientWidth, element[0].clientHeight];
                     }
@@ -320,6 +324,10 @@ angular.module('uiCropper').directive('uiCropper', ['$timeout', 'cropHost', 'cro
                 },
                 function (value) {
 
+                    if (cropHost.getScalemode() === 'fit') {
+                        cropHost.setMaxDimensions(value[0], value[1]);
+                        updateResultImage(scope);
+                    }
                     if (cropHost.getScalemode() === 'fixed-height') {
                         if (value[0] > 0 && value[1] > 0) {
                             cropHost.setMaxDimensions(value[0], value[1]);
