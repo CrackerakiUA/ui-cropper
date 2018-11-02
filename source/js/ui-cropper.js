@@ -20,6 +20,7 @@ angular.module('uiCropper').directive('uiCropper', ['$timeout', 'cropHost', 'cro
 
             changeOnFly: '=?',
             disableKeyboardAccess: '=?',
+            allowPropagation: '=?',
             liveView: '=?',
             initMaxArea: '=?',
             areaCoords: '=?',
@@ -60,7 +61,8 @@ angular.module('uiCropper').directive('uiCropper', ['$timeout', 'cropHost', 'cro
 
             // Init Crop Host
             var cropHost = new CropHost(element.find('canvas'), {
-                disableKeyboardAccess: scope.disableKeyboardAccess
+                disableKeyboardAccess: scope.disableKeyboardAccess,
+                allowPropagation: scope.allowPropagation
             }, events);
 
             if (scope.canvasScalemode) {
