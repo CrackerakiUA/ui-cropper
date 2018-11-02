@@ -265,7 +265,11 @@ angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCir
 
         var onMouseDown = function (e) {
             e.preventDefault();
-            e.stopPropagation();
+
+            if (!opts.allowPropagation) {
+                e.stopPropagation();
+            }
+
             if (image !== null) {
                 focusOnCanvas();
                 var offset = getElementOffset(ctx.canvas),

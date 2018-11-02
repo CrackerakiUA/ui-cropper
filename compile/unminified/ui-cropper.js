@@ -1,11 +1,11 @@
 /*!
- * uiCropper v1.0.6
+ * uiCropper v1.0.8
  * https://crackerakiua.github.io/ui-cropper/
  *
  * Copyright (c) 2018 Alex Kaul
  * License: MIT
  *
- * Generated at Tuesday, April 17th, 2018, 11:17:53 AM
+ * Generated at Friday, November 2nd, 2018, 9:45:16 AM
  */
 (function() {
 angular.module('uiCropper', []);
@@ -2368,12 +2368,13 @@ angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCir
 
         // Resets CropHost
         var resetCropHost = function () {
+            var canvasDims = [0, 0];
             if (image !== null) {
                 focusOnCanvas();
                 theArea.setImage(image);
                 if (scalemode === 'fit') {
                     var results = fitCanvasDims(image.width, image.height);
-                    var canvasDims = results.dims;
+                    canvasDims = results.dims;
                     var margins = results.margins;
                     elCanvas.css({
                         'margin-left': margins.left + 'px',
@@ -2382,8 +2383,8 @@ angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCir
                 }
                 else {
                     var imageDims = [image.width, image.height],
-                        imageRatio = image.width / image.height,
-                        canvasDims = imageDims;
+                        imageRatio = image.width / image.height;
+                    canvasDims = imageDims;
 
                     if (canvasDims[0] > maxCanvasDims[0]) {
                         canvasDims[0] = maxCanvasDims[0];
@@ -2504,7 +2505,11 @@ angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCir
 
         var onMouseDown = function (e) {
             e.preventDefault();
-            e.stopPropagation();
+
+            if (!opts.allowPropagation) {
+                e.stopPropagation();
+            }
+
             if (image !== null) {
                 focusOnCanvas();
                 var offset = getElementOffset(ctx.canvas),
@@ -3280,6 +3285,7 @@ angular.module('uiCropper').directive('uiCropper', ['$timeout', 'cropHost', 'cro
 
             changeOnFly: '=?',
             disableKeyboardAccess: '=?',
+            allowPropagation: '=?',
             liveView: '=?',
             initMaxArea: '=?',
             areaCoords: '=?',
@@ -3320,7 +3326,8 @@ angular.module('uiCropper').directive('uiCropper', ['$timeout', 'cropHost', 'cro
 
             // Init Crop Host
             var cropHost = new CropHost(element.find('canvas'), {
-                disableKeyboardAccess: scope.disableKeyboardAccess
+                disableKeyboardAccess: scope.disableKeyboardAccess,
+                allowPropagation: scope.allowPropagation
             }, events);
 
             if (scope.canvasScalemode) {
@@ -3556,7 +3563,7 @@ angular.module('uiCropper').directive('uiCropper', ['$timeout', 'cropHost', 'cro
             });
             scope.$watch('aspectRatio', function () {
                 if (typeof scope.aspectRatio === 'string' && scope.aspectRatio !== '') {
-                    scope.aspectRatio = parseInt(scope.aspectRatio);
+                    scope.aspectRatio = parseFloat(scope.aspectRatio);
                 }
                 if (scope.aspectRatio) {
                     cropHost.setAspect(scope.aspectRatio);
