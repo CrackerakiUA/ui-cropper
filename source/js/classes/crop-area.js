@@ -377,14 +377,20 @@ angular.module('uiCropper').factory('cropArea', ['cropCanvas', function (CropCan
             };
         }
         var width = size.w;
+        var height = size.h;
         if (this._aspect) {
-            width = size.h * this._aspect;
+            // In order to apply the initMax from the crop-host we need to update the width only when the aspect ratio is above 1.
+            if (this.aspect >= 1) {
+                width = size.h * this._aspect;
+            } else {
+                height = size.w / this._aspect;
+            }
         }
         return {
             x: (typeof size.x === 'undefined') ? this.getSize().x : size.x,
             y: (typeof size.y === 'undefined') ? this.getSize().y : size.y,
             w: width || this._minSize.w,
-            h: size.h || this._minSize.h
+            h: height || this._minSize.h
         };
     };
 
