@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/CrackerakiUA/ui-cropper.svg?branch=master)](https://travis-ci.org/CrackerakiUA/ui-cropper)
 [![GitHub release](https://img.shields.io/github/release/CrackerakiUA/ui-cropper.svg)](https://github.com/CrackerakiUA/ui-cropper) [![Join the chat at https://gitter.im/CrackerakiUA/ui-cropper](https://badges.gitter.im/CrackerakiUA/ui-cropper.svg)](https://gitter.im/CrackerakiUA/ui-cropper?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Backers on Open Collective](https://opencollective.com/ui-cropper/backers/badge.svg)](#backers) [![Sponsors on Open Collective](https://opencollective.com/ui-cropper/sponsors/badge.svg)](#sponsors)
 
 Simple Image Crop directive for AngularJS. Enables to crop a circle, square or rectangle from of an image.
 
@@ -58,6 +59,36 @@ angular.module('app', ['uiCropper'])
 ## Documentation
 
 You can checkout all options under [our wiki page](https://github.com/CrackerakiUA/ui-cropper/wiki/Options)
+
+## Contributors
+
+This project exists thanks to all the people who contribute. 
+<a href="https://github.com/CrackerakiUA/ui-cropper/graphs/contributors"><img src="https://opencollective.com/ui-cropper/contributors.svg?width=890&button=false" /></a>
+
+
+## Backers
+
+Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/ui-cropper#backer)]
+
+<a href="https://opencollective.com/ui-cropper#backers" target="_blank"><img src="https://opencollective.com/ui-cropper/backers.svg?width=890"></a>
+
+
+## Sponsors
+
+Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://opencollective.com/ui-cropper#sponsor)]
+
+<a href="https://opencollective.com/ui-cropper/sponsor/0/website" target="_blank"><img src="https://opencollective.com/ui-cropper/sponsor/0/avatar.svg"></a>
+<a href="https://opencollective.com/ui-cropper/sponsor/1/website" target="_blank"><img src="https://opencollective.com/ui-cropper/sponsor/1/avatar.svg"></a>
+<a href="https://opencollective.com/ui-cropper/sponsor/2/website" target="_blank"><img src="https://opencollective.com/ui-cropper/sponsor/2/avatar.svg"></a>
+<a href="https://opencollective.com/ui-cropper/sponsor/3/website" target="_blank"><img src="https://opencollective.com/ui-cropper/sponsor/3/avatar.svg"></a>
+<a href="https://opencollective.com/ui-cropper/sponsor/4/website" target="_blank"><img src="https://opencollective.com/ui-cropper/sponsor/4/avatar.svg"></a>
+<a href="https://opencollective.com/ui-cropper/sponsor/5/website" target="_blank"><img src="https://opencollective.com/ui-cropper/sponsor/5/avatar.svg"></a>
+<a href="https://opencollective.com/ui-cropper/sponsor/6/website" target="_blank"><img src="https://opencollective.com/ui-cropper/sponsor/6/avatar.svg"></a>
+<a href="https://opencollective.com/ui-cropper/sponsor/7/website" target="_blank"><img src="https://opencollective.com/ui-cropper/sponsor/7/avatar.svg"></a>
+<a href="https://opencollective.com/ui-cropper/sponsor/8/website" target="_blank"><img src="https://opencollective.com/ui-cropper/sponsor/8/avatar.svg"></a>
+<a href="https://opencollective.com/ui-cropper/sponsor/9/website" target="_blank"><img src="https://opencollective.com/ui-cropper/sponsor/9/avatar.svg"></a>
+
+
 
 ## License
 
