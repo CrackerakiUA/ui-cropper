@@ -1,11 +1,11 @@
 /*!
- * uiCropper v1.0.8
+ * uiCropper v1.0.9
  * https://crackerakiua.github.io/ui-cropper/
  *
- * Copyright (c) 2018 Alex Kaul
+ * Copyright (c) 2019 Alex Kaul
  * License: MIT
  *
- * Generated at Tuesday, December 11th, 2018, 7:28:54 PM
+ * Generated at Monday, May 20th, 2019, 4:24:47 PM
  */
 (function() {
 angular.module('uiCropper', []);
@@ -839,8 +839,9 @@ angular.module('uiCropper').factory('cropArea', ['cropCanvas', function (CropCan
 
         this._forceAspectRatio = false;
         this._aspect = null;
+        this._disableCrop = false;
 
-        this._cropCanvas = new CropCanvas(ctx);
+        this._cropCanvas = new CropCanvas(ctx, this._disableCrop);
 
         this._image = new Image();
         this._size = {
@@ -1000,6 +1001,11 @@ angular.module('uiCropper').factory('cropArea', ['cropCanvas', function (CropCan
         coords.w = this.getSize().w;
         this._initCoords = this._processSize(coords);
         this.setSize(this._initCoords);
+    };
+
+    CropArea.prototype.setDisableCrop = function(value){
+        this._disableCrop = value;
+        this._cropCanvas = new CropCanvas(this._ctx, this._disableCrop);
     };
 
     CropArea.prototype.getInitCoords = function () {
@@ -1329,7 +1335,7 @@ angular.module('uiCropper').factory('cropCanvas', [function() {
         strokeWidth: 1
     };
 
-    return function(ctx) {
+    return function(ctx, disable) {
 
         /* Base functions */
 
@@ -1340,6 +1346,8 @@ angular.module('uiCropper').factory('cropCanvas', [function() {
 
         // Draw Filled Polygon
         var drawFilledPolygon = function(shape, fillStyle, centerCoords, scale) {
+            if(disable) return;
+
             ctx.save();
             ctx.fillStyle = fillStyle;
             ctx.beginPath();
@@ -1362,6 +1370,8 @@ angular.module('uiCropper').factory('cropCanvas', [function() {
         /* Icons */
 
         this.drawIconMove = function(centerCoords, scale) {
+            if(disable) return;
+
             drawFilledPolygon(shapeArrowN, colors.moveIconFill, centerCoords, scale);
             drawFilledPolygon(shapeArrowW, colors.moveIconFill, centerCoords, scale);
             drawFilledPolygon(shapeArrowS, colors.moveIconFill, centerCoords, scale);
@@ -1369,6 +1379,8 @@ angular.module('uiCropper').factory('cropCanvas', [function() {
         };
 
         this.drawIconResizeCircle = function(centerCoords, circleRadius, scale) {
+            if(disable) return;
+
             var scaledCircleRadius = circleRadius * scale;
             ctx.save();
             ctx.strokeStyle = colors.resizeCircleStroke;
@@ -1383,6 +1395,8 @@ angular.module('uiCropper').factory('cropCanvas', [function() {
         };
 
         this.drawIconResizeBoxBase = function(centerCoords, boxSize, scale) {
+            if(disable) return;
+
             var scaledBoxSize = boxSize * scale;
             ctx.save();
             ctx.strokeStyle = colors.resizeBoxStroke;
@@ -1393,11 +1407,15 @@ angular.module('uiCropper').factory('cropCanvas', [function() {
             ctx.restore();
         };
         this.drawIconResizeBoxNESW = function(centerCoords, boxSize, scale) {
+            if(disable) return;
+
             this.drawIconResizeBoxBase(centerCoords, boxSize, scale);
             drawFilledPolygon(shapeArrowNE, colors.resizeBoxArrowFill, centerCoords, scale);
             drawFilledPolygon(shapeArrowSW, colors.resizeBoxArrowFill, centerCoords, scale);
         };
         this.drawIconResizeBoxNWSE = function(centerCoords, boxSize, scale) {
+            if(disable) return;
+
             this.drawIconResizeBoxBase(centerCoords, boxSize, scale);
             drawFilledPolygon(shapeArrowNW, colors.resizeBoxArrowFill, centerCoords, scale);
             drawFilledPolygon(shapeArrowSE, colors.resizeBoxArrowFill, centerCoords, scale);
@@ -1406,6 +1424,8 @@ angular.module('uiCropper').factory('cropCanvas', [function() {
         /* Crop Area */
 
         this.drawCropArea = function(image, centerCoords, size, fnDrawClipPath) {
+            if(disable) return;
+
             var xRatio = Math.abs(image.width / ctx.canvas.width),
                 yRatio = Math.abs(image.height / ctx.canvas.height),
                 xLeft = Math.abs(centerCoords.x - size.w / 2),
@@ -1432,7 +1452,6 @@ angular.module('uiCropper').factory('cropCanvas', [function() {
 
             ctx.restore();
         };
-
     };
 }]);
 
@@ -2322,6 +2341,11 @@ angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCir
             theArea.setAllowCropResizeOnCorners(bool);
         };
 
+        this.setDisableCrop = function(value){
+            theArea.setDisableCrop(value);
+            drawScene();
+        };
+
         // Draw Scene
         function drawScene() {
             // clear canvas
@@ -2334,11 +2358,12 @@ angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCir
                 ctx.save();
 
                 // and make it darker
-                ctx.fillStyle = 'rgba(0, 0, 0, 0.65)';
-                ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+                if(!theArea._disableCrop){
+                    ctx.fillStyle = 'rgba(0, 0, 0, 0.65)';
+                    ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
-                ctx.restore();
-
+                    ctx.restore();
+                }
                 // draw Area
                 theArea.draw();
             }
@@ -2493,6 +2518,8 @@ angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCir
         };
 
         var onMouseMove = function (e) {
+            if(theArea._disableCrop) return;
+
             if (image !== null) {
                 var offset = getElementOffset(ctx.canvas),
                     pageX, pageY;
@@ -2511,6 +2538,7 @@ angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCir
 
         var onMouseDown = function (e) {
             e.preventDefault();
+            if(theArea._disableCrop) return;
 
             if (!opts.allowPropagation) {
                 e.stopPropagation();
@@ -2533,6 +2561,8 @@ angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCir
         };
 
         var onMouseUp = function (e) {
+            if(theArea._disableCrop) return;
+
             if (image !== null) {
                 var offset = getElementOffset(ctx.canvas),
                     pageX, pageY;
@@ -2555,6 +2585,8 @@ angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCir
         };
 
         var resizeCropAreaByDirection = function (direction) {
+            if(theArea._disableCrop) return;
+
             var scale;
             switch (direction) {
                 case 'up':
@@ -2573,6 +2605,8 @@ angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCir
         };
 
         var moveCropArea = function (direction) {
+            if(theArea._disableCrop) return;
+
             var center = theArea.getCenterPoint();
             var step = 5;
             var point = {
@@ -2602,6 +2636,8 @@ angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCir
         };
 
         var onKeyDown = function (e) {
+            if(theArea._disableCrop) return;
+            
             if (image !== null && opts.disableKeyboardAccess !== true) {
                 var key = e.which;
                 switch (key) {
@@ -3316,6 +3352,7 @@ angular.module('uiCropper').directive('uiCropper', ['$timeout', 'cropHost', 'cro
             dominantColor: '=?',
             paletteColor: '=?',
             paletteColorLength: '=?',
+            disableCrop: '=?',
 
             onChange: '&',
             onLoadBegin: '&',
@@ -3579,6 +3616,10 @@ angular.module('uiCropper').directive('uiCropper', ['$timeout', 'cropHost', 'cro
                 if (scope.allowCropResizeOnCorners) {
                     cropHost.setAllowCropResizeOnCorners(scope.allowCropResizeOnCorners);
                 }
+            });
+
+            scope.$watch('disableCrop', function () {
+                cropHost.setDisableCrop(scope.disableCrop);
             });
 
             // Update CropHost dimensions when the directive element is resized
