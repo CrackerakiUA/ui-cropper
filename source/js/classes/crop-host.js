@@ -67,15 +67,6 @@ angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCir
             forceAspectRatio = false;
 
         /* PRIVATE FUNCTIONS */
-
-        this.setInitMax = function (bool) {
-            initMax = bool;
-        };
-
-        this.setAllowCropResizeOnCorners = function (bool) {
-            theArea.setAllowCropResizeOnCorners(bool);
-        };
-
         // Draw Scene
         function drawScene() {
             // clear canvas
@@ -88,15 +79,31 @@ angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCir
                 ctx.save();
 
                 // and make it darker
-                ctx.fillStyle = 'rgba(0, 0, 0, 0.65)';
-                ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+                if(!theArea._disableCrop){
+                    ctx.fillStyle = 'rgba(0, 0, 0, 0.65)';
+                    ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
-                ctx.restore();
-
+                    ctx.restore();
+                }
                 // draw Area
                 theArea.draw();
             }
         }
+
+        this.setInitMax = function (bool) {
+            initMax = bool;
+        };
+
+        this.setAllowCropResizeOnCorners = function (bool) {
+            theArea.setAllowCropResizeOnCorners(bool);
+        };
+
+        this.setDisableCrop = function(value){
+            theArea.setDisableCrop(value);
+            drawScene();
+        };
+
+        
 
         var focusOnCanvas = function () {
             elCanvas[0].focus();
@@ -247,6 +254,10 @@ angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCir
         };
 
         var onMouseMove = function (e) {
+            if(theArea._disableCrop) {
+                return;
+            }
+
             if (image !== null) {
                 var offset = getElementOffset(ctx.canvas),
                     pageX, pageY;
@@ -265,6 +276,9 @@ angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCir
 
         var onMouseDown = function (e) {
             e.preventDefault();
+            if(theArea._disableCrop) {
+                return;
+            }
 
             if (!opts.allowPropagation) {
                 e.stopPropagation();
@@ -287,6 +301,10 @@ angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCir
         };
 
         var onMouseUp = function (e) {
+            if(theArea._disableCrop) {
+                return;
+            }
+
             if (image !== null) {
                 var offset = getElementOffset(ctx.canvas),
                     pageX, pageY;
@@ -309,6 +327,10 @@ angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCir
         };
 
         var resizeCropAreaByDirection = function (direction) {
+            if(theArea._disableCrop) {
+                return;
+            }
+
             var scale;
             switch (direction) {
                 case 'up':
@@ -327,6 +349,10 @@ angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCir
         };
 
         var moveCropArea = function (direction) {
+            if(theArea._disableCrop) {
+                return;
+            }
+
             var center = theArea.getCenterPoint();
             var step = 5;
             var point = {
@@ -356,6 +382,10 @@ angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCir
         };
 
         var onKeyDown = function (e) {
+            if(theArea._disableCrop) {
+                return;
+            }
+            
             if (image !== null && opts.disableKeyboardAccess !== true) {
                 var key = e.which;
                 switch (key) {

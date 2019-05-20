@@ -90,7 +90,7 @@ angular.module('uiCropper').factory('cropCanvas', [function() {
         strokeWidth: 1
     };
 
-    return function(ctx) {
+    return function(ctx, disable) {
 
         /* Base functions */
 
@@ -101,6 +101,10 @@ angular.module('uiCropper').factory('cropCanvas', [function() {
 
         // Draw Filled Polygon
         var drawFilledPolygon = function(shape, fillStyle, centerCoords, scale) {
+            if(disable) {
+                return;
+            }
+
             ctx.save();
             ctx.fillStyle = fillStyle;
             ctx.beginPath();
@@ -124,6 +128,10 @@ angular.module('uiCropper').factory('cropCanvas', [function() {
         /* Icons */
 
         this.drawIconMove = function(centerCoords, scale) {
+            if(disable) {
+                return;
+            }
+
             drawFilledPolygon(shapeArrowN, colors.moveIconFill, centerCoords, scale);
             drawFilledPolygon(shapeArrowW, colors.moveIconFill, centerCoords, scale);
             drawFilledPolygon(shapeArrowS, colors.moveIconFill, centerCoords, scale);
@@ -131,6 +139,10 @@ angular.module('uiCropper').factory('cropCanvas', [function() {
         };
 
         this.drawIconResizeCircle = function(centerCoords, circleRadius, scale) {
+            if(disable) {
+                return;
+            }
+
             var scaledCircleRadius = circleRadius * scale;
             ctx.save();
             ctx.strokeStyle = colors.resizeCircleStroke;
@@ -145,6 +157,10 @@ angular.module('uiCropper').factory('cropCanvas', [function() {
         };
 
         this.drawIconResizeBoxBase = function(centerCoords, boxSize, scale) {
+            if(disable) {
+                return;
+            }
+
             var scaledBoxSize = boxSize * scale;
             ctx.save();
             ctx.strokeStyle = colors.resizeBoxStroke;
@@ -155,11 +171,19 @@ angular.module('uiCropper').factory('cropCanvas', [function() {
             ctx.restore();
         };
         this.drawIconResizeBoxNESW = function(centerCoords, boxSize, scale) {
+            if(disable) {
+                return;
+            }
+
             this.drawIconResizeBoxBase(centerCoords, boxSize, scale);
             drawFilledPolygon(shapeArrowNE, colors.resizeBoxArrowFill, centerCoords, scale);
             drawFilledPolygon(shapeArrowSW, colors.resizeBoxArrowFill, centerCoords, scale);
         };
         this.drawIconResizeBoxNWSE = function(centerCoords, boxSize, scale) {
+            if(disable) {
+                return;
+            }
+
             this.drawIconResizeBoxBase(centerCoords, boxSize, scale);
             drawFilledPolygon(shapeArrowNW, colors.resizeBoxArrowFill, centerCoords, scale);
             drawFilledPolygon(shapeArrowSE, colors.resizeBoxArrowFill, centerCoords, scale);
@@ -168,6 +192,10 @@ angular.module('uiCropper').factory('cropCanvas', [function() {
         /* Crop Area */
 
         this.drawCropArea = function(image, centerCoords, size, fnDrawClipPath) {
+            if(disable) {
+                return;
+            }
+
             var xRatio = Math.abs(image.width / ctx.canvas.width),
                 yRatio = Math.abs(image.height / ctx.canvas.height),
                 xLeft = Math.abs(centerCoords.x - size.w / 2),
@@ -194,6 +222,5 @@ angular.module('uiCropper').factory('cropCanvas', [function() {
 
             ctx.restore();
         };
-
     };
 }]);

@@ -39,7 +39,7 @@
             <h1>Full test suite with uiCropper</h1>
 
             <hr>
-
+            
             <div data-ng-if="enableCrop" class="cropArea"
                  data-ng-class="{'big':size=='big', 'medium':size=='medium', 'small':size=='small'}">
                 <ui-cropper
@@ -65,7 +65,8 @@
                     on-load-error="onLoadError()"
                     live-view="blockingObject"
                     area-coords="myAreaCoords"
-                    canvas-scalemode="true">
+                    canvas-scalemode="true"
+                    disable-crop="disableCropArea">
                 </ui-cropper>
             </div>
 
@@ -111,6 +112,16 @@
                         <input id="changeOnFly" data-ng-model="changeOnFly"
                                type="checkbox"/>
                         <label for="changeOnFly" class="label-info"></label>
+                    </div>
+                </div>
+
+                <div class="switch">
+                    Enable / disable just the crop area
+                    <div class="material-switch pull-right">
+                        <input id="disableCrop" data-ng-model="disableCropArea" data-ng-init="disableCropArea=false"
+                               type="checkbox"
+                               checked/>
+                        <label for="disableCrop" class="label-success"></label>
                     </div>
                 </div>
             </div>
