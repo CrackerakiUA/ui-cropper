@@ -241,6 +241,12 @@ angular.module('uiCropper').directive('uiCropper', ['$timeout', 'cropHost', 'cro
 
             // Sync CropHost with Directive's options
             scope.$watch('image', function (newVal) {
+                // reset the original size and position to 0
+                // it's mandatory because if not reset the size of the crop area won't maximise when the image was replaced
+                var area = cropHost.getArea();
+                if (area) {
+                    cropHost.getArea()._size = { x: 0, y: 0, w: 0, h: 0 };
+                }
                 if (newVal) {
                     displayLoading();
                 }

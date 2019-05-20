@@ -101,7 +101,9 @@ angular.module('uiCropper').factory('cropCanvas', [function() {
 
         // Draw Filled Polygon
         var drawFilledPolygon = function(shape, fillStyle, centerCoords, scale) {
-            if(disable) return;
+            if(disable) {
+                return;
+            }
 
             ctx.save();
             ctx.fillStyle = fillStyle;
@@ -126,7 +128,9 @@ angular.module('uiCropper').factory('cropCanvas', [function() {
         /* Icons */
 
         this.drawIconMove = function(centerCoords, scale) {
-            if(disable) return;
+            if(disable) {
+                return;
+            }
 
             drawFilledPolygon(shapeArrowN, colors.moveIconFill, centerCoords, scale);
             drawFilledPolygon(shapeArrowW, colors.moveIconFill, centerCoords, scale);
@@ -135,7 +139,9 @@ angular.module('uiCropper').factory('cropCanvas', [function() {
         };
 
         this.drawIconResizeCircle = function(centerCoords, circleRadius, scale) {
-            if(disable) return;
+            if(disable) {
+                return;
+            }
 
             var scaledCircleRadius = circleRadius * scale;
             ctx.save();
@@ -151,7 +157,9 @@ angular.module('uiCropper').factory('cropCanvas', [function() {
         };
 
         this.drawIconResizeBoxBase = function(centerCoords, boxSize, scale) {
-            if(disable) return;
+            if(disable) {
+                return;
+            }
 
             var scaledBoxSize = boxSize * scale;
             ctx.save();
@@ -163,14 +171,18 @@ angular.module('uiCropper').factory('cropCanvas', [function() {
             ctx.restore();
         };
         this.drawIconResizeBoxNESW = function(centerCoords, boxSize, scale) {
-            if(disable) return;
+            if(disable) {
+                return;
+            }
 
             this.drawIconResizeBoxBase(centerCoords, boxSize, scale);
             drawFilledPolygon(shapeArrowNE, colors.resizeBoxArrowFill, centerCoords, scale);
             drawFilledPolygon(shapeArrowSW, colors.resizeBoxArrowFill, centerCoords, scale);
         };
         this.drawIconResizeBoxNWSE = function(centerCoords, boxSize, scale) {
-            if(disable) return;
+            if(disable) {
+                return;
+            }
 
             this.drawIconResizeBoxBase(centerCoords, boxSize, scale);
             drawFilledPolygon(shapeArrowNW, colors.resizeBoxArrowFill, centerCoords, scale);
@@ -180,7 +192,9 @@ angular.module('uiCropper').factory('cropCanvas', [function() {
         /* Crop Area */
 
         this.drawCropArea = function(image, centerCoords, size, fnDrawClipPath) {
-            if(disable) return;
+            if(disable) {
+                return;
+            }
 
             var xRatio = Math.abs(image.width / ctx.canvas.width),
                 yRatio = Math.abs(image.height / ctx.canvas.height),
