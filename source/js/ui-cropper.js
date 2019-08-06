@@ -81,7 +81,7 @@ angular.module('uiCropper').directive('uiCropper', ['$timeout', 'cropHost', 'cro
                 scope.areaCoords = cropHost.getAreaCoords();
             };
 
-            var updateResultImage = function (scope, force, callback) {
+            var updateResultImage = function (scope, force, callback, forceImageUpdate) {
                 if (scope.image !== '' && (!scope.liveView.block || force)) {
                     var resultImageObj = cropHost.getResultImage();
                     var resultImage;
@@ -93,7 +93,7 @@ angular.module('uiCropper').directive('uiCropper', ['$timeout', 'cropHost', 'cro
                     }
 
                     var urlCreator = window.URL || window.webkitURL;
-                    if (storedResultImage !== resultImage) {
+                    if (forceImageUpdate || (storedResultImage !== resultImage)) {
                         storedResultImage = resultImage;
                         scope.resultImage = resultImage;
                         if (scope.liveView.callback) {
@@ -125,8 +125,8 @@ angular.module('uiCropper').directive('uiCropper', ['$timeout', 'cropHost', 'cro
             };
 
             if (scope.liveView && typeof scope.liveView.block === 'boolean') {
-                scope.liveView.render = function (callback) {
-                    updateResultImage(scope, true, callback);
+                scope.liveView.render = function (callback, forceImageUpdate) {
+                    updateResultImage(scope, true, callback, forceImageUpdate);
                 };
             } else {
                 scope.liveView = {block: false};
