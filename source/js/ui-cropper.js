@@ -310,6 +310,8 @@ angular.module('uiCropper').directive('uiCropper', ['$timeout', 'cropHost', 'cro
                 }
                 if (scope.aspectRatio) {
                     cropHost.setAspect(scope.aspectRatio);
+                } else {
+                    cropHost.setAspect('');
                 }
             });
             scope.$watch('allowCropResizeOnCorners', function () {
