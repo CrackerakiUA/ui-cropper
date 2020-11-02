@@ -51,7 +51,7 @@
                     area-type="{{type}}"
                     area-min-size="selMinSize"
                     area-init-size="selInitSize"
-                    result-image-format="resImgFormat"
+                    result-image-format="{{resImgFormat}}"
                     result-image-quality="resImgQuality"
                     result-image-size="resImgSize"
                     aspect-ratio="aspectRatio"
@@ -66,7 +66,9 @@
                     live-view="blockingObject"
                     area-coords="myAreaCoords"
                     canvas-scalemode="true"
-                    disable-crop="disableCropArea">
+                    disable-crop="disableCropArea"
+                    transparent-color="{{transparentColor}}"
+                >
                 </ui-cropper>
             </div>
 
@@ -200,6 +202,10 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="form-group" data-ng-show="resImgFormat=='image/jpeg'">
+                    <label for="aspectRatio">Transparency Color</label>
+                    <input type="text" class="form-control" id="transparentColor" data-ng-model="transparentColor"/>
                 </div>
             </div>
 

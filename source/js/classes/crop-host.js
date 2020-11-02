@@ -74,12 +74,13 @@ angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCir
 
             if (image !== null) {
                 // draw source image
+                drawBackground(ctx);
                 ctx.drawImage(image, 0, 0, ctx.canvas.width, ctx.canvas.height);
 
-                ctx.save();
 
                 // and make it darker
                 if(!theArea._disableCrop){
+                    ctx.save();
                     ctx.fillStyle = 'rgba(0, 0, 0, 0.65)';
                     ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
@@ -100,6 +101,27 @@ angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCir
 
         this.setDisableCrop = function(value){
             theArea.setDisableCrop(value);
+            drawScene();
+        };
+    
+        function drawBackground(ctx)
+        {
+            if(theArea.transparentColor) {
+                ctx.save();
+                ctx.fillStyle = theArea.transparentColor;
+                ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+                ctx.restore();
+            }
+        }
+        
+        function getCssColor(strColor){
+            var s = document.createElement('div').style;
+            s.color = strColor;
+            return s.color;
+        }
+        
+        this.setTransparentColor = function(value){
+            theArea.setTransparentColor(getCssColor(value));
             drawScene();
         };
 
@@ -420,7 +442,10 @@ angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCir
                     areaWidth = theArea.getSize().w * (image.width / ctx.canvas.width),
                     areaHeight = theArea.getSize().h * (image.height / ctx.canvas.height);
 
+                
                 if (forceAspectRatio) {
+                    
+                    drawBackground(temp_ctx);
                     temp_ctx.drawImage(image, x, y,
                         areaWidth,
                         areaHeight,
@@ -442,7 +467,8 @@ angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCir
 
                     temp_canvas.width = resultWidth;
                     temp_canvas.height = resultHeight;
-
+    
+                    drawBackground(temp_ctx);
                     temp_ctx.drawImage(image,
                         x,
                         y,
@@ -925,7 +951,7 @@ angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCir
             } else if (type === 'rectangle') {
                 AreaClass = CropAreaRectangle;
             }
-            theArea = new AreaClass(ctx, events);
+            theArea = new AreaClass(ctx, events, theArea && theArea.transparentColor);
             theArea.setMinSize(curMinSize);
             theArea.setSize(curSize);
             if (type === 'square' || type === 'circle') {

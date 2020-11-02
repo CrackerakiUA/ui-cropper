@@ -191,7 +191,7 @@ angular.module('uiCropper').factory('cropCanvas', [function() {
 
         /* Crop Area */
 
-        this.drawCropArea = function(image, centerCoords, size, fnDrawClipPath) {
+        this.drawCropArea = function(image, centerCoords, size, fnDrawClipPath, transparentColor) {
             if(disable) {
                 return;
             }
@@ -212,6 +212,14 @@ angular.module('uiCropper').factory('cropCanvas', [function() {
 
             // draw part of original image
             if (size.w > 0) {
+                ctx.clearRect(xLeft, yTop, Math.abs(size.w), Math.abs(size.h));
+                if(transparentColor)
+                {
+                    ctx.save();
+                    ctx.fillStyle = transparentColor;
+                    ctx.fillRect(xLeft, yTop, Math.abs(size.w), Math.abs(size.h));
+                    ctx.restore();
+                }
                 ctx.drawImage(image, xLeft * xRatio, yTop * yRatio, Math.abs(size.w * xRatio), Math.abs(size.h * yRatio), xLeft, yTop, Math.abs(size.w), Math.abs(size.h));
             }
 
