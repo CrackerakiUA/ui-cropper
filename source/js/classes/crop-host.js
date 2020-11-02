@@ -67,6 +67,16 @@ angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCir
             forceAspectRatio = false;
 
         /* PRIVATE FUNCTIONS */
+        function drawBackground(ctx)
+        {
+            if(theArea.transparentColor) {
+                ctx.save();
+                ctx.fillStyle = theArea.transparentColor;
+                ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+                ctx.restore();
+            }
+        }
+        
         // Draw Scene
         function drawScene() {
             // clear canvas
@@ -90,6 +100,12 @@ angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCir
                 theArea.draw();
             }
         }
+    
+        function getCssColor(strColor){
+            var s = document.createElement('div').style;
+            s.color = strColor;
+            return s.color;
+        }
 
         this.setInitMax = function (bool) {
             initMax = bool;
@@ -103,29 +119,11 @@ angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCir
             theArea.setDisableCrop(value);
             drawScene();
         };
-    
-        function drawBackground(ctx)
-        {
-            if(theArea.transparentColor) {
-                ctx.save();
-                ctx.fillStyle = theArea.transparentColor;
-                ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-                ctx.restore();
-            }
-        }
-        
-        function getCssColor(strColor){
-            var s = document.createElement('div').style;
-            s.color = strColor;
-            return s.color;
-        }
         
         this.setTransparentColor = function(value){
             theArea.setTransparentColor(getCssColor(value));
             drawScene();
         };
-
-        
 
         var focusOnCanvas = function () {
             elCanvas[0].focus();

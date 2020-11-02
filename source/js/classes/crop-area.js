@@ -19,7 +19,7 @@ angular.module('uiCropper').factory('cropArea', ['cropCanvas', function (CropCan
         this._forceAspectRatio = false;
         this._aspect = null;
         this._disableCrop = false;
-        this.transparentColor = transparentColor || 'white';
+        this.transparentColor = transparentColor || '' ;
 
         this._cropCanvas = new CropCanvas(ctx, this._disableCrop);
 

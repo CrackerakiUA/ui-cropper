@@ -5,7 +5,7 @@
  * Copyright (c) 2020 Alex Kaul
  * License: MIT
  *
- * Generated at Monday, November 2nd, 2020, 7:43:59 AM
+ * Generated at Monday, November 2nd, 2020, 11:04:48 AM
  */
 (function() {
 angular.module('uiCropper', []);
@@ -840,7 +840,7 @@ angular.module('uiCropper').factory('cropArea', ['cropCanvas', function (CropCan
         this._forceAspectRatio = false;
         this._aspect = null;
         this._disableCrop = false;
-        this.transparentColor = transparentColor || 'white';
+        this.transparentColor = transparentColor || '' ;
 
         this._cropCanvas = new CropCanvas(ctx, this._disableCrop);
 
@@ -2359,6 +2359,16 @@ angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCir
             forceAspectRatio = false;
 
         /* PRIVATE FUNCTIONS */
+        function drawBackground(ctx)
+        {
+            if(theArea.transparentColor) {
+                ctx.save();
+                ctx.fillStyle = theArea.transparentColor;
+                ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+                ctx.restore();
+            }
+        }
+        
         // Draw Scene
         function drawScene() {
             // clear canvas
@@ -2381,6 +2391,12 @@ angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCir
                 theArea.draw();
             }
         }
+    
+        function getCssColor(strColor){
+            var s = document.createElement('div').style;
+            s.color = strColor;
+            return s.color;
+        }
 
         this.setInitMax = function (bool) {
             initMax = bool;
@@ -2394,22 +2410,6 @@ angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCir
             theArea.setDisableCrop(value);
             drawScene();
         };
-    
-        function drawBackground(ctx)
-        {
-            if(theArea.transparentColor) {
-                ctx.save();
-                ctx.fillStyle = theArea.transparentColor;
-                ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-                ctx.restore();
-            }
-        }
-        
-        function getCssColor(strColor){
-            var s = document.createElement('div').style;
-            s.color = strColor;
-            return s.color;
-        }
         
         this.setTransparentColor = function(value){
             theArea.setTransparentColor(getCssColor(value));
