@@ -1,11 +1,11 @@
 /*!
- * uiCropper v1.0.9
- * https://crackerakiua.github.io/ui-cropper/
+ * uiCropper v1.1.9
+ * https://emanueldsc.github.io/ui-cropper/
  *
- * Copyright (c) 2019 Alex Kaul
+ * Copyright (c) 2019 Emanuel Douglas Sousa Costa
  * License: MIT
  *
- * Generated at Monday, May 20th, 2019, 10:17:03 PM
+ * Generated at Tuesday, August 6th, 2019, 6:46:29 PM
  */
 (function() {
 angular.module('uiCropper', []);
@@ -3413,7 +3413,7 @@ angular.module('uiCropper').directive('uiCropper', ['$timeout', 'cropHost', 'cro
                 scope.areaCoords = cropHost.getAreaCoords();
             };
 
-            var updateResultImage = function (scope, force, callback) {
+            var updateResultImage = function (scope, force, callback, forceImageUpdate) {
                 if (scope.image !== '' && (!scope.liveView.block || force)) {
                     var resultImageObj = cropHost.getResultImage();
                     var resultImage;
@@ -3425,7 +3425,7 @@ angular.module('uiCropper').directive('uiCropper', ['$timeout', 'cropHost', 'cro
                     }
 
                     var urlCreator = window.URL || window.webkitURL;
-                    if (storedResultImage !== resultImage) {
+                    if (forceImageUpdate || (storedResultImage !== resultImage)) {
                         storedResultImage = resultImage;
                         scope.resultImage = resultImage;
                         if (scope.liveView.callback) {
@@ -3457,8 +3457,8 @@ angular.module('uiCropper').directive('uiCropper', ['$timeout', 'cropHost', 'cro
             };
 
             if (scope.liveView && typeof scope.liveView.block === 'boolean') {
-                scope.liveView.render = function (callback) {
-                    updateResultImage(scope, true, callback);
+                scope.liveView.render = function (callback, forceImageUpdate) {
+                    updateResultImage(scope, true, callback, forceImageUpdate);
                 };
             } else {
                 scope.liveView = {block: false};

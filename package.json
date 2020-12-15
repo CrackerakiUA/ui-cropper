@@ -1,8 +1,8 @@
 {
-  "version": "1.0.9",
+  "version": "1.1.9",
   "author": {
-    "name": "Alex Kaul",
-    "email": "alexkaul@googlemail.com"
+    "name": "Emanuel Douglas Sousa Costa",
+    "email": "emanuel.douglas.sc@gmail.com"
   },
   "contributors": [
     {
@@ -27,6 +27,10 @@
     {
       "name": "Rick de Graaff",
       "email": "rick@rickdegraaff.nl"
+    },
+    {
+      "name": "Emanuel Douglas Sousa Costa",
+      "email": "emanuel.douglas.sc@gmail.com"
     }
   ],
   "name": "ui-cropper",
@@ -34,10 +38,10 @@
   "description": "Image crop directive for AngularJS, square, circle and rectangle areas. Working aspect. Features like export array and more comming.",
   "main": "compile/unminified/ui-cropper.js",
   "license": "MIT",
-  "homepage": "https://crackerakiua.github.io/ui-cropper/",
+  "homepage": "https://emanueldsc.github.io/ui-cropper/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/CrackerakiUA/ui-cropper/"
+    "url": "https://github.com/emanueldsc/ui-cropper"
   },
   "scripts": {
     "build": "gulp build",
