@@ -41,6 +41,8 @@ angular.module('uiCropper').directive('uiCropper', ['$timeout', 'cropHost', 'cro
 
             aspectRatio: '=?',
             allowCropResizeOnCorners: '=?',
+            
+            transparentColor: '@',
 
             dominantColor: '=?',
             paletteColor: '=?',
@@ -291,6 +293,7 @@ angular.module('uiCropper').directive('uiCropper', ['$timeout', 'cropHost', 'cro
             });
             scope.$watch('resultImageFormat', function () {
                 cropHost.setResultImageFormat(scope.resultImageFormat);
+                cropHost.setTransparentColor(scope.resultImageFormat === 'image/jpeg' ? scope.transparentColor : '');
                 updateResultImage(scope);
             });
             scope.$watch('resultImageQuality', function () {
@@ -320,6 +323,10 @@ angular.module('uiCropper').directive('uiCropper', ['$timeout', 'cropHost', 'cro
 
             scope.$watch('disableCrop', function () {
                 cropHost.setDisableCrop(scope.disableCrop);
+            });
+            scope.$watch('transparentColor', function () {
+                cropHost.setTransparentColor(scope.transparentColor);
+                updateResultImage(scope);
             });
 
             // Update CropHost dimensions when the directive element is resized

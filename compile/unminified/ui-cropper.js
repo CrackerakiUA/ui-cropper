@@ -1,11 +1,11 @@
 /*!
- * uiCropper v1.0.9
+ * uiCropper v1.0.10
  * https://crackerakiua.github.io/ui-cropper/
  *
- * Copyright (c) 2019 Alex Kaul
+ * Copyright (c) 2020 Alex Kaul
  * License: MIT
  *
- * Generated at Monday, May 20th, 2019, 10:17:03 PM
+ * Generated at Monday, November 2nd, 2020, 11:04:48 AM
  */
 (function() {
 angular.module('uiCropper', []);
@@ -822,7 +822,7 @@ angular.module('uiCropper').factory('cropAreaSquare', ['cropArea', function(Crop
 }]);
 
 angular.module('uiCropper').factory('cropArea', ['cropCanvas', function (CropCanvas) {
-    var CropArea = function (ctx, events) {
+    var CropArea = function (ctx, events, transparentColor) {
         this._ctx = ctx;
         this._events = events;
 
@@ -840,6 +840,7 @@ angular.module('uiCropper').factory('cropArea', ['cropCanvas', function (CropCan
         this._forceAspectRatio = false;
         this._aspect = null;
         this._disableCrop = false;
+        this.transparentColor = transparentColor || '' ;
 
         this._cropCanvas = new CropCanvas(ctx, this._disableCrop);
 
@@ -1006,6 +1007,10 @@ angular.module('uiCropper').factory('cropArea', ['cropCanvas', function (CropCan
     CropArea.prototype.setDisableCrop = function(value){
         this._disableCrop = value;
         this._cropCanvas = new CropCanvas(this._ctx, this._disableCrop);
+    };
+    
+    CropArea.prototype.setTransparentColor = function(transparentColor){
+        this.transparentColor = transparentColor;
     };
 
     CropArea.prototype.getInitCoords = function () {
@@ -1230,7 +1235,7 @@ angular.module('uiCropper').factory('cropArea', ['cropCanvas', function (CropCan
 
     CropArea.prototype.draw = function () {
         // draw crop area
-        this._cropCanvas.drawCropArea(this._image, this.getCenterPoint(), this._size, this._drawArea);
+        this._cropCanvas.drawCropArea(this._image, this.getCenterPoint(), this._size, this._drawArea, this.transparentColor);
     };
 
     CropArea.prototype.processMouseMove = function () {
@@ -1435,7 +1440,7 @@ angular.module('uiCropper').factory('cropCanvas', [function() {
 
         /* Crop Area */
 
-        this.drawCropArea = function(image, centerCoords, size, fnDrawClipPath) {
+        this.drawCropArea = function(image, centerCoords, size, fnDrawClipPath, transparentColor) {
             if(disable) {
                 return;
             }
@@ -1456,6 +1461,14 @@ angular.module('uiCropper').factory('cropCanvas', [function() {
 
             // draw part of original image
             if (size.w > 0) {
+                ctx.clearRect(xLeft, yTop, Math.abs(size.w), Math.abs(size.h));
+                if(transparentColor)
+                {
+                    ctx.save();
+                    ctx.fillStyle = transparentColor;
+                    ctx.fillRect(xLeft, yTop, Math.abs(size.w), Math.abs(size.h));
+                    ctx.restore();
+                }
                 ctx.drawImage(image, xLeft * xRatio, yTop * yRatio, Math.abs(size.w * xRatio), Math.abs(size.h * yRatio), xLeft, yTop, Math.abs(size.w), Math.abs(size.h));
             }
 
@@ -2346,6 +2359,16 @@ angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCir
             forceAspectRatio = false;
 
         /* PRIVATE FUNCTIONS */
+        function drawBackground(ctx)
+        {
+            if(theArea.transparentColor) {
+                ctx.save();
+                ctx.fillStyle = theArea.transparentColor;
+                ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+                ctx.restore();
+            }
+        }
+        
         // Draw Scene
         function drawScene() {
             // clear canvas
@@ -2353,12 +2376,12 @@ angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCir
 
             if (image !== null) {
                 // draw source image
+                drawBackground(ctx);
                 ctx.drawImage(image, 0, 0, ctx.canvas.width, ctx.canvas.height);
-
-                ctx.save();
 
                 // and make it darker
                 if(!theArea._disableCrop){
+                    ctx.save();
                     ctx.fillStyle = 'rgba(0, 0, 0, 0.65)';
                     ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
@@ -2367,6 +2390,12 @@ angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCir
                 // draw Area
                 theArea.draw();
             }
+        }
+    
+        function getCssColor(strColor){
+            var s = document.createElement('div').style;
+            s.color = strColor;
+            return s.color;
         }
 
         this.setInitMax = function (bool) {
@@ -2379,6 +2408,11 @@ angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCir
 
         this.setDisableCrop = function(value){
             theArea.setDisableCrop(value);
+            drawScene();
+        };
+        
+        this.setTransparentColor = function(value){
+            theArea.setTransparentColor(getCssColor(value));
             drawScene();
         };
 
@@ -2698,6 +2732,8 @@ angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCir
                     areaHeight = theArea.getSize().h * (image.height / ctx.canvas.height);
 
                 if (forceAspectRatio) {
+                    
+                    drawBackground(temp_ctx);
                     temp_ctx.drawImage(image, x, y,
                         areaWidth,
                         areaHeight,
@@ -2719,7 +2755,8 @@ angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCir
 
                     temp_canvas.width = resultWidth;
                     temp_canvas.height = resultHeight;
-
+    
+                    drawBackground(temp_ctx);
                     temp_ctx.drawImage(image,
                         x,
                         y,
@@ -3202,7 +3239,7 @@ angular.module('uiCropper').factory('cropHost', ['$document', '$q', 'cropAreaCir
             } else if (type === 'rectangle') {
                 AreaClass = CropAreaRectangle;
             }
-            theArea = new AreaClass(ctx, events);
+            theArea = new AreaClass(ctx, events, theArea && theArea.transparentColor);
             theArea.setMinSize(curMinSize);
             theArea.setSize(curSize);
             if (type === 'square' || type === 'circle') {
@@ -3373,6 +3410,8 @@ angular.module('uiCropper').directive('uiCropper', ['$timeout', 'cropHost', 'cro
 
             aspectRatio: '=?',
             allowCropResizeOnCorners: '=?',
+            
+            transparentColor: '@',
 
             dominantColor: '=?',
             paletteColor: '=?',
@@ -3622,6 +3661,7 @@ angular.module('uiCropper').directive('uiCropper', ['$timeout', 'cropHost', 'cro
             });
             scope.$watch('resultImageFormat', function () {
                 cropHost.setResultImageFormat(scope.resultImageFormat);
+                cropHost.setTransparentColor(scope.resultImageFormat === 'image/jpeg' ? scope.transparentColor : '');
                 updateResultImage(scope);
             });
             scope.$watch('resultImageQuality', function () {
@@ -3651,6 +3691,10 @@ angular.module('uiCropper').directive('uiCropper', ['$timeout', 'cropHost', 'cro
 
             scope.$watch('disableCrop', function () {
                 cropHost.setDisableCrop(scope.disableCrop);
+            });
+            scope.$watch('transparentColor', function () {
+                cropHost.setTransparentColor(scope.transparentColor);
+                updateResultImage(scope);
             });
 
             // Update CropHost dimensions when the directive element is resized

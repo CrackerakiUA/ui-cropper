@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('uiCropper').factory('cropArea', ['cropCanvas', function (CropCanvas) {
-    var CropArea = function (ctx, events) {
+    var CropArea = function (ctx, events, transparentColor) {
         this._ctx = ctx;
         this._events = events;
 
@@ -19,6 +19,7 @@ angular.module('uiCropper').factory('cropArea', ['cropCanvas', function (CropCan
         this._forceAspectRatio = false;
         this._aspect = null;
         this._disableCrop = false;
+        this.transparentColor = transparentColor || '' ;
 
         this._cropCanvas = new CropCanvas(ctx, this._disableCrop);
 
@@ -185,6 +186,10 @@ angular.module('uiCropper').factory('cropArea', ['cropCanvas', function (CropCan
     CropArea.prototype.setDisableCrop = function(value){
         this._disableCrop = value;
         this._cropCanvas = new CropCanvas(this._ctx, this._disableCrop);
+    };
+    
+    CropArea.prototype.setTransparentColor = function(transparentColor){
+        this.transparentColor = transparentColor;
     };
 
     CropArea.prototype.getInitCoords = function () {
@@ -409,7 +414,7 @@ angular.module('uiCropper').factory('cropArea', ['cropCanvas', function (CropCan
 
     CropArea.prototype.draw = function () {
         // draw crop area
-        this._cropCanvas.drawCropArea(this._image, this.getCenterPoint(), this._size, this._drawArea);
+        this._cropCanvas.drawCropArea(this._image, this.getCenterPoint(), this._size, this._drawArea, this.transparentColor);
     };
 
     CropArea.prototype.processMouseMove = function () {
